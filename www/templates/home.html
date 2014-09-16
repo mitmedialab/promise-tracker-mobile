@@ -1,0 +1,66 @@
+<ion-view title="Promise Tracker">
+  <ion-content class="has-header">
+    <div class="section-title home-header"><icon class="ion-clipboard"></icon> My surveys</div>
+    <ul class="list">
+      <li class="item" ng-repeat="survey in surveys">
+        <a href="#/surveys/{{survey.survey.id}}/start">{{survey.campaign.title}}</a>
+        <a href="#/surveys/{{survey.survey.id}}/end">
+          <button class="button button-stable right">
+            <icon class="ion-edit"></icon>
+          </button>
+        </a>
+        <span class="sub-line">{{survey.inputs.length}} questions</span>
+      </li>
+    </ul>
+
+    <div class="padding">
+      <button type="submit" ng-click="openCodeModal()" class="button button-block button-calm"><icon class="ion-plus"></icon> Get New Survey</button>
+    </div>
+
+    <div class="padding center">
+      <div ng-if="getUnsynced() > 0 && surveys.length > 0" class="error-text">
+        <p><i class="ion-alert"></i> {{getUnsynced()}} surveys have not been synced.</p>
+        <a href="#" ng-click="syncSurveys()" class="large">
+          <p><icon class="ion-loop"></icon> Sync now</p>
+        </a>
+      </div>
+      <div ng-if="getUnsynced() == 0">
+        <p><icon class="ion-checkmark"></icon> All surveys synced</p>
+      </div>
+    </div>
+
+  </ion-content>
+  <div class="bar bar-footer bar-grey bar-menu">
+    <a href="#/users/1">
+      <button class="button button-icon ion-person"></button>
+    </a>
+    <a href="#/home">
+      <button class="button button-icon ion-clipboard"></button>
+    </a>
+  </div>
+</ion-view>
+
+<script id="enter-code.html" type="text/ng-template">
+  <div class="modal">
+    <ion-header-bar class="bar-secondary">
+      <h1 class=title>Enter survey code</h1>
+      <button type="submit" class="button button-clear button-positive" ng-click="closeCodeModal()">Cancel</button>
+    </ion-header-bar>
+
+    <ion-content>
+      <form ng-submit="fetchSurvey(survey)">
+        <div class="list">
+          <label class="item item-input">
+            <input type="text" placeholder="Ex: 78967443" ng-model="survey.code">
+          </label>
+        </div>
+        <div ng-if="Survey.errorMessage.length > 0" class="padding error-message">
+          <p>{{Survey.errorMessage}}</p>
+        </div>
+        <div class="padding">
+          <button type="submit" class="button button-block button-positive">Get survey</button>
+        </div>
+      </form>
+    </ion-content>
+  </div>
+</script>

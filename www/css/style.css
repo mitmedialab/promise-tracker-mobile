@@ -1,0 +1,158 @@
+/* Empty. Add your own CSS if you like */
+/*$dark-turquoise: #1aacc3;*/
+
+.section-title icon {
+  padding-right: 10px;
+}
+
+.large {
+  font-size: 1.3em;
+}
+
+.bar-grey {
+  background: #333;
+}
+
+.bar-grey a, .bar-grey a:visited, .bar-grey button {
+  color: white;
+}
+
+.bar-grey button:hover {
+  color: #d3d3d3;
+}
+
+.bar-menu {
+  text-align: center;
+  font-size: 30px;
+  padding: 10px;
+}
+
+.bar-menu a {
+  padding: 0 30px;
+}
+
+a, a:visited {
+  color: #1b6d85;
+  text-decoration: none;
+}
+
+.section-title {
+  text-transform: uppercase;
+  font-weight: 200;
+  margin-bottom: 0;
+  font-size: 22px;
+  position: relative;
+  text-align: center;
+}
+
+.sub-line {
+  color: grey;
+  font-size: .9em;
+  display: block;
+}
+
+.right {
+  float: right;
+}
+
+.center {
+  text-align: center;
+}
+
+.left {
+  float: left;
+}
+
+.error-message {
+  color: #a94442;
+  background-color: #f2dede;
+  border-color: #ebccd1;
+  margin: 10px;
+  text-align: center;
+}
+
+.error-text {
+  color: #a94442;
+}
+
+.home-header {
+  padding: 15px;
+  text-align: center;
+}
+
+/*Home page*/
+
+.submission-status {
+  width: 100%;
+  font-size: 16px;
+}
+
+.home-footer {
+  border-top: 1px solid grey;
+}
+
+
+/*Prompt display*/
+
+.image-preview {
+  width: 100%;
+  height: auto;
+  margin-top: 10px;
+}
+
+.survey-header {
+  padding: 10px;
+  font-size: 22px;
+  background: rgba(10, 10, 10, .3) !important;
+}
+
+.prompt-card {
+  min-height: 150px;
+}
+
+.bar-footer {
+  height: auto;
+  display: block;
+}
+
+.full-footer {
+  display: block;
+}
+
+.full-footer .section-title {
+  font-size: 18px;
+  color: grey;
+}
+
+.nav-buttons {
+  padding: 10px 40px;
+}
+
+.answer-list {
+  padding-left: 20px;
+}
+
+.answer-list .item-instruction {
+  font-weight: bold;
+}
+
+.prompt-page {
+/*  display: none;*/
+}
+
+.progress-bar {
+  display: block;
+  margin: 10px;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+  padding: 3px;
+  height: 15px;
+  overflow: hidden;
+}
+
+.progress-bar .progress {
+  background: #b3b3b3;
+  background: #1aacc3;
+  height: 100%;
+}
+
