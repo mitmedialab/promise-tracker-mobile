@@ -54,8 +54,8 @@
             <input type="text" placeholder="Ex: 78967443" ng-model="survey.code">
           </label>
         </div>
-        <div ng-if="Survey.errorMessage.length > 0" class="padding error-message">
-          <p>{{Survey.errorMessage}}</p>
+        <div ng-if="errorMessage.length > 0" class="padding error-message">
+          <p>{{errorMessage}}</p>
         </div>
         <div class="padding">
           <button type="submit" class="button button-block button-positive">Get survey</button>

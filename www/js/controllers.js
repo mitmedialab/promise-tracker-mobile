@@ -2,6 +2,7 @@ angular.module('ptApp.controllers', [])
 
 .controller('HomeCtrl', function($scope, $ionicModal, $http, $state, Survey) {
   $scope.surveys = Survey.loadStorage();
+  $scope.errorMessage = '';
 
   $ionicModal.fromTemplateUrl(
     'enter-code.html', 
@@ -22,26 +23,27 @@ angular.module('ptApp.controllers', [])
   };
 
   $scope.fetchSurvey = function(survey){
-    var local_data = JSON.parse(localStorage['mySurveys']);
+    if(survey){
+      var local_data = JSON.parse(localStorage['mySurveys']);
 
-    $http.get(Survey.baseUrl + survey.code + '.json').success(function(data){
-      console.log(data);
+      $http.get(Survey.baseUrl + survey.code + '.json').success(function(response){
+        if(response.inputs.length > 0){
+          local_data[response.survey.id] = response;
+          localStorage['mySurveys'] = JSON.stringify(local_data);
 
-      if(data.inputs.length > 0){
-        local_data[data.survey.id] = data;
-        localStorage['mySurveys'] = JSON.stringify(local_data);
-
-        $scope.enterCodeModal.hide();
-        Survey.errorMessage = '';
-        $state.go($state.current, {}, {reload: true});
-      } else {
-        Survey.errorMessage = 'This survey is blank. Please try another code.'
-      }
-    }).error(function(){
-      Survey.errorMessage = 'Survey not found. Please check code and try again.'
-    });
-
-    survey.code = '';
+          $scope.enterCodeModal.hide();
+          $scope.errorMessage = '';
+          $state.go($state.current, {}, {reload: true});
+        } else {
+          $scope.errorMessage = 'This survey is blank. Please try another code.';
+        }
+      }).error(function(response){
+          $scope.errorMessage = 'Survey not found. Please check code and try again.';
+      });
+      survey.code = '';
+    } else {
+      $scope.errorMessage = 'Please enter a survey code.';
+    }
   };
 
   $scope.getUnsynced = function(){

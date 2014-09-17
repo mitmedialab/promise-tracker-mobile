@@ -6,9 +6,8 @@ angular.module('ptApp.services', [])
   }
 
   var service = {
-    baseUrl: 'http://localhost:3000/surveys/',
+    baseUrl: 'http://localhost:3000/api/v1/surveys/',
     // baseUrl: 'http://dev.monitor.promisetracker.org/surveys/',
-    errorMessage: '',
     unsynced: [{survey_id: 1}, {survey_id: 2}],
     synced: [],
 
