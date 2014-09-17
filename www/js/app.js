@@ -1,6 +1,7 @@
 angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services'], function($httpProvider){})
 
-.run(function($ionicPlatform) {
+.run(function($ionicPlatform, $http) {
+  $http.defaults.headers.common['Authorization'] = 'Token token=pt_development_token';
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
