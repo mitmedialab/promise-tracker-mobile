@@ -6,7 +6,6 @@
     </description>
     <content src="index.html" />
     <access origin="*" subdomains="true"/>
-    <access origin=".*" subdomains="true"/>
     <preference name="fullscreen" value="true" />
     <preference name="webviewbounce" value="false" />
     <preference name="UIWebViewBounce" value="false" />
