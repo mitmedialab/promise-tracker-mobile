@@ -1,34 +1,35 @@
-<ion-content class="has-header has-footer">
-  <div class="padding">
-    <div class="home-header">
-      <h2 class="section-title"><icon class="ion-person"></icon> My profile</h2>
-      <hr>
-      <p>
-        Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo.
-      </p>
-    </div>
+<ion-view title="User profile">
+  <ion-content class="has-header has-footer">
+    <div class="section-title home-header"><icon class="ion-person"></icon> My surveys</div>
+    <div class="padding">
+      <div class="bio">
+        <p>
+          Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo.
+        </p>
+      </div>
 
-    <div class="row center">
-      <div class="col">
-        <h1>4</h1>
-        <p>data collection campaigns</p>
+      <div class="row center">
+        <div class="col">
+          <h1>4</h1>
+          <p>data collection campaigns</p>
+        </div>
+        <div class="col">
+          <h1>32</h1>
+          <p>surveys completed</p> 
+        </div>
       </div>
-      <div class="col">
-        <h1>32</h1>
-        <p>surveys completed</p> 
-      </div>
+      
+      <a class="button button-positive button-block" href="#/home">
+        My surveys
+      </a>
     </div>
-    
-    <a class="button button-positive button-block" href="#/home">
-      My surveys
+  </ion-content>
+  <div class="bar bar-footer bar-grey bar-menu">
+    <a href="#/users/1">
+      <button class="button button-icon ion-person"></button>
+    </a>
+    <a href="#/home">
+      <button class="button button-icon ion-clipboard"></button>
     </a>
   </div>
-</ion-content>
-<div class="bar bar-footer bar-grey bar-menu">
-  <a href="#/users/{{user.id}}">
-    <icon class="ion-person"></icon>
-  </a>
-  <a href="#/home">
-    <icon class="ion-clipboard"></icon>
-  </a>
-</div>
+</ion-view>

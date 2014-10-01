@@ -91,6 +91,12 @@ a, a:visited {
   border-top: 1px solid grey;
 }
 
+/*USer account page*/
+
+.bio {
+  text-align: center;
+  padding: 40px;
+}
 
 /*Prompt display*/
 
