@@ -3,8 +3,8 @@
     <div class="section-title home-header"><icon class="ion-clipboard"></icon> My surveys</div>
     <ul class="list">
       <li class="item" ng-repeat="survey in surveys">
-        <a href="#/surveys/{{survey.survey.id}}/start">{{survey.campaign.title}}</a>
-        <a href="#/surveys/{{survey.survey.id}}/end">
+        <a href="#/surveys/{{survey.id}}/start">{{survey.title}}</a>
+        <a href="#/surveys/{{survey.id}}/start">
           <button class="button button-stable right">
             <icon class="ion-edit"></icon>
           </button>
@@ -44,7 +44,7 @@
   <div class="modal">
     <ion-header-bar class="bar-secondary">
       <h1 class=title>Enter survey code</h1>
-      <button type="submit" class="button button-clear button-positive" ng-click="closeCodeModal()">Cancel</button>
+      <button type="submit" class="button button-clear button-positive" ng-click="closeCodeModal(survey)">Cancel</button>
     </ion-header-bar>
 
     <ion-content>
