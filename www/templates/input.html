@@ -1,85 +1,87 @@
-<ion-content class="has-header">
-  <div class="padding">
-    <div class="home-header">
-      <h2 class="section-title">{{survey.title}}</h2> 
-      <hr>
+<ion-view title="Promise Tracker">
+  <ion-content class="has-header">
+    <div class="padding">
+      <div class="home-header">
+        <h2 class="section-title">{{survey.title}}</h2> 
+        <hr>
+      </div>
     </div>
-  </div>
 
-  <div class="padding prompt-card">
-    <div>
-      {{index +1}}. {{ input.label }}
-    </div>
-    <br>
+    <div class="padding prompt-card">
+      <div>
+        {{index +1}}. {{input.label}}
+      </div>
+      <br>
 
-    <div ng-if="input.input_type=='binary'">
-      <a class="item item-icon-left assertive" ng-click="getImage()">
-        <i class="icon ion-ios7-camera"></i> Take A Picture<br>
+      <div ng-if="input.input_type=='image'">
+        <a class="item item-icon-left assertive" ng-click="getImage()">
+          <i class="icon ion-ios7-camera"></i> Take A Picture<br>
+        </a>
+        <img class="image-preview" ng-src="{{input.answer}}"/>
+      </div>
+
+      <a ng-if="input.input_type=='geopoint'" class="item item-icon-left assertive" ng-click="getLocation()">
+          <i class="icon ion-ios7-location"></i>
+          Set Location
+          <p class="light" ng-if="input.msg && input.msg !== ''"><icon class="ion-loading-c"></icon> {{input.msg}}</p>
+          <p class="light" ng-if="input.answer.lng">({{input.answer.lng}}, {{input.answer.lat}})</p>
       </a>
-      <img class="image-preview" ng-src="{{input.imageData}}"/>
-    </div>
 
-    <a ng-if="input.input_type=='geopoint'" class="item item-icon-left assertive" ng-click="getLocation()">
-        <i class="icon ion-ios7-location"></i>
-        Set Location
-        <p class="light" ng-if="input.msg && input.msg !== ''"><icon class="ion-loading-c"></icon> {{input.msg}}</p>
-        <p class="light" ng-if="input.longData">({{input.longData}}, {{input.latData}})</p>
-    </a>
+      <label ng-if="input.input_type=='text'" class="item item-input">
+        <input type="text" placeholder="Your answer..." autofocus ng-model="input.textData">
+      </label>
 
-    <label ng-if="input.input_type=='string'" class="item item-input">
-      <input type="text" placeholder="Your answer..." autofocus ng-model="input.textData">
-    </label>
+      <label ng-if="input.input_type=='number'" class="item item-input">
+        <input type="tel" placeholder="Enter a number" ng-model="input.answer">
+      </label>
 
-    <label ng-if="input.input_type=='int' || input.input_type=='float'" class="item item-input">
-      <input type="tel" placeholder="Enter a number" ng-model="input.numberData">
-    </label>
-
-    <!-- Ionic 'radio buttons' -->
-    <div ng-if="input.input_type=='select1'" class="list answer-list">
-      <label class="item item-intruction">Choose one:</label>
-      <div ng-repeat="option in input.options">
-        <label class="item item-radio">
-          <input type="radio" name="{{input.guid}}" value="{{option.value}}" ng-model="input.textData" checked="{{input.textData}} == {{option.value}}">
-          <div class="item-content">
-            {{option.label}}
-          </div>
-          <i class="radio-icon ion-checkmark"></i>
-        </label>
-      </div>
-    </div>
-
-    <!-- Vanilla radio buttons -->
-<!--     <div ng-if="input.input_type=='select1'" class="list">
-      <div ng-repeat="option in input.options">
-        <input type="radio" name="{{input.guid}}" value="{{option.value}}" ng-model="input.textData" checked="{{input.textData}} == {{option.value}}">
-        {{option.label}}
-      </div>
-    </div> -->
-
-    <!-- Ionic 'checkboxes' -->
-    <div ng-if="input.input_type=='select'" class="list">
-      <label class="item">Choose all that apply:</label>
-      <ul ng-repeat="option in input.options">
-        <li class="item item-checkbox">
-          <label class="checkbox">
-            <input type="checkbox" ng-model="input.answerOptions[$index]" checked="input.answerOptions[$index]">
+      <!-- Ionic 'radio buttons' -->
+      <div ng-if="input.input_type=='select1'" class="list answer-list">
+        <label class="item item-intruction">Choose one:</label>
+        <div ng-repeat="option in input.options">
+          <label class="item item-radio">
+            <input type="radio" name="input.id" value="{{option}}" ng-model="input.answer" checked="input.answer == option">
+            <div class="item-content">
+              {{option}}
+            </div>
+            <i class="radio-icon ion-checkmark"></i>
           </label>
+        </div>
+      </div>
+
+      <!-- Vanilla radio buttons -->
+  <!--     <div ng-if="input.input_type=='select1'" class="list">
+        <div ng-repeat="option in input.options">
+          <input type="radio" name="{{input.guid}}" value="{{option.value}}" ng-model="input.textData" checked="{{input.textData}} == {{option.value}}">
           {{option.label}}
-        </li>
-      </ul>
-        
+        </div>
+      </div> -->
+
+      <!-- Ionic 'checkboxes' -->
+      <div ng-if="input.input_type=='select'" class="list">
+        <label class="item">Choose all that apply:</label>
+        <ul ng-repeat="option in input.options">
+          <li class="item item-checkbox">
+            <label class="checkbox">
+              <input type="checkbox" ng-model="input.answer[$index]" checked="input.answer[$index]">
+            </label>
+            {{option}}
+          </li>
+        </ul>
+          
+      </div>
+    </div>
+
+    <div class="padding nav-buttons">
+      <br><br>
+      <button ng-if="index > 0" class="left button button-calm icon-left ion-chevron-left" ng-click="previousPrompt()">Back</button>
+      <button class="right button button-calm icon-right ion-chevron-right" ng-click="nextPrompt()">Next</button>  
+    </div> 
+  </ion-content>
+  <div class="bar bar-footer">
+    <p class="section-title">Survey progress</p>
+    <div class="progress-bar">
+      <div class="progress" style="width: {{((index + 1) / survey.inputs.length) * 100}}%"></div>
     </div>
   </div>
-
-  <div class="padding nav-buttons">
-    <br><br>
-    <button ng-if="index > 0" class="left button button-calm icon-left ion-chevron-left" ng-click="previousPrompt()">Back</button>
-    <button class="right button button-calm icon-right ion-chevron-right" ng-click="nextPrompt()">Next</button>  
-  </div> 
-</ion-content>
-<div class="bar bar-footer">
-  <p class="section-title">Survey progress</p>
-  <div class="progress-bar">
-    <div class="progress" style="width: {{((index + 1) / survey.inputs.length) * 100}}%"></div>
-  </div>
-</div>
+</ion-view>

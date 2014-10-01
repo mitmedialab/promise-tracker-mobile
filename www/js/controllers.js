@@ -94,14 +94,14 @@ angular.module('ptApp.controllers', [])
 
 .controller('InputsCtrl', function($scope, $stateParams, $state, Survey){
   $scope.survey = Survey.getSurvey($stateParams.surveyId);
-  $scope.input = Survey.currentSubmission.inputs[Survey.currentInputIndex];
   $scope.index = Survey.currentInputIndex;
-  $scope.input.answerOptions = $scope.input.answerOptions || [];
+  $scope.input = Survey.currentSubmission.inputs[Survey.currentInputIndex];
+  $scope.input.input_type == 'select' ? $scope.input.answer = $scope.input.answer || [] : false;
 
   $scope.getImage = function(){
 
     var onSuccess = function(imageURI){
-      $scope.input.imageData = imageURI;
+      $scope.input.answer = imageURI;
       $state.go($state.current, {}, {reload: true});
     };
 
@@ -115,10 +115,11 @@ angular.module('ptApp.controllers', [])
   }
 
   $scope.getLocation = function(){
+    $scope.input.answer = $scope.input.answer || {};
     $scope.input.msg = 'Getting Location...';
     navigator.geolocation.getCurrentPosition(function(position){
-      $scope.input.longData = position.coords.longitude;
-      $scope.input.latData = position.coords.latitude;
+      $scope.input.answer.lng = position.coords.longitude;
+      $scope.input.answer.lat = position.coords.latitude;
       $scope.input.msg = '';
       $state.go($state.current, {}, {reload: true});
     });
@@ -132,7 +133,7 @@ angular.module('ptApp.controllers', [])
         inputId: Survey.currentSubmission.inputs[Survey.currentInputIndex].id
       });
     } else {
-      $state.go('survey-end', {surveyId:  $scope.survey.survey.id});
+      $state.go('survey-end', {surveyId:  $scope.survey.id});
     }
   };
 
