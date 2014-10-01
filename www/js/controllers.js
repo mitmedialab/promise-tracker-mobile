@@ -1,7 +1,7 @@
 angular.module('ptApp.controllers', [])
 
 .controller('HomeCtrl', function($scope, $ionicModal, $http, $state, Survey) {
-  $scope.surveys = Survey.loadStorage();
+  $scope.surveys = Survey.surveys;
   $scope.errorMessage = '';
 
   $ionicModal.fromTemplateUrl(
@@ -47,29 +47,30 @@ angular.module('ptApp.controllers', [])
   }
 
   $scope.syncSurveys = function(){
-    // Simulate sync - to be implemented
-    Survey.unsynced = [];
+    Survey.syncAll();
   }
 })
 
 .controller('EndCtrl', function($scope, $stateParams, $state, Survey, $location, $http) {
-  $scope.survey = Survey.getSurvey($stateParams.surveyId);
+  $scope.survey = Survey.surveys[$stateParams.surveyId];
 
   // Simulate submit & save - to be implemented
-  $scope.submitSurvey = function(){
-    Survey.submitSurvey(Survey.currentSubmission);
+  $scope.submitResponse = function(){
+    Survey.currentResponse.timestamp = Date.now();
+    Survey.syncResponse(Survey.currentResponse);
     $state.go('home');
   };
 
-  $scope.saveSurvey = function(){
-    Survey.unsynced.push({});
+  $scope.saveResponse = function(){
+    Survey.currentResponse.timestamp = Date.now();
+    Survey.unsynced.push(Survey.currentResponse);
     $state.go('home');
   };
 
   $scope.backToSurvey = function(){
     $state.go('input', {
       surveyId: $stateParams.surveyId, 
-      inputId: Survey.currentSubmission.inputs.length - 1
+      inputId: Survey.currentResponse.inputs.length - 1
     });
   }
 })
@@ -81,13 +82,14 @@ angular.module('ptApp.controllers', [])
   $scope.survey = Survey.getSurvey($stateParams.surveyId);
 
   $scope.startSurvey = function(){
-    Survey.currentSubmission.inputs = Survey.getInputs($stateParams.surveyId);
-    Survey.currentSubmission.survey_id = $stateParams.surveyId;
+    Survey.currentResponse = {};
+    Survey.currentResponse.inputs = Survey.getInputs($stateParams.surveyId);
+    Survey.currentResponse.survey_id = $stateParams.surveyId;
     Survey.currentInputIndex = 0;
 
     $state.transitionTo('input', {
       surveyId: $stateParams.surveyId, 
-      inputId: Survey.currentSubmission.inputs[Survey.currentInputIndex].id
+      inputId: Survey.currentResponse.inputs[Survey.currentInputIndex].id
     })
   };
 })
@@ -95,7 +97,7 @@ angular.module('ptApp.controllers', [])
 .controller('InputsCtrl', function($scope, $stateParams, $state, Survey){
   $scope.survey = Survey.getSurvey($stateParams.surveyId);
   $scope.index = Survey.currentInputIndex;
-  $scope.input = Survey.currentSubmission.inputs[Survey.currentInputIndex];
+  $scope.input = Survey.currentResponse.inputs[Survey.currentInputIndex];
   $scope.input.input_type == 'select' ? $scope.input.answer = $scope.input.answer || [] : false;
 
   $scope.getImage = function(){
@@ -126,11 +128,11 @@ angular.module('ptApp.controllers', [])
   };
 
   $scope.nextPrompt = function(){
-    if(Survey.currentInputIndex < (Survey.currentSubmission.inputs.length - 1)){
+    if(Survey.currentInputIndex < (Survey.currentResponse.inputs.length - 1)){
       Survey.currentInputIndex += 1;
       $state.transitionTo('input', {
         surveyId: $stateParams.surveyId, 
-        inputId: Survey.currentSubmission.inputs[Survey.currentInputIndex].id
+        inputId: Survey.currentResponse.inputs[Survey.currentInputIndex].id
       });
     } else {
       $state.go('survey-end', {surveyId:  $scope.survey.id});
@@ -142,7 +144,7 @@ angular.module('ptApp.controllers', [])
       Survey.currentInputIndex -= 1;
       $state.go('input', {
         surveyId: $stateParams.surveyId, 
-        inputId: Survey.currentSubmission.inputs[Survey.currentInputIndex.id]
+        inputId: Survey.currentResponse.inputs[Survey.currentInputIndex.id]
       });
     }
   };
