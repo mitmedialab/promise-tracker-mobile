@@ -20,27 +20,23 @@ angular.module('ptApp.controllers', [])
 
   $scope.closeCodeModal = function(){
     $scope.enterCodeModal.hide();
+    $scope.errorMessage = '';
   };
 
   $scope.fetchSurvey = function(survey){
+
+    var success = function(response){
+      if(response.id){
+        $scope.enterCodeModal.hide();
+        $scope.errorMessage = '';
+        $state.go($state.current, {}, {reload: true});
+      } else {
+        $scope.errorMessage = 'Survey not found. Please check code and try again.';
+      }
+    };
+
     if(survey){
-      var local_data = JSON.parse(localStorage['mySurveys']);
-
-      $http.get(Survey.baseUrl + survey.code + '.json').success(function(response){
-        if(response.inputs.length > 0){
-          local_data[response.survey.id] = response;
-          localStorage['mySurveys'] = JSON.stringify(local_data);
-
-          $scope.enterCodeModal.hide();
-          $scope.errorMessage = '';
-          $state.go($state.current, {}, {reload: true});
-        } else {
-          $scope.errorMessage = 'This survey is blank. Please try another code.';
-        }
-      }).error(function(response){
-          $scope.errorMessage = 'Survey not found. Please check code and try again.';
-      });
-      survey.code = '';
+      Survey.downloadSurvey(survey.code, success);
     } else {
       $scope.errorMessage = 'Please enter a survey code.';
     }
@@ -56,11 +52,12 @@ angular.module('ptApp.controllers', [])
   }
 })
 
-.controller('EndCtrl', function($scope, $stateParams, $state, Survey, $location) {
+.controller('EndCtrl', function($scope, $stateParams, $state, Survey, $location, $http) {
   $scope.survey = Survey.getSurvey($stateParams.surveyId);
 
   // Simulate submit & save - to be implemented
   $scope.submitSurvey = function(){
+    Survey.submitSurvey(Survey.currentSubmission);
     $state.go('home');
   };
 
@@ -90,7 +87,7 @@ angular.module('ptApp.controllers', [])
 
     $state.transitionTo('input', {
       surveyId: $stateParams.surveyId, 
-      inputId: Survey.currentSubmission.inputs[Survey.currentInputIndex]
+      inputId: Survey.currentSubmission.inputs[Survey.currentInputIndex].id
     })
   };
 })

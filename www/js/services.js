@@ -6,15 +6,15 @@ angular.module('ptApp.services', [])
   }
 
   var service = {
-    baseUrl: 'http://localhost:3000/api/v1/surveys/',
-    // baseUrl: 'http://dev.monitor.promisetracker.org/surveys/',
+    baseUrl: 'http://localhost:9292/',
+    surveys: JSON.parse(localStorage['mySurveys']),
     unsynced: [{survey_id: 1}, {survey_id: 2}],
     synced: [],
 
     currentSubmission: {
       survey_id: '',
-      timestamp: '',
-      submissions: []
+      submission_timestamp: '',
+      inputs: []
     },
 
     getSurvey: function(surveyId){
@@ -32,9 +32,21 @@ angular.module('ptApp.services', [])
       return local_data[surveyId].inputs[inputId];
     },
 
+    downloadSurvey: function(survey_code, successCallback){
+      var self = this;
+
+      $http.get(this.baseUrl + "surveys/" + survey_code)
+      .success(function(response){
+        self.surveys[response.id] = response;
+        localStorage['mySurveys'] = JSON.stringify(self.surveys);
+
+        successCallback(response);
+      })
+    },
+
     loadStorage: function(){
       var surveys = [];
-      var local_data = JSON.parse(localStorage['mySurveys'])
+      var local_data = JSON.parse(localStorage['mySurveys']);
 
       for(var i in local_data){
         surveys.push(local_data[i]);
@@ -43,11 +55,10 @@ angular.module('ptApp.services', [])
       return surveys;
     },
 
-    submitSurvey: function(){
-
-      this.currentSubmission.timestamp = Date.now();
-      $http.post(baseUrl + Survey.currentSubmission.survey_id).success(function(data){
-      console.log(data);
+    submitSurvey: function(submission){
+      submission.submission_timestamp = Date.now();
+      $http.post(this.baseUrl + 'submissions', { submission: submission })
+      .success(function(response){
       });
     }  
   };
