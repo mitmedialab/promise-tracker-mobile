@@ -12,13 +12,15 @@ angular.module('ptApp.services', [])
     synced: JSON.parse(localStorage['synced']),
     currentResponse: {},
 
-    fetchSurvey: function(surveyCode, successCallback){
+    fetchSurvey: function(surveyCode, successCallback, errorCallback){
       var self = this;
-      $http.get(this.baseUrl + "surveys/" + surveyCode).success(function(data){
+      $http.get(this.baseUrl + "surveys/" + surveyCode)
+      .success(function(data){
         self.surveys[data.id] = data;
         localStorage['surveys'] = JSON.stringify(self.surveys);
         successCallback(data);
       })
+      .error(errorCallback);
     },
 
     queueNewResponse: function(surveyId){

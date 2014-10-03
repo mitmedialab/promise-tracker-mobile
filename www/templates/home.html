@@ -50,7 +50,7 @@
       <form ng-submit="fetchSurvey(survey)">
         <div class="list">
           <label class="item item-input">
-            <input type="text" placeholder="Ex: 78967443" ng-model="survey.code">
+            <input type="number" placeholder="Ex: 78967443" ng-model="survey.code">
           </label>
         </div>
         <div ng-if="errorMessage.length > 0" class="padding error-message">

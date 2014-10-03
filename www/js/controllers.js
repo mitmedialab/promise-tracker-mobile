@@ -34,8 +34,12 @@ angular.module('ptApp.controllers', [])
       }
     };
 
+    var error = function(){
+      $scope.errorMessage = 'Survey could not be downloaded. Please check your network connection and try again.';
+    };
+
     if(survey){
-      Survey.fetchSurvey(survey.code, success);
+      Survey.fetchSurvey(survey.code, success, error);
     } else {
       $scope.errorMessage = 'Please enter a survey code.';
     }
