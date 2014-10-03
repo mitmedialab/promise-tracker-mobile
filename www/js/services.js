@@ -1,44 +1,51 @@
 angular.module('ptApp.services', [])
 
 .factory('Survey', function($rootScope, $http){
-  if(!localStorage['mySurveys']){
-    localStorage['mySurveys'] = '{}';
-  }
-
-  if(!localStorage['unscyncedResponses']){
-    localStorage['unscyncedResponses'] = '[]';
-  }
+  localStorage['surveys'] = localStorage['surveys'] || '{}';
+  localStorage['unsynced'] = localStorage['unsynced'] || '[]';
+  localStorage['synced'] = localStorage['synced'] || '[]';
 
   var service = {
     baseUrl: 'http://localhost:9292/',
-    surveys: JSON.parse(localStorage['mySurveys']),
-    unsynced: JSON.parse(localStorage['unscyncedResponses']),
-    synced: [],
-
+    surveys: JSON.parse(localStorage['surveys']),
+    unsynced: JSON.parse(localStorage['unsynced']),
+    synced: JSON.parse(localStorage['synced']),
     currentResponse: {},
 
-    getSurvey: function(surveyId){
-      return this.surveys[surveyId];
-    },
-
-    getInputs: function(surveyId){
-      return this.surveys[surveyId].inputs;
-    },
-
-    getInput: function(surveyId, inputId){
-      return this.survyes[surveyId].inputs[inputId];
-    },
-
-    downloadSurvey: function(survey_code, successCallback){
+    fetchSurvey: function(surveyCode, successCallback){
       var self = this;
-
-      $http.get(this.baseUrl + "surveys/" + survey_code)
-      .success(function(data){
+      $http.get(this.baseUrl + "surveys/" + surveyCode).success(function(data){
         self.surveys[data.id] = data;
-        localStorage['mySurveys'] = JSON.stringify(self.mySurveys);
-
+        localStorage['surveys'] = JSON.stringify(self.surveys);
         successCallback(data);
       })
+    },
+
+    queueNewResponse: function(surveyId){
+      this.currentResponse = {
+        survey_id: surveyId,
+        timestamp: '',
+        inputs: JSON.parse(JSON.stringify(this.surveys[surveyId].inputs)),
+        activeIndex: 0
+      };
+    },
+
+    addToUnsynced: function(response){
+      var index = this.unsynced.indexOf(response);
+      if(index == -1){
+        this.unsynced.push(response);
+        localStorage['unsynced'] = JSON.stringify(this.unsynced);
+      }
+    },
+
+    addToSynced: function(response){
+      var index = this.unsynced.indexOf(response);
+      this.synced.push(response);
+      localStorage['synced'] = JSON.stringify(this.synced)
+      if(index > -1){
+        this.unsynced.splice(index, 1);
+        localStorage['unsynced'] = JSON.stringify(this.unsynced);
+      }
     },
 
     formatResponse: function(response){
@@ -49,10 +56,7 @@ angular.module('ptApp.services', [])
       };
 
       response.inputs.forEach(function(input){
-        var answer = {
-          id: input.id,
-          value: input.answer
-        }
+        var answer = { id: input.id, value: input.answer };
 
         if(input.input_type == 'select'){
           answer.value = input.answer.map(function(value, index){
@@ -71,19 +75,20 @@ angular.module('ptApp.services', [])
     syncResponse: function(response){
       var self = this;
       var formattedResponse = self.formatResponse(response);
-
-      $http.post(this.baseUrl + 'responses', { response: JSON.stringify(formattedResponse) })
-      .success(function(data){
-        console.log("Submitted response");
+      $http.post(
+        this.baseUrl + 'responses', 
+        { response: JSON.stringify(formattedResponse) }
+      )
+      .success(function(){
+        self.addToSynced(response);
       })
-      .error(function(){
-        self.unsynced.push(response);
-        localStorage['unsyncedResponses'] = JSON.stringify(self)
-        // Add validation for duplicates
-      })
+      .error(function(response){
+        self.addToUnsynced(response);
+      });
     },
 
-    syncAll: function(){
+    syncResponses: function(){
+      var self = this;
       this.unsynced.forEach(function(response){
         self.syncResponse(response);
       })

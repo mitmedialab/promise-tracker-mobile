@@ -18,7 +18,7 @@
     </div>
 
     <div class="padding center">
-      <div ng-if="getUnsynced() > 0 && surveys.length > 0" class="error-text">
+      <div ng-if="getUnsynced() > 0 && surveys !== {}" class="error-text">
         <p><i class="ion-alert"></i> {{getUnsynced()}} surveys have not been synced.</p>
         <a href="#" ng-click="syncSurveys()" class="large">
           <p><icon class="ion-loop"></icon> Sync now</p>
@@ -28,7 +28,6 @@
         <p><icon class="ion-checkmark"></icon> All surveys synced</p>
       </div>
     </div>
-
   </ion-content>
   <div class="bar bar-footer bar-grey bar-menu">
     <a href="#/users/1">

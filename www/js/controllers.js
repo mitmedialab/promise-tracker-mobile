@@ -6,7 +6,7 @@ angular.module('ptApp.controllers', [])
 
   $ionicModal.fromTemplateUrl(
     'enter-code.html', 
-    function(modal){ $scope.enterCodeModal = modal; }, 
+    function(modal){ $scope.codeModal = modal; }, 
     {
       scope: $scope,
       animation: 'slide-in-up',
@@ -15,19 +15,18 @@ angular.module('ptApp.controllers', [])
   );
 
   $scope.openCodeModal = function(){
-    $scope.enterCodeModal.show();
+    $scope.codeModal.show();
   };
 
   $scope.closeCodeModal = function(){
-    $scope.enterCodeModal.hide();
+    $scope.codeModal.hide();
     $scope.errorMessage = '';
   };
 
   $scope.fetchSurvey = function(survey){
-
     var success = function(response){
       if(response.id){
-        $scope.enterCodeModal.hide();
+        $scope.codeModal.hide();
         $scope.errorMessage = '';
         $state.go($state.current, {}, {reload: true});
       } else {
@@ -36,7 +35,7 @@ angular.module('ptApp.controllers', [])
     };
 
     if(survey){
-      Survey.downloadSurvey(survey.code, success);
+      Survey.fetchSurvey(survey.code, success);
     } else {
       $scope.errorMessage = 'Please enter a survey code.';
     }
@@ -47,14 +46,13 @@ angular.module('ptApp.controllers', [])
   }
 
   $scope.syncSurveys = function(){
-    Survey.syncAll();
+    Survey.syncResponses();
   }
 })
 
 .controller('EndCtrl', function($scope, $stateParams, $state, Survey, $location, $http) {
   $scope.survey = Survey.surveys[$stateParams.surveyId];
 
-  // Simulate submit & save - to be implemented
   $scope.submitResponse = function(){
     Survey.currentResponse.timestamp = Date.now();
     Survey.syncResponse(Survey.currentResponse);
@@ -63,7 +61,7 @@ angular.module('ptApp.controllers', [])
 
   $scope.saveResponse = function(){
     Survey.currentResponse.timestamp = Date.now();
-    Survey.unsynced.push(Survey.currentResponse);
+    Survey.addToUnsynced(Survey.currentResponse);
     $state.go('home');
   };
 
@@ -79,34 +77,28 @@ angular.module('ptApp.controllers', [])
 })
 
 .controller('SurveysCtrl', function($scope, $stateParams, $state, Survey, $location) {
-  $scope.survey = Survey.getSurvey($stateParams.surveyId);
+  $scope.survey = Survey.surveys[$stateParams.surveyId];
 
   $scope.startSurvey = function(){
-    Survey.currentResponse = {};
-    Survey.currentResponse.inputs = Survey.getInputs($stateParams.surveyId);
-    Survey.currentResponse.survey_id = $stateParams.surveyId;
-    Survey.currentInputIndex = 0;
-
+    Survey.queueNewResponse($stateParams.surveyId);
     $state.transitionTo('input', {
       surveyId: $stateParams.surveyId, 
-      inputId: Survey.currentResponse.inputs[Survey.currentInputIndex].id
+      inputId: Survey.currentResponse.inputs[Survey.currentResponse.activeIndex].id
     })
   };
 })
 
 .controller('InputsCtrl', function($scope, $stateParams, $state, Survey){
-  $scope.survey = Survey.getSurvey($stateParams.surveyId);
-  $scope.index = Survey.currentInputIndex;
-  $scope.input = Survey.currentResponse.inputs[Survey.currentInputIndex];
+  $scope.survey = Survey.surveys[$stateParams.surveyId];
+  $scope.index = Survey.currentResponse.activeIndex;
+  $scope.input = Survey.currentResponse.inputs[Survey.currentResponse.activeIndex];
   $scope.input.input_type == 'select' ? $scope.input.answer = $scope.input.answer || [] : false;
 
   $scope.getImage = function(){
-
     var onSuccess = function(imageURI){
       $scope.input.answer = imageURI;
       $state.go($state.current, {}, {reload: true});
     };
-
     var onError = function(){};
 
     navigator.camera.getPicture(onSuccess, onError, {
@@ -119,6 +111,7 @@ angular.module('ptApp.controllers', [])
   $scope.getLocation = function(){
     $scope.input.answer = $scope.input.answer || {};
     $scope.input.msg = 'Getting Location...';
+
     navigator.geolocation.getCurrentPosition(function(position){
       $scope.input.answer.lng = position.coords.longitude;
       $scope.input.answer.lat = position.coords.latitude;
@@ -129,10 +122,10 @@ angular.module('ptApp.controllers', [])
 
   $scope.nextPrompt = function(){
     if(Survey.currentInputIndex < (Survey.currentResponse.inputs.length - 1)){
-      Survey.currentInputIndex += 1;
+      Survey.currentResponse.activeIndex += 1;
       $state.transitionTo('input', {
         surveyId: $stateParams.surveyId, 
-        inputId: Survey.currentResponse.inputs[Survey.currentInputIndex].id
+        inputId: Survey.currentResponse.inputs[Survey.currentResponse.activeIndex].id
       });
     } else {
       $state.go('survey-end', {surveyId:  $scope.survey.id});
@@ -144,8 +137,8 @@ angular.module('ptApp.controllers', [])
       Survey.currentInputIndex -= 1;
       $state.go('input', {
         surveyId: $stateParams.surveyId, 
-        inputId: Survey.currentResponse.inputs[Survey.currentInputIndex.id]
+        inputId: Survey.currentResponse.inputs[Survey.currentResponse.activeIndex.id]
       });
     }
   };
-})
+});

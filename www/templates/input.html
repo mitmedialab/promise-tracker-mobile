@@ -21,10 +21,10 @@
       </div>
 
       <a ng-if="input.input_type=='geopoint'" class="item item-icon-left assertive" ng-click="getLocation()">
-          <i class="icon ion-ios7-location"></i>
-          Set Location
-          <p class="light" ng-if="input.msg && input.msg !== ''"><icon class="ion-loading-c"></icon> {{input.msg}}</p>
-          <p class="light" ng-if="input.answer.lng">({{input.answer.lng}}, {{input.answer.lat}})</p>
+        <i class="icon ion-ios7-location"></i>
+        Set Location
+        <p class="light" ng-if="input.msg && input.msg !== ''"><icon class="ion-loading-c"></icon> {{input.msg}}</p>
+        <p class="light" ng-if="input.answer.lng">({{input.answer.lng}}, {{input.answer.lat}})</p>
       </a>
 
       <label ng-if="input.input_type=='text'" class="item item-input">
@@ -71,13 +71,13 @@
           
       </div>
     </div>
-
     <div class="padding nav-buttons">
       <br><br>
       <button ng-if="index > 0" class="left button button-calm icon-left ion-chevron-left" ng-click="previousPrompt()">Back</button>
       <button class="right button button-calm icon-right ion-chevron-right" ng-click="nextPrompt()">Next</button>  
     </div> 
   </ion-content>
+
   <div class="bar bar-footer">
     <p class="section-title">Survey progress</p>
     <div class="progress-bar">
