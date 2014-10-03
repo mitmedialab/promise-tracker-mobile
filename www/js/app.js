@@ -92,8 +92,8 @@ angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services'], functi
     })
 
     .state('user', {
-      url: '/users/:userId',
-      templateUrl: '/templates/user.html',
+      url: '/user',
+      templateUrl: 'templates/user.html',
       controller: 'UsersCtrl'
     })
 

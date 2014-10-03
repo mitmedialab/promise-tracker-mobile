@@ -74,6 +74,8 @@ angular.module('ptApp.controllers', [])
 })
 
 .controller('UsersCtrl', function($scope, $stateParams, $state, Survey, $location) {
+  $scope.surveys = Object.keys(Survey.surveys);
+  $scope.responses = Survey.synced;
 })
 
 .controller('SurveysCtrl', function($scope, $stateParams, $state, Survey, $location) {
