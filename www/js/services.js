@@ -6,7 +6,7 @@ angular.module('ptApp.services', [])
   localStorage['synced'] = localStorage['synced'] || '[]';
 
   var service = {
-    baseUrl: 'http://localhost:9292/',
+    baseUrl: 'http://dev.aggregate.promisetracker.org/',
     surveys: JSON.parse(localStorage['surveys']),
     unsynced: JSON.parse(localStorage['unsynced']),
     synced: JSON.parse(localStorage['synced']),
