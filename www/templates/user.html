@@ -1,10 +1,12 @@
 <ion-view title="User profile">
   <ion-content class="has-header has-footer">
-    <div class="section-title home-header"><icon class="ion-person"></icon> My surveys</div>
+    <div class="section-title home-header">
+      <icon class="ion-person"></icon> My profile
+    </div>
     <div class="padding">
       <div class="bio">
         <p>
-          Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo.
+          Community activist and leader in youth development programs. Passionate about making Santa Lucia a better neighborhood!
         </p>
       </div>
 
@@ -19,13 +21,14 @@
         </div>
       </div>
       
-      <a class="button button-positive button-block" href="#/home">
+      <a class="button button-calm button-block" href="#/home">
         My surveys
       </a>
+      <a class="delete-link" href="#" ng-click="deleteSurveys()">Delete all survey forms</a>
     </div>
   </ion-content>
-  <div class="bar bar-footer bar-grey bar-menu">
-    <a href="#/user">
+  <div class="bar bar-footer home-footer bar-menu">
+    <a href="#/user" class="selected">
       <button class="button button-icon ion-person"></button>
     </a>
     <a href="#/home">

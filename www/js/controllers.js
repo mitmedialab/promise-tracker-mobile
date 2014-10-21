@@ -24,8 +24,10 @@ angular.module('ptApp.controllers', [])
   };
 
   $scope.fetchSurvey = function(survey){
-    var success = function(response){
-      if(response.id){
+    var success = function(data){
+      if(data.id){
+        Survey.surveys[data.id] = data;
+        localStorage['surveys'] = JSON.stringify(Survey.surveys);
         $scope.codeModal.hide();
         $scope.errorMessage = '';
         $state.go($state.current, {}, {reload: true});
@@ -80,6 +82,11 @@ angular.module('ptApp.controllers', [])
 .controller('UsersCtrl', function($scope, $stateParams, $state, Survey, $location) {
   $scope.surveys = Object.keys(Survey.surveys);
   $scope.responses = Survey.synced;
+
+  $scope.deleteSurveys = function() {
+    Survey.surveys = {};
+    localStorage['surveys'] = '{}'
+  }
 })
 
 .controller('SurveysCtrl', function($scope, $stateParams, $state, Survey, $location) {
@@ -115,19 +122,19 @@ angular.module('ptApp.controllers', [])
   }
 
   $scope.getLocation = function(){
-    $scope.input.answer = $scope.input.answer || {};
+    $scope.input.value = $scope.input.value || {};
     $scope.input.msg = 'Getting Location...';
 
     navigator.geolocation.getCurrentPosition(function(position){
-      $scope.input.answer.lng = position.coords.longitude;
-      $scope.input.answer.lat = position.coords.latitude;
+      $scope.input.value.lon = position.coords.longitude;
+      $scope.input.value.lat = position.coords.latitude;
       $scope.input.msg = '';
       $state.go($state.current, {}, {reload: true});
     });
   };
 
   $scope.nextPrompt = function(){
-    if(Survey.currentInputIndex < (Survey.currentResponse.inputs.length - 1)){
+    if(Survey.currentResponse.activeIndex < (Survey.currentResponse.inputs.length - 1)){
       Survey.currentResponse.activeIndex += 1;
       $state.transitionTo('input', {
         surveyId: $stateParams.surveyId, 
@@ -139,8 +146,8 @@ angular.module('ptApp.controllers', [])
   };
 
   $scope.previousPrompt = function(){
-    if(Survey.currentInputIndex > 0){
-      Survey.currentInputIndex -= 1;
+    if(Survey.currentResponse.activeIndex > 0){
+      Survey.currentResponse.activeIndex -= 1;
       $state.go('input', {
         surveyId: $stateParams.surveyId, 
         inputId: Survey.currentResponse.inputs[Survey.currentResponse.activeIndex.id]

@@ -1,5 +1,9 @@
 <ion-view title="Promise Tracker">
   <ion-content class="has-header">
+    <div class="padding nav-buttons">
+      <button ng-if="index > 0" class="left button button-calm icon-left ion-chevron-left" ng-click="previousPrompt()">Back </button>
+      <button class="right button button-calm icon-right ion-chevron-right" ng-click="nextPrompt()">Next </button>  
+    </div>
     <div class="padding">
       <div class="home-header">
         <h2 class="section-title">{{survey.title}}</h2> 
@@ -13,6 +17,7 @@
       </div>
       <br>
 
+      <!-- Image -->
       <div ng-if="input.input_type=='image'">
         <a class="item item-icon-left assertive" ng-click="getImage()">
           <i class="icon ion-ios7-camera"></i> Take A Picture<br>
@@ -20,24 +25,32 @@
         <img class="image-preview" ng-src="{{input.answer}}"/>
       </div>
 
-      <a ng-if="input.input_type=='geopoint'" class="item item-icon-left assertive" ng-click="getLocation()">
+      <!-- Location -->
+      <a ng-if="input.input_type=='location'" class="item item-icon-left assertive" ng-click="getLocation()">
         <i class="icon ion-ios7-location"></i>
         Set Location
         <p class="light" ng-if="input.msg && input.msg !== ''"><icon class="ion-loading-c"></icon> {{input.msg}}</p>
-        <p class="light" ng-if="input.answer.lng">({{input.answer.lng}}, {{input.answer.lat}})</p>
+        <p class="light" ng-if="input.value.lon">({{input.value.lon}}, {{input.value.lat}})</p>
       </a>
 
+      <!-- Text -->
       <label ng-if="input.input_type=='text'" class="item item-input">
-        <input type="text" placeholder="Your answer..." autofocus ng-model="input.textData">
+        <input type="text" placeholder="Your answer..." autofocus ng-model="input.value">
       </label>
 
+      <!-- Number -->
       <label ng-if="input.input_type=='number'" class="item item-input">
-        <input type="tel" placeholder="Enter a number" ng-model="input.answer">
+        <input type="number" placeholder="Enter a number" ng-model="input.value">
       </label>
 
-      <!-- Ionic 'radio buttons' -->
+      <!-- Date -->
+      <label ng-if="input.input_type=='date'" class="item item-input">
+        <input type="date" ng-model="input.value">
+      </label>
+
+      <!-- Select one -->
       <div ng-if="input.input_type=='select1'" class="list answer-list">
-        <label class="item item-intruction">Choose one:</label>
+        <label class="select">Choose one:</label>
         <div ng-repeat="option in input.options">
           <label class="item item-radio">
             <input type="radio" name="input.id" value="{{option}}" ng-model="input.answer" checked="input.answer == option">
@@ -49,17 +62,9 @@
         </div>
       </div>
 
-      <!-- Vanilla radio buttons -->
-  <!--     <div ng-if="input.input_type=='select1'" class="list">
-        <div ng-repeat="option in input.options">
-          <input type="radio" name="{{input.guid}}" value="{{option.value}}" ng-model="input.textData" checked="{{input.textData}} == {{option.value}}">
-          {{option.label}}
-        </div>
-      </div> -->
-
-      <!-- Ionic 'checkboxes' -->
+      <!-- Select many -->
       <div ng-if="input.input_type=='select'" class="list">
-        <label class="item">Choose all that apply:</label>
+        <label class="select">Choose all that apply:</label>
         <ul ng-repeat="option in input.options">
           <li class="item item-checkbox">
             <label class="checkbox">
@@ -67,19 +72,13 @@
             </label>
             {{option}}
           </li>
-        </ul>
-          
+        </ul>    
       </div>
     </div>
-    <div class="padding nav-buttons">
-      <br><br>
-      <button ng-if="index > 0" class="left button button-calm icon-left ion-chevron-left" ng-click="previousPrompt()">Back</button>
-      <button class="right button button-calm icon-right ion-chevron-right" ng-click="nextPrompt()">Next</button>  
-    </div> 
   </ion-content>
 
-  <div class="bar bar-footer">
-    <p class="section-title">Survey progress</p>
+  <div class="bar bar-footer survey-footer"> 
+    <div></div><p>Survey progress</p>
     <div class="progress-bar">
       <div class="progress" style="width: {{((index + 1) / survey.inputs.length) * 100}}%"></div>
     </div>

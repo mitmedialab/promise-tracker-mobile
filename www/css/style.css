@@ -1,8 +1,18 @@
-/* Empty. Add your own CSS if you like */
-/*$dark-turquoise: #1aacc3;*/
+* {
+  font-family: 'Open Sans', sans-serif;
+}
 
-.section-title icon {
-  padding-right: 10px;
+p {
+  font-size: 1.2em
+}
+
+a, a:visited, .button.button-positive.button-clear {
+  color: #66c6ba;
+  text-decoration: none;
+}
+
+.assertive, a.assertive {
+  color: #ea7669;
 }
 
 .large {
@@ -13,11 +23,15 @@
   background: #333;
 }
 
-.bar-grey a, .bar-grey a:visited, .bar-grey button {
-  color: white;
+.home-footer a, .home-footer a:visited, .home-footer button {
+  color: #d3d3d3;
 }
 
-.bar-grey button:hover {
+.home-footer a.selected {
+  border-bottom: 2px solid #5a5a5e;
+}
+
+.home-footer button:hover {
   color: #d3d3d3;
 }
 
@@ -28,21 +42,31 @@
 }
 
 .bar-menu a {
-  padding: 0 30px;
+  padding-bottom: 5px;
+  margin: 0 30px;
 }
 
-a, a:visited {
-  color: #1b6d85;
-  text-decoration: none;
+.button-calm {
+  background-color: #66c6ba !important;
+  border: none;
+}
+
+.button-bright {
+  background-color: #f5be59 !important;
+  color: white;
+  border: none;
 }
 
 .section-title {
-  text-transform: uppercase;
-  font-weight: 200;
   margin-bottom: 0;
   font-size: 22px;
   position: relative;
   text-align: center;
+  color: #66c6ba;
+}
+
+.section-title icon {
+  padding-right: 10px;
 }
 
 .sub-line {
@@ -64,7 +88,7 @@ a, a:visited {
 }
 
 .error-message {
-  color: #a94442;
+  color: #ea7669;
   background-color: #f2dede;
   border-color: #ebccd1;
   margin: 10px;
@@ -72,13 +96,41 @@ a, a:visited {
 }
 
 .error-text {
-  color: #a94442;
+  color: #ea7669;
 }
 
 .home-header {
   padding: 15px;
   text-align: center;
 }
+
+/*Index page*/
+
+.branding img {
+  width: 25px;
+  height: auto;
+  margin-left: 20px;
+}
+
+.bar-header {
+  background: #5a5a5e;
+  padding: 8px;
+}
+
+.title {
+  color: white;
+  font-weight: normal;
+}
+
+.home-footer {
+  background: #353535;
+}
+
+.survey-footer p {
+  margin-bottom: 0;
+  text-align: center;
+}
+
 
 /*Home page*/
 
@@ -91,11 +143,21 @@ a, a:visited {
   border-top: 1px solid grey;
 }
 
-/*USer account page*/
+.survey-title {
+  font-size: 1.2em;
+}
+
+/*User account page*/
 
 .bio {
   text-align: center;
-  padding: 40px;
+  padding: 20px 40px;
+}
+
+a.delete-link {
+  display: block;
+  text-align: center;
+  color: #5a5a5e;
 }
 
 /*Prompt display*/
@@ -106,6 +168,10 @@ a, a:visited {
   margin-top: 10px;
 }
 
+label.select {
+  color: grey;
+  margin-bottom: 10px;
+}
 .survey-header {
   padding: 10px;
   font-size: 22px;
@@ -131,19 +197,19 @@ a, a:visited {
 }
 
 .nav-buttons {
-  padding: 10px 40px;
+  padding: 15px;
+  background: whitesmoke;
+  display: block;
+  overflow: hidden;
 }
 
-.answer-list {
-  padding-left: 20px;
+.nav-buttons .button {
+  min-height: 47px;
+  padding: 0 12px;
 }
 
 .answer-list .item-instruction {
   font-weight: bold;
-}
-
-.prompt-page {
-/*  display: none;*/
 }
 
 .progress-bar {
@@ -157,8 +223,7 @@ a, a:visited {
 }
 
 .progress-bar .progress {
-  background: #b3b3b3;
-  background: #1aacc3;
+  background: #66c6ba;
   height: 100%;
 }
 

@@ -16,8 +16,6 @@ angular.module('ptApp.services', [])
       var self = this;
       $http.get(this.baseUrl + "surveys/" + surveyCode)
       .success(function(data){
-        self.surveys[data.id] = data;
-        localStorage['surveys'] = JSON.stringify(self.surveys);
         successCallback(data);
       })
       .error(errorCallback);
@@ -58,7 +56,7 @@ angular.module('ptApp.services', [])
       };
 
       response.inputs.forEach(function(input){
-        var answer = { id: input.id, value: input.answer };
+        var answer = { id: input.id, value: input.value };
 
         if(input.input_type == 'select'){
           answer.value = input.answer.map(function(value, index){
