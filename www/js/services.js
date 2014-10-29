@@ -79,7 +79,7 @@ angular.module('ptApp.services', [])
         this.baseUrl + 'responses', 
         { response: JSON.stringify(formattedResponse) }
       )
-      .success(function(){
+      .success(function(data){
         self.addToSynced(response);
       })
       .error(function(response){
@@ -94,6 +94,26 @@ angular.module('ptApp.services', [])
       })
     } 
   };
+
+  return service;
+})
+
+.factory('User', function($rootScope){
+  localStorage['user'] = localStorage['user'] || '{}';
+
+  var service = {
+    user: JSON.parse(localStorage['user']),
+
+    editUsername: function(string){
+      this.user.username = string;
+      localStorage['user'] = JSON.stringify(this.user);
+    },
+
+    editBio: function(string) {
+      this.user.bio = string;
+      localStorage['user'] = JSON.stringify(this.user);
+    }
+  }
 
   return service;
 });

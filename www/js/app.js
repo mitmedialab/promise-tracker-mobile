@@ -1,4 +1,4 @@
-angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services'], function($httpProvider){
+angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'pascalprecht.translate'], function($httpProvider){
   $httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
   
   /**
@@ -98,4 +98,82 @@ angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services'], functi
     })
 
     $urlRouterProvider.otherwise('/home');
-});
+})
+
+.config(['$translateProvider', function ($translateProvider) {
+  $translateProvider.translations('en', {
+    // Home page
+    'MY_SURVEYS': 'My surveys',
+    'NEW_SURVEY': 'Get new survey',
+    'PROMPTS': '{NUM, plural, one{prompt} other{prompts}}',
+    'UNSYNCED_SURVEYS': '{NUM, plural, one{response has} other{responses have}} not been synced',
+    'SYNC_NOW': 'Sync now',
+    'ALL_SYNCED': 'All responses have been synced',
+    'ENTER_CODE': 'Enter survey code',
+    'GET_SURVEY': 'Get survey',
+    'CANCEL': 'Cancel',
+
+    // User page
+    'MY_PROFILE': 'My profile',
+    'ADD_BIO': 'Add bio / description',
+    'CAMPAIGNS': '{NUM, plural, one{data collection campaign} other{data collection campaigns}}',
+    'SURVEYS': '{NUM, plural, one{survey} other{surveys}} completed',
+    'DELETE_SURVEYS': 'Delete all survey forms',
+
+    //Survey
+    'START_DATE': 'Start date',
+    'END_DATE': 'End date',
+    'START_SURVEY': 'Start survey',
+    'NEXT': 'Next',
+    'BACK': 'Back',
+    'TAKE_PICTURE': 'Take a picture',
+    'GET_LOCATION': 'Record location',
+    'CHOOSE_ONE': 'Select one',
+    'CHOOSE_MANY': 'Select all that apply',
+    'SURVEY_PROGRESS': 'Survey',
+    'SURVEY_COMPLETE': 'You have completed the survey!',
+    'SUBMIT_NOW': 'Submit now',
+    'SUBMIT_LATER': 'Submit later',
+    'CANCEL_AND_DELETE': 'Cancel and delete this response'
+  });
+
+  $translateProvider.translations('pt-BR', {
+    // Home page
+    'MY_SURVEYS': 'Meus formulários',
+    'NEW_SURVEY': 'Baixar novo formulário',
+    'PROMPTS': '{NUM, plural, one{campo} other{campos}}',
+    'UNSYNCED_SURVEYS': '{NUM, plural, one{resposta não foi salva} other{respostas não foram salvas}}',
+    'SYNC_NOW': 'Salvar agora',
+    'ALL_SYNCED': 'Todas as respostas já foram salvadas',
+    'ENTER_CODE': 'Código do formulário',
+    'GET_SURVEY': 'Baixar formulário',
+    'CANCEL': 'Cancelar',
+    'PLURAL': '{GENDER, select, male{He} female{She} other{They}} liked this.',
+
+     // User page
+    'MY_PROFILE': 'Meu perfil',
+    'ADD_BIO': 'Adicionar biografia / descripção',
+    'CAMPAIGNS': '{NUM, plural, one{ação} other{ações}}',
+    'SURVEYS': '{NUM, plural, one{formulário completado} other{formulários completados}}',
+    'DELETE_SURVEYS': 'Eliminar todos os formulários',
+
+    //Survey
+    'START_DATE': 'Data de lançamento',
+    'END_DATE': 'Data final',
+    'START_SURVEY': 'Preencher formulário',
+    'NEXT': 'Próximo',
+    'BACK': 'Voltar',
+    'TAKE_PICTURE': 'Tirar uma foto',
+    'GET_LOCATION': 'Obter localização',
+    'CHOOSE_ONE': 'Selecionar uma',
+    'CHOOSE_MANY': 'Selecionar todas que se aplicam',
+    'SURVEY_PROGRESS': 'Andamento',
+    'SURVEY_COMPLETE': 'Você completou o formulário!',
+    'SUBMIT_NOW': 'Mandar agora',
+    'SUBMIT_LATER': 'Mandar depois',
+    'CANCEL_AND_DELETE': 'Cancelar e eliminar esta resposta'
+  });
+
+  $translateProvider.addInterpolation('$translateMessageFormatInterpolation');
+  $translateProvider.preferredLanguage('pt-BR');
+}]);

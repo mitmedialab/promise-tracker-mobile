@@ -46,6 +46,10 @@ a, a:visited, .button.button-positive.button-clear {
   margin: 0 30px;
 }
 
+.button {
+  border-radius: 4px;
+}
+
 .button-calm {
   background-color: #66c6ba !important;
   border: none;
@@ -154,10 +158,9 @@ a, a:visited, .button.button-positive.button-clear {
   padding: 20px 40px;
 }
 
-a.delete-link {
-  display: block;
-  text-align: center;
+a.subtle {
   color: #5a5a5e;
+  cursor: pointer;
 }
 
 /*Prompt display*/

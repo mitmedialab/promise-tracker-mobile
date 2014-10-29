@@ -1,7 +1,7 @@
 <ion-view title="Promise Tracker">
-  <ion-content class="has-header">
+  <ion-content class="has-header has-footer">
     <div class="padding nav-buttons">
-      <button class="left button button-calm icon-left ion-chevron-left" ng-click="backToSurvey()">Back</button>
+      <button class="left button button-calm icon-left ion-chevron-left" ng-click="backToSurvey()">{{ 'BACK' | translate }}</button>
     </div> 
     <div class="padding center">
       <div class="home-header">
@@ -9,15 +9,22 @@
         <hr>
       </div>
     
-      <p>You have completed the survey!</p>
+      <p>{{ 'SURVEY_COMPLETE' |  translate }}</p>
 
       <br><br>
       <a class="button button-positive button-block" ng-click="submitResponse()">
-        Submit now
+        {{ 'SUBMIT_NOW' |  translate }}
       </a>
-      <a class="button button-stable button-block" ng-click="saveResponse()">
-        Submit later
-      </a>
+      <p class="button button-stable button-block" ng-click="saveResponse()">
+        {{ 'SUBMIT_LATER' |  translate }}
+      </p>
     </div>
   </ion-content>
+  <div class="bar bar-footer">
+    <a class="subtle" ng-click="cancelResponse()">
+      <div class="padding center">
+        {{ 'CANCEL_AND_DELETE' | translate }}
+      </div>
+    </a>
+  </div>
 </ion-view>

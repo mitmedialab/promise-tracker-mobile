@@ -77,11 +77,17 @@ angular.module('ptApp.controllers', [])
       inputId: Survey.currentResponse.inputs.length - 1
     });
   }
+
+  $scope.cancelResponse = function(){
+    Survey.currentResponse = {};
+    $state.go('home');
+  }
 })
 
 .controller('UsersCtrl', function($scope, $stateParams, $state, Survey, $location) {
   $scope.surveys = Object.keys(Survey.surveys);
   $scope.responses = Survey.synced;
+  $scope.user = Survey.user;
 
   $scope.deleteSurveys = function() {
     Survey.surveys = {};
