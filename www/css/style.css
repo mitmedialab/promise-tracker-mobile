@@ -163,6 +163,16 @@ a.subtle {
   cursor: pointer;
 }
 
+.user-form label {
+  color: grey;
+  margin-bottom: 5px;
+}
+
+.user-form textarea {
+  height: 80px;
+  padding-top: 10px;
+}
+
 /*Prompt display*/
 
 .image-preview {

@@ -3,15 +3,15 @@
     <div class="section-title home-header">
       <icon class="ion-person"></icon> {{ 'MY_PROFILE' | translate }}
     </div>
-    <div class="padding">
-      <h4>{{user.username}}</h4>
+    <div class="padding center">
+      <h2 ng-if="user.username">{{user.username}}</h2>
       <div class="bio">
         <div ng-if="user.bio">
           <p>{{user.bio}}</p>
-          <a href="#">{{ 'EDIT_BIO' | translate }}</a>
+          <a href="" ng-click="openUserModal()">{{ 'EDIT_BIO' | translate }}</a>
         </div>
         <div ng-if="!user.bio" class="padding">
-          <button ng-click="openCodeModal()" class="button button-stable"><icon class="ion-plus"></icon> {{ 'ADD_BIO' | translate }}</button>
+          <button ng-click="openUserModal()" class="button button-stable"><icon class="ion-plus"></icon> {{ 'ADD_BIO' | translate }}</button>
         </div>
       </div>
 
@@ -43,3 +43,30 @@
     </a>
   </div>
 </ion-view>
+
+<script id="user-info.html" type="text/ng-template">
+  <div class="modal">
+    <ion-header-bar class="bar-secondary">
+      <h1 class=title>{{ 'USER_INFO' | translate }}</h1>
+      <button type="submit" class="button button-clear button-positive" ng-click="closeUserModal(user)">{{ 'CANCEL' | translate }}</button>
+    </ion-header-bar>
+
+    <ion-content>
+      <form ng-submit="updateUser(user)">
+        <div class="padding user-form">
+          <label>{{ 'USERNAME' | translate }}</label>
+          <input type="text" value="{{user.username}}" ng-model="user.username">
+          <br>
+          <label>{{ 'BIO' | translate }}</label>
+          <textarea ng-model="user.bio"></textarea>
+          <div ng-if="errorMessage.length > 0" class="padding error-message">
+            <p>{{errorMessage}}</p>
+          </div>
+          <div class="padding">
+            <button type="submit" class="button button-block button-calm">{{ 'SAVE' | translate }}</button>
+          </div>
+        </div>
+      </form>
+    </ion-content>
+  </div>
+</script>

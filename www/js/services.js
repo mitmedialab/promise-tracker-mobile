@@ -104,13 +104,7 @@ angular.module('ptApp.services', [])
   var service = {
     user: JSON.parse(localStorage['user']),
 
-    editUsername: function(string){
-      this.user.username = string;
-      localStorage['user'] = JSON.stringify(this.user);
-    },
-
-    editBio: function(string) {
-      this.user.bio = string;
+    updateInfo: function(){
       localStorage['user'] = JSON.stringify(this.user);
     }
   }

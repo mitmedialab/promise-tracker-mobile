@@ -115,7 +115,12 @@ angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'pascal
 
     // User page
     'MY_PROFILE': 'My profile',
-    'ADD_BIO': 'Add bio / description',
+    'USER_INFO': 'User information',
+    'USERNAME': 'Username',
+    'BIO': 'Bio',
+    'ADD_BIO': 'Add bio',
+    'EDIT_BIO': 'Edit username & bio',
+    'SAVE': 'Save',
     'CAMPAIGNS': '{NUM, plural, one{data collection campaign} other{data collection campaigns}}',
     'SURVEYS': '{NUM, plural, one{survey} other{surveys}} completed',
     'DELETE_SURVEYS': 'Delete all survey forms',
@@ -152,7 +157,12 @@ angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'pascal
 
      // User page
     'MY_PROFILE': 'Meu perfil',
-    'ADD_BIO': 'Adicionar biografia / descripção',
+    'USER_INFO': 'Informação do usuario',
+    'USERNAME': 'Usuario',
+    'BIO': 'Biografia',
+    'ADD_BIO': 'Adicionar biografia',
+    'EDIT_BIO': 'Editar usuario & biografia',
+    'SAVE': 'Salvar',
     'CAMPAIGNS': '{NUM, plural, one{ação} other{ações}}',
     'SURVEYS': '{NUM, plural, one{formulário completado} other{formulários completados}}',
     'DELETE_SURVEYS': 'Eliminar todos os formulários',

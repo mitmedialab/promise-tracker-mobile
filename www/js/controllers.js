@@ -49,14 +49,14 @@ angular.module('ptApp.controllers', [])
 
   $scope.getUnsynced = function(){
     return Survey.unsynced.length;
-  }
+  };
 
   $scope.syncSurveys = function(){
     Survey.syncResponses();
-  }
+  };
 })
 
-.controller('EndCtrl', function($scope, $stateParams, $state, Survey, $location, $http) {
+.controller('EndCtrl', function($scope, $stateParams, $state, $location, $http, Survey) {
   $scope.survey = Survey.surveys[$stateParams.surveyId];
 
   $scope.submitResponse = function(){
@@ -76,26 +76,49 @@ angular.module('ptApp.controllers', [])
       surveyId: $stateParams.surveyId, 
       inputId: Survey.currentResponse.inputs.length - 1
     });
-  }
+  };
 
   $scope.cancelResponse = function(){
     Survey.currentResponse = {};
     $state.go('home');
-  }
+  };
 })
 
-.controller('UsersCtrl', function($scope, $stateParams, $state, Survey, $location) {
+.controller('UsersCtrl', function($scope, $stateParams, $state, $location, $ionicModal, Survey, User) {
   $scope.surveys = Object.keys(Survey.surveys);
   $scope.responses = Survey.synced;
-  $scope.user = Survey.user;
+  $scope.user = User.user;
+
+  $ionicModal.fromTemplateUrl(
+    'user-info.html', 
+    function(modal){ $scope.userModal = modal; }, 
+    {
+      scope: $scope,
+      animation: 'slide-in-up',
+      focusFirstInput: true
+    }
+  );
 
   $scope.deleteSurveys = function() {
     Survey.surveys = {};
     localStorage['surveys'] = '{}'
-  }
+  };
+
+  $scope.openUserModal = function(){
+    $scope.userModal.show();
+  };
+
+  $scope.closeUserModal = function(){
+    $scope.userModal.hide();
+  };
+
+  $scope.updateUser = function(){
+    User.updateInfo();
+    $scope.userModal.hide();
+  };
 })
 
-.controller('SurveysCtrl', function($scope, $stateParams, $state, Survey, $location) {
+.controller('SurveysCtrl', function($scope, $stateParams, $state, $location, Survey) {
   $scope.survey = Survey.surveys[$stateParams.surveyId];
 
   $scope.startSurvey = function(){
@@ -125,7 +148,7 @@ angular.module('ptApp.controllers', [])
       quality: 50,
       destinationType: Camera.DestinationType.FILE_URI
     });
-  }
+  };
 
   $scope.getLocation = function(){
     $scope.input.value = $scope.input.value || {};
