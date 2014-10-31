@@ -139,7 +139,11 @@ angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'pascal
     'SURVEY_COMPLETE': 'You have completed the survey!',
     'SUBMIT_NOW': 'Submit now',
     'SUBMIT_LATER': 'Submit later',
-    'CANCEL_AND_DELETE': 'Cancel and delete this response'
+    'CANCEL_AND_DELETE': 'Cancel and delete this response',
+
+    //Errors, Alerts
+    'ENTER_CODE': 'Please enter a survey code',
+    '12': 'Survey not found. Please check code and try again.'
   });
 
   $translateProvider.translations('pt-BR', {
@@ -181,7 +185,11 @@ angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'pascal
     'SURVEY_COMPLETE': 'Você completou o formulário!',
     'SUBMIT_NOW': 'Mandar agora',
     'SUBMIT_LATER': 'Mandar depois',
-    'CANCEL_AND_DELETE': 'Cancelar e eliminar esta resposta'
+    'CANCEL_AND_DELETE': 'Cancelar e eliminar esta resposta',
+
+    //Errors, Alerts
+    'ENTER_CODE': 'Por favor digite o código do formulário',
+    '12': 'Este formulário não existe. Por favor verifique o código e tente novamente.'
   });
 
   $translateProvider.addInterpolation('$translateMessageFormatInterpolation');

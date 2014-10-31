@@ -14,9 +14,13 @@ angular.module('ptApp.services', [])
 
     fetchSurvey: function(surveyCode, successCallback, errorCallback){
       var self = this;
-      $http.get(this.baseUrl + "surveys/" + surveyCode)
+      $http.get(this.baseUrl + 'surveys/' + surveyCode)
       .success(function(data){
-        successCallback(data);
+        if(data.status == 'success'){
+          successCallback(data);
+        } else {
+          errorCallback(data.error_code.toString());
+        }
       })
       .error(errorCallback);
     },
@@ -80,7 +84,11 @@ angular.module('ptApp.services', [])
         { response: JSON.stringify(formattedResponse) }
       )
       .success(function(data){
-        self.addToSynced(response);
+        if(data['status'] == 'success'){
+          self.addToSynced(response);
+        } else {
+          console.log(data.error_message);
+        }
       })
       .error(function(response){
         self.addToUnsynced(response);

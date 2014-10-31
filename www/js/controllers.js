@@ -25,25 +25,21 @@ angular.module('ptApp.controllers', [])
 
   $scope.fetchSurvey = function(survey){
     var success = function(data){
-      if(data.id){
-        Survey.surveys[data.id] = data;
-        localStorage['surveys'] = JSON.stringify(Survey.surveys);
-        $scope.codeModal.hide();
-        $scope.errorMessage = '';
-        $state.go($state.current, {}, {reload: true});
-      } else {
-        $scope.errorMessage = 'Survey not found. Please check code and try again.';
-      }
+      Survey.surveys[data.payload.id] = data.payload;
+      localStorage['surveys'] = JSON.stringify(Survey.surveys);
+      $scope.codeModal.hide();
+      $scope.errorMessage = '';
+      $state.go($state.current, {}, {reload: true});
     };
 
-    var error = function(){
-      $scope.errorMessage = 'Survey could not be downloaded. Please check your network connection and try again.';
+    var error = function(error_code){
+      $scope.errorMessage = (error_code.toString());
     };
 
-    if(survey){
+    if(survey && survey.code){
       Survey.fetchSurvey(survey.code, success, error);
     } else {
-      $scope.errorMessage = 'Please enter a survey code.';
+      $scope.errorMessage = 'ENTER_CODE';
     }
   };
 
@@ -120,6 +116,7 @@ angular.module('ptApp.controllers', [])
 
 .controller('SurveysCtrl', function($scope, $stateParams, $state, $location, Survey) {
   $scope.survey = Survey.surveys[$stateParams.surveyId];
+  $scope.survey.start_date = new Date($scope.survey.start_date).toLocaleDateString();
 
   $scope.startSurvey = function(){
     Survey.queueNewResponse($stateParams.surveyId);
