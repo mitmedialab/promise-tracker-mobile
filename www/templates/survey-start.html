@@ -2,21 +2,20 @@
   <div class="padding">
     <div class="home-header">
       <h2 class="section-title">{{survey.title}}</h2>
-      <p class="sub-line">{{survey.inputs.length}} prompts</p> 
+      <p class="sub-line">{{survey.inputs.length}} {{ 'PROMPTS' | translate : "{NUM: survey.inputs.length}" : "messageformat"}}</p> 
       <hr>
     </div>
-    <p> 
-      This data collection campaign was launched to assess the safety of public stairways and walkways in the neighborhood of Santa Lucia.
-    </p>
+    <p>{{ survey.description }}</p>
     <br>
     <p>
-      <!-- Replace with real launch/end dates -->
-      <strong>Launch date:</strong> 1 Aug, 2014<br>
-      <strong>End date:</strong> 1 Dec, 2014
+      <strong>{{ 'START_DATE' | translate }}</strong> {{survey.start_date}}<br>
     </p>
     <br>
     <a class="button button-calm button-block" ng-click="startSurvey()">
-      Start survey
+      {{ 'START_SURVEY' | translate }}
     </a>
+    <div class="padding center">
+      <a href="#/home" class="subtle">{{ 'CANCEL' | translate }}</a>
+    </div>
   </div>
 </ion-content>

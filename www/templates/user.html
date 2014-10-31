@@ -1,30 +1,37 @@
 <ion-view title="User profile">
   <ion-content class="has-header has-footer">
     <div class="section-title home-header">
-      <icon class="ion-person"></icon> My profile
+      <icon class="ion-person"></icon> {{ 'MY_PROFILE' | translate }}
     </div>
-    <div class="padding">
+    <div class="padding center">
+      <h2 ng-if="user.username">{{user.username}}</h2>
       <div class="bio">
-        <p>
-          Community activist and leader in youth development programs. Passionate about making Santa Lucia a better neighborhood!
-        </p>
+        <div ng-if="user.bio">
+          <p>{{user.bio}}</p>
+          <a href="" ng-click="openUserModal()">{{ 'EDIT_BIO' | translate }}</a>
+        </div>
+        <div ng-if="!user.bio" class="padding">
+          <button ng-click="openUserModal()" class="button button-stable"><icon class="ion-plus"></icon> {{ 'ADD_BIO' | translate }}</button>
+        </div>
       </div>
 
       <div class="row center">
         <div class="col">
           <h1>{{surveys.length}}</h1>
-          <p>data collection campaigns</p>
+          <p>{{ 'CAMPAIGNS' | translate: "{NUM: surveys.length}" : "messageformat" }}</p>
         </div>
         <div class="col">
           <h1>{{responses.length}}</h1>
-          <p>surveys completed</p> 
+          <p>{{ 'SURVEYS' | translate: "{NUM: responses.length}" : "messageformat" }}</p> 
         </div>
       </div>
       
       <a class="button button-calm button-block" href="#/home">
-        My surveys
+        {{ 'MY_SURVEYS' | translate }}
       </a>
-      <a class="delete-link" href="#" ng-click="deleteSurveys()">Delete all survey forms</a>
+      <div class="padding center">
+        <a class="subtle" href="#" ng-click="deleteSurveys()">{{ 'DELETE_SURVEYS' | translate }}</a>
+      </div>
     </div>
   </ion-content>
   <div class="bar bar-footer home-footer bar-menu">
@@ -36,3 +43,30 @@
     </a>
   </div>
 </ion-view>
+
+<script id="user-info.html" type="text/ng-template">
+  <div class="modal">
+    <ion-header-bar class="bar-secondary">
+      <h1 class=title>{{ 'USER_INFO' | translate }}</h1>
+      <button type="submit" class="button button-clear button-positive" ng-click="closeUserModal(user)">{{ 'CANCEL' | translate }}</button>
+    </ion-header-bar>
+
+    <ion-content>
+      <form ng-submit="updateUser(user)">
+        <div class="padding user-form">
+          <label>{{ 'USERNAME' | translate }}</label>
+          <input type="text" value="{{user.username}}" ng-model="user.username">
+          <br>
+          <label>{{ 'BIO' | translate }}</label>
+          <textarea ng-model="user.bio"></textarea>
+          <div ng-if="errorMessage.length > 0" class="padding error-message">
+            <p>{{errorMessage}}</p>
+          </div>
+          <div class="padding">
+            <button type="submit" class="button button-block button-calm">{{ 'SAVE' | translate }}</button>
+          </div>
+        </div>
+      </form>
+    </ion-content>
+  </div>
+</script>

@@ -16,9 +16,13 @@ angular.module('ptApp.services', [])
 
     fetchSurvey: function(surveyCode, successCallback, errorCallback){
       var self = this;
-      $http.get(this.baseUrl + "surveys/" + surveyCode)
+      $http.get(this.baseUrl + 'surveys/' + surveyCode)
       .success(function(data){
-        successCallback(data);
+        if(data.status == 'success'){
+          successCallback(data);
+        } else {
+          errorCallback(data.error_code.toString());
+        }
       })
       .error(errorCallback);
     },
@@ -100,11 +104,14 @@ angular.module('ptApp.services', [])
         this.baseUrl + 'responses', 
         { response: JSON.stringify(formattedResponse) }
       )
-      .success(function(serverResponse){
-        self.addToSynced(response);
-        // attach response id from server reply, and find images in the response to queue for sync
-        response.id = serverResponse.id;
-        self.addResponseImageToUnsynced(response);
+      .success(function(data){
+        if(data['status'] == 'sucess'){
+          response.id = data.id;
+          self.addToSynced(response);
+          self.addResponseImageToUnsynced(response);
+        } else {
+          console.log(data.error_message);
+        }
       })
       .error(function(response){
         self.addToUnsynced(response);
@@ -145,6 +152,20 @@ angular.module('ptApp.services', [])
       })
     } 
   };
+
+  return service;
+})
+
+.factory('User', function($rootScope){
+  localStorage['user'] = localStorage['user'] || '{}';
+
+  var service = {
+    user: JSON.parse(localStorage['user']),
+
+    updateInfo: function(){
+      localStorage['user'] = JSON.stringify(this.user);
+    }
+  }
 
   return service;
 });

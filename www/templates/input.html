@@ -1,8 +1,8 @@
 <ion-view title="Promise Tracker">
   <ion-content class="has-header">
     <div class="padding nav-buttons">
-      <button ng-if="index > 0" class="left button button-calm icon-left ion-chevron-left" ng-click="previousPrompt()">Back </button>
-      <button class="right button button-calm icon-right ion-chevron-right" ng-click="nextPrompt()">Next </button>  
+      <button ng-if="index > 0" class="left button button-calm icon-left ion-chevron-left" ng-click="previousPrompt()">{{ 'BACK' | translate }}</button>
+      <button class="right button button-calm icon-right ion-chevron-right" ng-click="nextPrompt()">{{ 'NEXT' | translate }} </button>  
     </div>
     <div class="padding">
       <div class="home-header">
@@ -20,7 +20,7 @@
       <!-- Image -->
       <div ng-if="input.input_type=='image'">
         <a class="item item-icon-left assertive" ng-click="getImage()">
-          <i class="icon ion-ios7-camera"></i> Take A Picture<br>
+          <i class="icon ion-ios7-camera"></i> {{ 'TAKE_PICTURE' | translate }}<br>
         </a>
         <img class="image-preview" ng-src="{{input.answer}}"/>
       </div>
@@ -28,7 +28,7 @@
       <!-- Location -->
       <a ng-if="input.input_type=='location'" class="item item-icon-left assertive" ng-click="getLocation()">
         <i class="icon ion-ios7-location"></i>
-        Set Location
+        {{ 'GET_LOCATION' | translate }}
         <p class="light" ng-if="input.msg && input.msg !== ''"><icon class="ion-loading-c"></icon> {{input.msg}}</p>
         <p class="light" ng-if="input.value.lon">({{input.value.lon}}, {{input.value.lat}})</p>
       </a>
@@ -50,7 +50,7 @@
 
       <!-- Select one -->
       <div ng-if="input.input_type=='select1'" class="list answer-list">
-        <label class="select">Choose one:</label>
+        <label class="select">{{ 'CHOOSE_ONE' | translate}}:</label>
         <div ng-repeat="option in input.options">
           <label class="item item-radio">
             <input type="radio" name="input.id" value="{{option}}" ng-model="input.answer" checked="input.answer == option">
@@ -64,7 +64,7 @@
 
       <!-- Select many -->
       <div ng-if="input.input_type=='select'" class="list">
-        <label class="select">Choose all that apply:</label>
+        <label class="select">{{ 'CHOOSE_MANY' | translate}}:</label>
         <ul ng-repeat="option in input.options">
           <li class="item item-checkbox">
             <label class="checkbox">
@@ -78,7 +78,7 @@
   </ion-content>
 
   <div class="bar bar-footer survey-footer"> 
-    <div></div><p>Survey progress</p>
+    <div></div><p>{{ 'SURVEY_PROGRESS' | translate }}</p>
     <div class="progress-bar">
       <div class="progress" style="width: {{((index + 1) / survey.inputs.length) * 100}}%"></div>
     </div>
