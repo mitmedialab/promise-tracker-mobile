@@ -56,7 +56,7 @@
           </label>
         </div>
         <div ng-if="errorMessage.length > 0" class="padding error-message">
-          <p>{{errorMessage}}</p>
+          <p>{{ errorMessage | translate }}</p>
         </div>
         <div class="padding">
           <button type="submit" class="button button-block button-calm">{{ 'GET_SURVEY' | translate }}</button>
