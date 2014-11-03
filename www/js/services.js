@@ -3,6 +3,7 @@ angular.module('ptApp.services', [])
 .factory('Survey', function($rootScope, $http){
   localStorage['surveys'] = localStorage['surveys'] || '{}';
   localStorage['unsynced'] = localStorage['unsynced'] || '[]';
+  localStorage['unsyncedImages'] = localStorage['unsyncedImages'] || '[]';
   localStorage['synced'] = localStorage['synced'] || '[]';
 
   var service = {
@@ -10,6 +11,7 @@ angular.module('ptApp.services', [])
     surveys: JSON.parse(localStorage['surveys']),
     unsynced: JSON.parse(localStorage['unsynced']),
     synced: JSON.parse(localStorage['synced']),
+    unsyncedImages: JSON.parse(localStorage['unsyncedImages']),
     currentResponse: {},
 
     fetchSurvey: function(surveyCode, successCallback, errorCallback){
@@ -39,6 +41,25 @@ angular.module('ptApp.services', [])
       if(index == -1){
         this.unsynced.push(response);
         localStorage['unsynced'] = JSON.stringify(this.unsynced);
+      }
+    },
+
+    addResponseImageToUnsynced: function(response){
+      var self = this;
+      // search for images in the survey response
+      response.inputs.forEach(function(input){
+        if(input.input_type == 'image'){
+          self.unsyncedImages.push({id: response.id, input_id: input.id, fileLocation: input.answer});
+        }
+      });
+      self.syncImages();
+    },
+
+    removeImageFromUnsynced: function(image){
+      var index = this.unsyncedImages.indexOf(image);
+      if(index > -1){
+        this.unsyncedImages.splice(index, 1);
+        localStorage['unsyncedImages'] = JSON.stringify(this.unsyncedImages);
       }
     },
 
@@ -84,8 +105,10 @@ angular.module('ptApp.services', [])
         { response: JSON.stringify(formattedResponse) }
       )
       .success(function(data){
-        if(data['status'] == 'sucess'){
+        if(data['status'] == 'success'){
+          response.id = data.payload.id;
           self.addToSynced(response);
+          self.addResponseImageToUnsynced(response);
         } else {
           console.log(data.error_message);
         }
@@ -95,10 +118,37 @@ angular.module('ptApp.services', [])
       });
     },
 
+    syncImage: function(image){
+      var self = this;
+      // TODO: need to find if the image really exists
+      // upload the image with cordova file-transfer
+      var options = new FileUploadOptions();
+      options.fileKey = "file";
+      options.fileName = image.fileLocation.substr(image.fileLocation.lastIndexOf('/') + 1);
+      options.mimeType = "image/jpeg";
+      options.params = image;
+      var fileTransfer = new FileTransfer();
+      fileTransfer.upload(image.fileLocation, encodeURI(self.baseUrl+'upload_image'), 
+        function(){   // upload succeed
+          self.removeImageFromUnsynced(image);
+        }, 
+        function(error){   // upload failed
+          // TODO: notify the frontend about image upload failure
+          console.log(error);
+        }, options);
+    },
+
     syncResponses: function(){
       var self = this;
       this.unsynced.forEach(function(response){
         self.syncResponse(response);
+      })
+    },
+
+    syncImages: function(){
+      var self = this;
+      this.unsyncedImages.forEach(function(image){
+        self.syncImage(image);
       })
     } 
   };
