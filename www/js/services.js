@@ -105,8 +105,8 @@ angular.module('ptApp.services', [])
         { response: JSON.stringify(formattedResponse) }
       )
       .success(function(data){
-        if(data['status'] == 'sucess'){
-          response.id = data.id;
+        if(data['status'] == 'success'){
+          response.id = data.payload.id;
           self.addToSynced(response);
           self.addResponseImageToUnsynced(response);
         } else {
@@ -130,7 +130,7 @@ angular.module('ptApp.services', [])
       var fileTransfer = new FileTransfer();
       fileTransfer.upload(image.fileLocation, encodeURI(self.baseUrl+'upload_image'), 
         function(){   // upload succeed
-          removeImageFromUnsynced(image);
+          self.removeImageFromUnsynced(image);
         }, 
         function(error){   // upload failed
           // TODO: notify the frontend about image upload failure
