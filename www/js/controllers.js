@@ -26,6 +26,7 @@ angular.module('ptApp.controllers', [])
   $scope.fetchSurvey = function(survey){
     var success = function(data){
       Survey.surveys[data.payload.id] = data.payload;
+      Survey.surveys[data.payload.id].start_date = new Date(data.payload.start_date).toLocaleDateString();
       localStorage['surveys'] = JSON.stringify(Survey.surveys);
       $scope.codeModal.hide();
       $scope.errorMessage = '';
@@ -116,7 +117,6 @@ angular.module('ptApp.controllers', [])
 
 .controller('SurveysCtrl', function($scope, $stateParams, $state, $location, Survey) {
   $scope.survey = Survey.surveys[$stateParams.surveyId];
-  $scope.survey.start_date = new Date($scope.survey.start_date).toLocaleDateString();
 
   $scope.startSurvey = function(){
     Survey.queueNewResponse($stateParams.surveyId);
