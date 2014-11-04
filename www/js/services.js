@@ -7,7 +7,7 @@ angular.module('ptApp.services', [])
   localStorage['synced'] = localStorage['synced'] || '[]';
 
   var service = {
-    baseUrl: 'http://dev.aggregate.promisetracker.org/',
+    baseUrl: 'http://192.168.1.6:9292/',
     surveys: JSON.parse(localStorage['surveys']),
     unsynced: JSON.parse(localStorage['unsynced']),
     synced: JSON.parse(localStorage['synced']),
@@ -46,9 +46,9 @@ angular.module('ptApp.services', [])
 
     addResponseImageToUnsynced: function(response){
       var self = this;
-      // search for images in the survey response
+      // Search for images in the survey response
       response.inputs.forEach(function(input){
-        if(input.input_type == 'image'){
+        if(input.input_type == 'image' && input.answer){
           self.unsyncedImages.push({id: response.id, input_id: input.id, fileLocation: input.answer});
         }
       });
@@ -81,7 +81,7 @@ angular.module('ptApp.services', [])
       };
 
       response.inputs.forEach(function(input){
-        var answer = { id: input.id, value: input.value };
+        var answer = { id: input.id, value: input.answer };
 
         if(input.input_type == 'select'){
           answer.value = input.answer.map(function(value, index){
