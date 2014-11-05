@@ -148,12 +148,12 @@ angular.module('ptApp.controllers', [])
   };
 
   $scope.getLocation = function(){
-    $scope.input.value = $scope.input.value || {};
+    $scope.input.answer = $scope.input.answer || {};
     $scope.input.msg = 'Getting Location...';
 
     navigator.geolocation.getCurrentPosition(function(position){
-      $scope.input.value.lon = position.coords.longitude;
-      $scope.input.value.lat = position.coords.latitude;
+      $scope.input.answer.lon = position.coords.longitude;
+      $scope.input.answer.lat = position.coords.latitude;
       $scope.input.msg = '';
       $state.go($state.current, {}, {reload: true});
     });

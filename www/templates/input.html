@@ -30,22 +30,22 @@
         <i class="icon ion-ios7-location"></i>
         {{ 'GET_LOCATION' | translate }}
         <p class="light" ng-if="input.msg && input.msg !== ''"><icon class="ion-loading-c"></icon> {{input.msg}}</p>
-        <p class="light" ng-if="input.value.lon">({{input.value.lon}}, {{input.value.lat}})</p>
+        <p class="light" ng-if="input.answer.lon">({{input.answer.lon}}, {{input.answer.lat}})</p>
       </a>
 
       <!-- Text -->
       <label ng-if="input.input_type=='text'" class="item item-input">
-        <input type="text" placeholder="Your answer..." autofocus ng-model="input.value">
+        <input type="text" placeholder="Your answer..." autofocus ng-model="input.answer">
       </label>
 
       <!-- Number -->
       <label ng-if="input.input_type=='number'" class="item item-input">
-        <input type="number" placeholder="Enter a number" ng-model="input.value">
+        <input type="number" placeholder="Enter a number" ng-model="input.answer">
       </label>
 
       <!-- Date -->
       <label ng-if="input.input_type=='date'" class="item item-input">
-        <input type="date" ng-model="input.value">
+        <input type="date" ng-model="input.answer">
       </label>
 
       <!-- Select one -->

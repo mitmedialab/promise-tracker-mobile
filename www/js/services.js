@@ -7,7 +7,7 @@ angular.module('ptApp.services', [])
   localStorage['synced'] = localStorage['synced'] || '[]';
 
   var service = {
-    baseUrl: 'http://192.168.1.6:9292/',
+    baseUrl: 'http://dev.aggregate.promisetracker.org/',
     surveys: JSON.parse(localStorage['surveys']),
     unsynced: JSON.parse(localStorage['unsynced']),
     synced: JSON.parse(localStorage['synced']),
@@ -81,7 +81,7 @@ angular.module('ptApp.services', [])
       };
 
       response.inputs.forEach(function(input){
-        var answer = { id: input.id, value: input.answer };
+        var answer = { id: input.id, value: input.answer, input_type: input.input_type };
 
         if(input.input_type == 'select'){
           answer.value = input.answer.map(function(value, index){
@@ -128,7 +128,7 @@ angular.module('ptApp.services', [])
       options.mimeType = "image/jpeg";
       options.params = image;
       var fileTransfer = new FileTransfer();
-      fileTransfer.upload(image.fileLocation, encodeURI(self.baseUrl+'upload_image'), 
+      fileTransfer.upload(image.fileLocation, encodeURI(self.baseUrl + 'upload_image'), 
         function(){   // upload succeed
           self.removeImageFromUnsynced(image);
         }, 
