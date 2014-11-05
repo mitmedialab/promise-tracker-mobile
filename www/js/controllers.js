@@ -159,15 +159,40 @@ angular.module('ptApp.controllers', [])
     });
   };
 
-  $scope.nextPrompt = function(){
-    if(Survey.currentResponse.activeIndex < (Survey.currentResponse.inputs.length - 1)){
-      Survey.currentResponse.activeIndex += 1;
-      $state.transitionTo('input', {
-        surveyId: $stateParams.surveyId, 
-        inputId: Survey.currentResponse.inputs[Survey.currentResponse.activeIndex].id
-      });
+  $scope.validateRequired = function(input){
+    if(input.required == true){
+      switch(input.input_type){
+        case "location":
+          return input.answer.lat != undefined && input.answer.lon != undefined;
+          break;
+        case "select":
+        case "select1":
+          return input.answer.filter(function(i) { return i == true;}).length > 0
+          break;
+        default:
+          return input.answer && input.answer.length > 0;
+          break;
+      }
     } else {
-      $state.go('survey-end', {surveyId:  $scope.survey.id});
+      return true;
+    }
+  };
+
+  $scope.nextPrompt = function(currentInput){
+    if($scope.validateRequired(currentInput)){
+      if(Survey.currentResponse.activeIndex < (Survey.currentResponse.inputs.length - 1)){
+        Survey.currentResponse.activeIndex += 1;
+        $state.transitionTo('input', {
+          surveyId: $stateParams.surveyId,
+          inputId: Survey.currentResponse.inputs[Survey.currentResponse.activeIndex].id
+        });
+      } else {
+        $state.go('survey-end', {surveyId:  $scope.survey.id});
+      }
+    } else {
+      // TODO: Insert notification here
+      $scope.errorMessage = 'REQUIRED';
+      console.log('REQUIRED');
     }
   };
 
