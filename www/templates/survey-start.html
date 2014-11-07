@@ -1,4 +1,4 @@
-<ion-content class="has-header">
+<ion-content class="has-header has footer">
   <div class="padding">
     <div class="home-header">
       <h2 class="section-title">{{survey.title}}</h2>
@@ -7,15 +7,21 @@
     </div>
     <p>{{ survey.description }}</p>
     <br>
-    <p>
-      <strong>{{ 'START_DATE' | translate }}</strong> {{survey.start_date}}<br>
+    <p class="center">
+      <strong>{{ 'START_DATE' | translate }}</strong> {{survey.start_date}}
+      <br>
     </p>
     <br>
     <a class="button button-calm button-block" ng-click="startSurvey()">
       {{ 'START_SURVEY' | translate }}
     </a>
-    <div class="padding center">
-      <a href="#/home" class="subtle">{{ 'CANCEL' | translate }}</a>
-    </div>
+
   </div>
 </ion-content>
+<div class="bar bar-footer">
+  <div class="padding center">
+    <a href="#/home" class="subtle">
+      <icon class="ion-close"></icon> {{ 'CANCEL' | translate }}
+    </a>
+  </div>
+</div>

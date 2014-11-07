@@ -173,6 +173,10 @@ a.subtle {
   padding-top: 10px;
 }
 
+.bio {
+  min-height: 150px;
+}
+
 /*Prompt display*/
 
 .image-preview {

@@ -106,10 +106,11 @@ angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'pascal
     'MY_SURVEYS': 'My surveys',
     'NEW_SURVEY': 'Get new survey',
     'PROMPTS': '{NUM, plural, one{prompt} other{prompts}}',
+    'RESPONSES': '{NUM, plural, one{response} other{responses}}',
     'UNSYNCED_SURVEYS': '{NUM, plural, one{response has} other{responses have}} not been synced',
     'SYNC_NOW': 'Sync now',
     'ALL_SYNCED': 'All responses have been synced',
-    'ENTER_CODE': 'Enter survey code',
+    'SURVEY_CODE': 'Survey code',
     'GET_SURVEY': 'Get survey',
     'CANCEL': 'Cancel',
 
@@ -152,13 +153,13 @@ angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'pascal
     'MY_SURVEYS': 'Meus formulários',
     'NEW_SURVEY': 'Baixar novo formulário',
     'PROMPTS': '{NUM, plural, one{campo} other{campos}}',
+    'RESPONSES': '{NUM, plural, one{resposta} other{respostas}}',
     'UNSYNCED_SURVEYS': '{NUM, plural, one{resposta não foi salva} other{respostas não foram salvas}}',
     'SYNC_NOW': 'Salvar agora',
     'ALL_SYNCED': 'Todas as respostas já foram salvadas',
-    'ENTER_CODE': 'Código do formulário',
+    'SURVEY_CODE': 'Código do formulário',
     'GET_SURVEY': 'Baixar formulário',
     'CANCEL': 'Cancelar',
-    'PLURAL': '{GENDER, select, male{He} female{She} other{They}} liked this.',
 
      // User page
     'MY_PROFILE': 'Meu perfil',
