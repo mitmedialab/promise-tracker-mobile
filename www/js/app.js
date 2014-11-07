@@ -104,6 +104,8 @@ angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'pascal
   $translateProvider.translations('en', {
     // Home page
     'MY_SURVEYS': 'My surveys',
+    'GREETING': 'Welcome to Promise Tracker!',
+    'GET_STARTED': 'To get started, download your first survey',
     'NEW_SURVEY': 'Get new survey',
     'PROMPTS': '{NUM, plural, one{prompt} other{prompts}}',
     'RESPONSES': '{NUM, plural, one{response} other{responses}}',
@@ -155,6 +157,8 @@ angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'pascal
   $translateProvider.translations('pt-BR', {
     // Home page
     'MY_SURVEYS': 'Meus formulários',
+    'GREETING': 'Bem-vindo no Promise Tracker!',
+    'GET_STARTED': 'Para começar, baixar o seu primeiro formulário',
     'NEW_SURVEY': 'Baixar novo formulário',
     'PROMPTS': '{NUM, plural, one{campo} other{campos}}',
     'RESPONSES': '{NUM, plural, one{resposta} other{respostas}}',

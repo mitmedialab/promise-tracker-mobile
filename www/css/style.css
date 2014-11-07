@@ -163,6 +163,18 @@ a, a:visited, .button.button-positive.button-clear {
   font-size: 1.2em !important;
 }
 
+#intro-text {
+  padding-top: 80px;
+}
+
+.get-started {
+  margin-bottom: 30px;
+}
+
+.new-survey {
+  font-size: 1.6em;
+  margin-top: -5px;
+}
 
 /*User account page*/
 
@@ -171,9 +183,8 @@ a, a:visited, .button.button-positive.button-clear {
   padding: 20px 40px;
 }
 
-a.subtle {
+.subtle, a.subtle {
   color: #5a5a5e;
-  cursor: pointer;
 }
 
 .user-form label {

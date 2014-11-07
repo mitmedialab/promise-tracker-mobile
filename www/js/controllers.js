@@ -2,6 +2,7 @@ angular.module('ptApp.controllers', [])
 
 .controller('HomeCtrl', function($scope, $ionicModal, $http, $state, $ionicPopup, $filter, Survey) {
   $scope.surveys = Survey.surveys;
+  $scope.surveyCount = Object.keys($scope.surveys).length;
   $scope.errorMessage = '';
   $scope.surveyLoading = false;
 
@@ -40,6 +41,7 @@ angular.module('ptApp.controllers', [])
       if(res) {
         delete Survey.surveys[surveyId];
         localStorage['surveys'] = JSON.stringify(Survey.surveys);
+        $scope.surveyCount = Object.keys($scope.surveys).length;
       }
     });
   };
