@@ -3,6 +3,7 @@ angular.module('ptApp.controllers', [])
 .controller('HomeCtrl', function($scope, $ionicModal, $http, $state, Survey) {
   $scope.surveys = Survey.surveys;
   $scope.errorMessage = '';
+  $scope.surveyLoading = false;
 
   $ionicModal.fromTemplateUrl(
     'enter-code.html', 
@@ -14,6 +15,17 @@ angular.module('ptApp.controllers', [])
     }
   );
 
+  $scope.countSynced = function(surveyId){
+    var filtered = Survey.synced.filter(function(response){
+      return response.survey_id == surveyId;
+    });
+    return filtered.length;
+  };
+
+  $scope.removeTemplate = function(surveyId){
+     delete Survey.surveys[surveyId];
+  };
+
   $scope.openCodeModal = function(){
     $scope.codeModal.show();
   };
@@ -24,22 +36,27 @@ angular.module('ptApp.controllers', [])
   };
 
   $scope.fetchSurvey = function(survey){
+    $scope.surveyLoading = true;
+
     var success = function(data){
       Survey.surveys[data.payload.id] = data.payload;
       Survey.surveys[data.payload.id].start_date = new Date(data.payload.start_date).toLocaleDateString();
       localStorage['surveys'] = JSON.stringify(Survey.surveys);
+      $scope.surveyLoading = false;
       $scope.codeModal.hide();
       $scope.errorMessage = '';
       $state.go($state.current, {}, {reload: true});
     };
 
     var error = function(error_code){
+      $scope.surveyLoading = false;
       $scope.errorMessage = (error_code.toString());
     };
 
     if(survey && survey.code){
       Survey.fetchSurvey(survey.code, success, error);
     } else {
+      $scope.surveyLoading = false;
       $scope.errorMessage = 'ENTER_CODE';
     }
   };
@@ -143,7 +160,8 @@ angular.module('ptApp.controllers', [])
     navigator.camera.getPicture(onSuccess, onError, {
       limit: 1,
       quality: 50,
-      destinationType: Camera.DestinationType.FILE_URI
+      destinationType: Camera.DestinationType.FILE_URI,
+      correctOrientation: true
     });
   };
 

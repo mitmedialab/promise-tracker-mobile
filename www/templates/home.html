@@ -6,12 +6,10 @@
     <ul class="list">
       <li class="item" ng-repeat="survey in surveys">
         <a href="#/surveys/{{survey.id}}/start" class="survey-title">{{survey.title}}</a>
-        <a href="#/surveys/{{survey.id}}/start">
-          <button class="button button-stable right">
-            <icon class="ion-edit"></icon>
-          </button>
-        </a>
-        <span class="sub-line">{{survey.inputs.length}} {{ 'PROMPTS' | translate : "{NUM: survey.inputs.length}" : "messageformat" }}</span>
+        <div ng-click="removeTemplate(survey.id)"class="button button-clear right">
+          <icon class="ion-close-circled"></icon>
+        </div>
+        <span class="sub-line">{{countSynced(survey.id)}} {{ 'RESPONSES' | translate : "{NUM: countSynced(survey.id)}" : "messageformat" }}</span>
       </li>
     </ul>
 
@@ -44,7 +42,7 @@
 <script id="enter-code.html" type="text/ng-template">
   <div class="modal">
     <ion-header-bar class="bar-secondary">
-      <h1 class=title>{{ 'ENTER_CODE' | translate }}</h1>
+      <h1 class=title>{{ 'SURVEY_CODE' | translate }}</h1>
       <button type="submit" class="button button-clear button-positive" ng-click="closeCodeModal(survey)">{{ 'CANCEL' | translate }}</button>
     </ion-header-bar>
 
@@ -59,7 +57,10 @@
           <p>{{ errorMessage | translate }}</p>
         </div>
         <div class="padding">
-          <button type="submit" class="button button-block button-calm">{{ 'GET_SURVEY' | translate }}</button>
+          <button type="submit" class="button button-block button-calm">
+            <icon ng-if="surveyLoading" class="ion-loading-c"></icon>
+            <span ng-if="!surveyLoading">{{ 'GET_SURVEY' | translate }}</span>
+          </button>
         </div>
       </form>
     </ion-content>
