@@ -144,7 +144,7 @@ angular.module('ptApp.controllers', [])
   };
 })
 
-.controller('InputsCtrl', function($scope, $stateParams, $state, Survey){
+.controller('InputsCtrl', function($scope, $stateParams, $state, Survey, $ionicPopup, $filter){
   $scope.survey = Survey.surveys[$stateParams.surveyId];
   $scope.index = Survey.currentResponse.activeIndex;
   $scope.input = Survey.currentResponse.inputs[Survey.currentResponse.activeIndex];
@@ -222,5 +222,28 @@ angular.module('ptApp.controllers', [])
         inputId: Survey.currentResponse.inputs[Survey.currentResponse.activeIndex.id]
       });
     }
+  };
+
+  $scope.cancelResponse = function() {
+    var confirmPopup = $ionicPopup.confirm({
+      title: $filter('translate')('CANCEL_RESPONSE'),
+      template: $filter('translate')('CONFIRM_CANCEL'),
+      buttons: [
+        {
+          text: $filter('translate')('CANCEL')
+        },
+        {
+          text: $filter('translate')('DELETE'),
+          type: 'button-pink',
+          onTap: function(){ return true; }
+        }
+      ]
+    });
+    confirmPopup.then(function(res) {
+      if(res) {
+        Survey.currentResponse = {};
+        $state.go('home');
+      }
+    });
   };
 });

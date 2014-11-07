@@ -61,6 +61,12 @@ a, a:visited, .button.button-positive.button-clear {
   border: none;
 }
 
+.button-pink {
+  background-color: #ea7669 !important;
+  color: white;
+  border: none;
+}
+
 .section-title {
   margin-bottom: 0;
   font-size: 22px;
