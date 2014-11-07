@@ -86,9 +86,9 @@ angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'pascal
     })
 
     .state('survey-end', {
-      url: '/end/:surveyId',
+      url: '/end/:surveyId/end',
       templateUrl: 'templates/survey-end.html',
-      controller: 'EndCtrl'   
+      controller: 'SurveysCtrl'   
     })
 
     .state('user', {
@@ -109,9 +109,6 @@ angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'pascal
     'NEW_SURVEY': 'Get new survey',
     'PROMPTS': '{NUM, plural, one{prompt} other{prompts}}',
     'RESPONSES': '{NUM, plural, one{response} other{responses}}',
-    'UNSYNCED_SURVEYS': '{NUM, plural, one{response has} other{responses have}} not been synced',
-    'SYNC_NOW': 'Sync now',
-    'ALL_SYNCED': 'All responses have been synced',
     'SURVEY_CODE': 'Survey code',
     'GET_SURVEY': 'Get survey',
     'CANCEL': 'Cancel',
@@ -148,10 +145,13 @@ angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'pascal
     //Errors, Alerts
     'ENTER_CODE': 'Please enter a survey code',
     '12': 'Survey not found. Please check code and try again.',
-    'CANCEL_RESPONSE': 'Delete',
     'DELETE_RESPONSE': "Are you sure you want to delete this reponse? All data will be lost.",
     'DELETE_SURVEY': "Are you sure you want to delete this survey?",
     'DELETE': 'Delete',
+    'UNSYNCED_SURVEYS': 'Unsynced data',
+    'SYNCING': 'Syncing',
+    'SURVEY_SYNCED': 'Survey saved',
+    'SYNC_NOW': 'Sync'
   });
 
   $translateProvider.translations('pt-BR', {
@@ -162,9 +162,6 @@ angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'pascal
     'NEW_SURVEY': 'Baixar novo formulário',
     'PROMPTS': '{NUM, plural, one{campo} other{campos}}',
     'RESPONSES': '{NUM, plural, one{resposta} other{respostas}}',
-    'UNSYNCED_SURVEYS': '{NUM, plural, one{resposta não foi salva} other{respostas não foram salvas}}',
-    'SYNC_NOW': 'Salvar agora',
-    'ALL_SYNCED': 'Todas as respostas já foram salvadas',
     'SURVEY_CODE': 'Código do formulário',
     'GET_SURVEY': 'Baixar formulário',
     'CANCEL': 'Cancelar',
@@ -172,7 +169,7 @@ angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'pascal
      // User page
     'MY_PROFILE': 'Meu perfil',
     'USER_INFO': 'Informação do usuario',
-    'USERNAME': 'Usuario',
+    'USERNAME': 'Nome do Usuario',
     'BIO': 'Biografia',
     'ADD_BIO': 'Adicionar biografia',
     'EDIT_BIO': 'Editar usuario & biografia',
@@ -201,10 +198,13 @@ angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'pascal
     //Errors, Alerts
     'ENTER_CODE': 'Por favor digite o código do formulário',
     '12': 'Este formulário não existe. Por favor verifique o código e tente novamente.',
-    'CANCEL_RESPONSE': 'Eliminar',
-    'DELETE_RESPOSNE': 'Tem certeza que quer eliminar este formulario?',
+    'DELETE_RESPONSE': 'Tem certeza que quer eliminar este formulario?',
     'DELETE_SURVEY': 'Tem certeza que quer eliminar este formulario?',
-    'DELETE': 'Eliminar'
+    'DELETE': 'Eliminar',
+    'UNSYNCED_SURVEYS': 'Dados sem salvar',
+    'SYNCING': 'Salvando',
+    'SURVEY_SYNCED': 'Formulário salvo',
+    'SYNC_NOW': 'Salvar'
   });
 
   $translateProvider.addInterpolation('$translateMessageFormatInterpolation');

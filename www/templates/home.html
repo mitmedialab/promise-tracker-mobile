@@ -1,5 +1,5 @@
 <ion-view title="Promise Tracker">
-  <ion-content class="has-header has-footer">
+  <ion-content class="has-header has-home-footer">
     <div class="section-title home-header">
       <icon class="ion-clipboard"></icon> {{ 'MY_SURVEYS' | translate }}
       <icon class="ion-plus-circled right new-survey" ng-click="openCodeModal()"></icon>
@@ -21,25 +21,32 @@
       <button type="submit" ng-click="openCodeModal()" class="button button-block button-calm"><icon class="ion-plus"></icon> {{ 'NEW_SURVEY' | translate }}</button>
     </div>
 
-    <!-- <div class="padding center">
-      <div ng-if="getUnsynced() > 0 && surveys !== {}" class="error-text">
-        <p><i class="ion-alert"></i> {{getUnsynced()}} {{ 'UNSYNCED_SURVEYS' | translate : "{NUM: getUnsynced()}" : "messageformat" }}</p>
-        <a href="#" ng-click="syncSurveys()" class="large">
-          <p><icon class="ion-loop"></icon> {{ 'SYNC_NOW' | translate }}</p>
-        </a>
-      </div>
-      <div ng-if="getUnsynced() == 0">
-        <p><icon class="ion-checkmark"></icon> {{ 'ALL_SYNCED' | translate }}</p>
-      </div>
-    </div> -->
   </ion-content>
-  <div class="bar bar-footer home-footer bar-grey bar-menu">
-    <a href="#/user">
-      <button class="button button-icon ion-person"></button>
-    </a>
-    <a href="#/home" class="selected">
-      <button class="button button-icon ion-clipboard"></button>
-    </a>
+  <div class="bar home bar-footer">
+    <div id="alerts" ng-class="{alert: needsSync()}">
+      <div ng-if="needsSync()">
+        <p>
+          <icon class="ion-alert"></icon> {{ 'UNSYNCED_SURVEYS' | translate }}
+          <button class="button button-bare sync-button" ng-click="syncSurveys()">{{ 'SYNC_NOW' | translate }}<icon class="ion-loop"></icon></button>
+        </p>
+      </div>
+      <div ng-if="!needsSync()">
+        <p ng-show="syncStatus == 'syncing'">
+          <icon class="ion-looping"></icon> {{ 'SYNCING' | translate }}
+        </p>
+        <p ng-show="syncStatus == 'synced'">
+          <icon class="ion-checkmark"></icon> {{ 'SURVEY_SYNCED' | translate }}
+        </p>
+      </div>
+    </div>
+    <div class="bar bar-menu nav-menu">
+      <a href="#/user">
+        <button class="button button-icon ion-person"></button>
+      </a>
+      <a href="#/home" class="selected">
+        <button class="button button-icon ion-clipboard"></button>
+      </a>
+    </div>
   </div>
 </ion-view>
 

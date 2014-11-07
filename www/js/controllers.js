@@ -3,8 +3,13 @@ angular.module('ptApp.controllers', [])
 .controller('HomeCtrl', function($scope, $ionicModal, $http, $state, $ionicPopup, $filter, Survey) {
   $scope.surveys = Survey.surveys;
   $scope.surveyCount = Object.keys($scope.surveys).length;
+  $scope.responseCount = Survey.synced.length + Survey.unsynced.length;
   $scope.errorMessage = '';
-  $scope.surveyLoading = false;
+  $scope.syncStatus = '';
+
+  $scope.$on('updatestatus', function(){
+    $scope.syncStatus = Survey.syncStatus;
+  });
 
   $ionicModal.fromTemplateUrl(
     'enter-code.html', 
@@ -81,17 +86,28 @@ angular.module('ptApp.controllers', [])
     }
   };
 
-  $scope.getUnsynced = function(){
-    return Survey.unsynced.length;
+  $scope.needsSync = function(){
+    if (Survey.unsynced.length + Survey.unsyncedImages.length > 0){
+      return true;
+    }
   };
 
   $scope.syncSurveys = function(){
     Survey.syncResponses();
+    Survey.syncImages();
   };
 })
 
-.controller('EndCtrl', function($scope, $stateParams, $state, $location, $http, Survey) {
+.controller('SurveysCtrl', function($scope, $stateParams, $state, $location, Survey) {
   $scope.survey = Survey.surveys[$stateParams.surveyId];
+
+  $scope.startSurvey = function(){
+    Survey.queueNewResponse($stateParams.surveyId);
+    $state.transitionTo('input', {
+      surveyId: $stateParams.surveyId, 
+      inputId: Survey.currentResponse.inputs[Survey.currentResponse.activeIndex].id
+    })
+  };
 
   $scope.submitResponse = function(){
     Survey.currentResponse.timestamp = Date.now();
@@ -112,56 +128,9 @@ angular.module('ptApp.controllers', [])
     });
   };
 
-  $scope.cancelResponse = function(){
-    Survey.currentResponse = {};
-    $state.go('home');
-  };
-})
-
-.controller('UsersCtrl', function($scope, $stateParams, $state, $location, $ionicModal, Survey, User) {
-  $scope.surveys = Object.keys(Survey.surveys);
-  $scope.responses = Survey.synced;
-  $scope.user = User.user;
-
-  $ionicModal.fromTemplateUrl(
-    'user-info.html', 
-    function(modal){ $scope.userModal = modal; }, 
-    {
-      scope: $scope,
-      animation: 'slide-in-up',
-      focusFirstInput: true
-    }
-  );
-
-  $scope.deleteSurveys = function() {
-    Survey.surveys = {};
-    localStorage['surveys'] = '{}'
-  };
-
-  $scope.openUserModal = function(){
-    $scope.userModal.show();
-  };
-
-  $scope.closeUserModal = function(){
-    $scope.userModal.hide();
-  };
-
-  $scope.updateUser = function(){
-    User.updateInfo();
-    $scope.userModal.hide();
-  };
-})
-
-.controller('SurveysCtrl', function($scope, $stateParams, $state, $location, Survey) {
-  $scope.survey = Survey.surveys[$stateParams.surveyId];
-
-  $scope.startSurvey = function(){
-    Survey.queueNewResponse($stateParams.surveyId);
-    $state.transitionTo('input', {
-      surveyId: $stateParams.surveyId, 
-      inputId: Survey.currentResponse.inputs[Survey.currentResponse.activeIndex].id
-    })
-  };
+  $scope.cancelResponse = function() {
+    Survey.cancelResponse();
+  }
 })
 
 .controller('InputsCtrl', function($scope, $stateParams, $state, Survey, $ionicPopup, $filter){
@@ -245,24 +214,40 @@ angular.module('ptApp.controllers', [])
   };
 
   $scope.cancelResponse = function() {
-    var confirmPopup = $ionicPopup.confirm({
-      template: $filter('translate')('DELETE_RESPONSE'),
-      buttons: [
-        {
-          text: $filter('translate')('CANCEL')
-        },
-        {
-          text: $filter('translate')('DELETE'),
-          type: 'button-pink',
-          onTap: function(){ return true; }
-        }
-      ]
-    });
-    confirmPopup.then(function(res) {
-      if(res) {
-        Survey.currentResponse = {};
-        $state.go('home');
-      }
-    });
+    Survey.cancelResponse();
+  }
+})
+
+.controller('UsersCtrl', function($scope, $stateParams, $state, $location, $ionicModal, Survey, User) {
+  $scope.surveys = Object.keys(Survey.surveys);
+  $scope.responses = Survey.synced;
+  $scope.user = User.user;
+
+  $ionicModal.fromTemplateUrl(
+    'user-info.html', 
+    function(modal){ $scope.userModal = modal; }, 
+    {
+      scope: $scope,
+      animation: 'slide-in-up',
+      focusFirstInput: true
+    }
+  );
+
+  $scope.deleteSurveys = function() {
+    Survey.surveys = {};
+    localStorage['surveys'] = '{}'
+  };
+
+  $scope.openUserModal = function(){
+    $scope.userModal.show();
+  };
+
+  $scope.closeUserModal = function(){
+    $scope.userModal.hide();
+  };
+
+  $scope.updateUser = function(){
+    User.updateInfo();
+    $scope.userModal.hide();
   };
 });

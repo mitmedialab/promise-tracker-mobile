@@ -11,6 +11,10 @@ a, a:visited, .button.button-positive.button-clear {
   text-decoration: none;
 }
 
+ul {
+  margin-top: 10px;
+}
+
 .assertive, a.assertive {
   color: #ea7669;
 }
@@ -23,15 +27,21 @@ a, a:visited, .button.button-positive.button-clear {
   background: #333;
 }
 
-.home-footer a, .home-footer a:visited, .home-footer button {
+.nav-menu {
+  height: 60px !important;
+  background: #353535;
+  display: flex !important;
+}
+
+.nav-menu a, .nav-menu a:visited, .nav-menu button {
   color: #d3d3d3;
 }
 
-.home-footer a.selected {
+.nav-menu a.selected {
   border-bottom: 2px solid #5a5a5e;
 }
 
-.home-footer button:hover {
+.nav-menu button:hover {
   color: #d3d3d3;
 }
 
@@ -43,7 +53,7 @@ a, a:visited, .button.button-positive.button-clear {
 
 .bar-menu a {
   padding-bottom: 5px;
-  margin: 0 30px;
+  margin: 0 auto;
 }
 
 .button {
@@ -55,16 +65,21 @@ a, a:visited, .button.button-positive.button-clear {
   border: none;
 }
 
-.button-bright {
-  background-color: #f5be59 !important;
-  color: white;
-  border: none;
-}
-
 .button-pink {
   background-color: #ea7669 !important;
   color: white;
   border: none;
+}
+
+.button-bare, .button-bare.activated {
+  background-color: transparent;
+  color: white;
+  border-color: white;
+}
+
+.button-bare.with-border {
+  border-color: #66c6ba;
+  color: #5a5a5e;
 }
 
 .section-title {
@@ -132,10 +147,6 @@ a, a:visited, .button.button-positive.button-clear {
   font-weight: normal;
 }
 
-.home-footer {
-  background: #353535;
-}
-
 .survey-footer p {
   margin-bottom: 0;
   text-align: center;
@@ -149,8 +160,17 @@ a, a:visited, .button.button-positive.button-clear {
   font-size: 16px;
 }
 
-.home-footer {
-  border-top: 1px solid grey;
+.has-home-footer {
+  bottom: 110px;
+}
+
+.home.bar-footer {
+  height: 110px;
+  padding: 0;
+  text-align: center;
+  display: block;
+  border-color: transparent;
+  background-image: none;
 }
 
 .survey-info {
@@ -174,6 +194,29 @@ a, a:visited, .button.button-positive.button-clear {
 .new-survey {
   font-size: 1.6em;
   margin-top: -5px;
+}
+
+#alerts {
+  height: 50px;
+  padding: 10px;
+  background: #e9eae8;
+}
+
+/*#alerts.visible {
+  visibility: visible;
+}*/
+
+#alerts p {
+  padding-top: 5px;
+}
+
+#alerts.alert {
+  background: #ea7669;
+}
+
+.sync-button {
+  margin-top: -5px;
+  margin-left: 20px;
 }
 
 /*User account page*/

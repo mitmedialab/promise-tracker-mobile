@@ -1,6 +1,6 @@
 angular.module('ptApp.services', [])
 
-.factory('Survey', function($rootScope, $http){
+.factory('Survey', function($rootScope, $http, $ionicPopup, $state, $filter){
   localStorage['surveys'] = localStorage['surveys'] || '{}';
   localStorage['unsynced'] = localStorage['unsynced'] || '[]';
   localStorage['unsyncedImages'] = localStorage['unsyncedImages'] || '[]';
@@ -13,6 +13,7 @@ angular.module('ptApp.services', [])
     synced: JSON.parse(localStorage['synced']),
     unsyncedImages: JSON.parse(localStorage['unsyncedImages']),
     currentResponse: {},
+    syncStatus: '',
 
     fetchSurvey: function(surveyCode, successCallback, errorCallback){
       var self = this;
@@ -99,6 +100,8 @@ angular.module('ptApp.services', [])
 
     syncResponse: function(response){
       var self = this;
+      self.syncStatus = 'syncing';
+      $rootScope.$broadcast('updatestatus');
       var formattedResponse = self.formatResponse(response);
       $http.post(
         this.baseUrl + 'responses', 
@@ -109,8 +112,12 @@ angular.module('ptApp.services', [])
           response.id = data.payload.id;
           self.addToSynced(response);
           self.addResponseImageToUnsynced(response);
+          self.syncStatus = 'synced';
+          $rootScope.$broadcast('updatestatus');
         } else {
           console.log(data.error_message);
+          self.syncStatus = 'unsynced';
+          $rootScope.$broadcast('updatestatus');
         }
       })
       .error(function(response){
@@ -120,6 +127,8 @@ angular.module('ptApp.services', [])
 
     syncImage: function(image){
       var self = this;
+      self.syncStatus = 'syncing';
+      $rootScope.$broadcast('updatestatus');
       // TODO: need to find if the image really exists
       // upload the image with cordova file-transfer
       var options = new FileUploadOptions();
@@ -131,26 +140,52 @@ angular.module('ptApp.services', [])
       fileTransfer.upload(image.fileLocation, encodeURI(self.baseUrl + 'upload_image'), 
         function(){   // upload succeed
           self.removeImageFromUnsynced(image);
+          self.syncStatus = 'synced';
+          $rootScope.$broadcast('updatestatus');
         }, 
         function(error){   // upload failed
           // TODO: notify the frontend about image upload failure
           console.log(error);
+          self.syncStatus = 'unsynced';
+          $rootScope.$broadcast('updatestatus');
         }, options);
     },
 
     syncResponses: function(){
       var self = this;
-      this.unsynced.forEach(function(response){
+      self.unsynced.forEach(function(response){
         self.syncResponse(response);
       })
     },
 
     syncImages: function(){
       var self = this;
-      this.unsyncedImages.forEach(function(image){
+      self.unsyncedImages.forEach(function(image){
         self.syncImage(image);
       })
-    } 
+    },
+
+    cancelResponse: function() {
+      var confirmPopup = $ionicPopup.confirm({
+        template: $filter('translate')('DELETE_RESPONSE'),
+        buttons: [
+          {
+            text: $filter('translate')('CANCEL')
+          },
+          {
+            text: $filter('translate')('DELETE'),
+            type: 'button-pink',
+            onTap: function(){ return true; }
+          }
+        ]
+      });
+      confirmPopup.then(function(res) {
+        if(res) {
+          self.currentResponse = {};
+          $state.go('home');
+        }
+      });
+    }
   };
 
   return service;
