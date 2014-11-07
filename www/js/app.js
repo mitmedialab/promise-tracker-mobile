@@ -147,7 +147,8 @@ angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'pascal
     'ENTER_CODE': 'Please enter a survey code',
     '12': 'Survey not found. Please check code and try again.',
     'CANCEL_RESPONSE': 'Delete',
-    'CONFIRM_CANCEL': "Are you sure you want to delete this reponse? All data will be lost.",
+    'DELETE_RESPONSE': "Are you sure you want to delete this reponse? All data will be lost.",
+    'DELETE_SURVEY': "Are you sure you want to delete this survey?",
     'DELETE': 'Delete',
   });
 
@@ -197,7 +198,8 @@ angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'pascal
     'ENTER_CODE': 'Por favor digite o código do formulário',
     '12': 'Este formulário não existe. Por favor verifique o código e tente novamente.',
     'CANCEL_RESPONSE': 'Eliminar',
-    'CONFIRM_CANCEL': 'Tem certeza que quer eliminar este formulario?',
+    'DELETE_RESPOSNE': 'Tem certeza que quer eliminar este formulario?',
+    'DELETE_SURVEY': 'Tem certeza que quer eliminar este formulario?',
     'DELETE': 'Eliminar'
   });
 

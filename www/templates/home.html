@@ -5,11 +5,13 @@
     </div>
     <ul class="list">
       <li class="item" ng-repeat="survey in surveys">
-        <a href="#/surveys/{{survey.id}}/start" class="survey-title">{{survey.title}}</a>
         <div ng-click="removeTemplate(survey.id)"class="button button-clear right">
           <icon class="ion-close-circled"></icon>
         </div>
-        <span class="sub-line">{{countSynced(survey.id)}} {{ 'RESPONSES' | translate : "{NUM: countSynced(survey.id)}" : "messageformat" }}</span>
+        <a href="#/surveys/{{survey.id}}/start" class="survey-info">
+          <h4 class="survey-title">{{survey.title}}</h4>
+          <span class="sub-line">{{countSynced(survey.id)}} {{ 'RESPONSES' | translate : "{NUM: countSynced(survey.id)}" : "messageformat" }}</span>
+        </a>
       </li>
     </ul>
 

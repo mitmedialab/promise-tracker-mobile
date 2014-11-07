@@ -1,6 +1,6 @@
 angular.module('ptApp.controllers', [])
 
-.controller('HomeCtrl', function($scope, $ionicModal, $http, $state, Survey) {
+.controller('HomeCtrl', function($scope, $ionicModal, $http, $state, $ionicPopup, $filter, Survey) {
   $scope.surveys = Survey.surveys;
   $scope.errorMessage = '';
   $scope.surveyLoading = false;
@@ -23,7 +23,25 @@ angular.module('ptApp.controllers', [])
   };
 
   $scope.removeTemplate = function(surveyId){
-     delete Survey.surveys[surveyId];
+    var confirmPopup = $ionicPopup.confirm({
+      template: $filter('translate')('DELETE_SURVEY'),
+      buttons: [
+        {
+          text: $filter('translate')('CANCEL')
+        },
+        {
+          text: $filter('translate')('DELETE'),
+          type: 'button-pink',
+          onTap: function(){ return true; }
+        }
+      ]
+    });
+    confirmPopup.then(function(res) {
+      if(res) {
+        delete Survey.surveys[surveyId];
+        localStorage['surveys'] = JSON.stringify(Survey.surveys);
+      }
+    });
   };
 
   $scope.openCodeModal = function(){
@@ -226,8 +244,7 @@ angular.module('ptApp.controllers', [])
 
   $scope.cancelResponse = function() {
     var confirmPopup = $ionicPopup.confirm({
-      title: $filter('translate')('CANCEL_RESPONSE'),
-      template: $filter('translate')('CONFIRM_CANCEL'),
+      template: $filter('translate')('DELETE_RESPONSE'),
       buttons: [
         {
           text: $filter('translate')('CANCEL')
