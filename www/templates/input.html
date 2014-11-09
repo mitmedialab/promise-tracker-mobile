@@ -15,6 +15,9 @@
       <div>
         {{index +1}}. {{input.label}}
       </div>
+      <div id="error-message" class="padding" ng-show="errorMessage.length > 0 && !inputValid(input)">
+        {{errorMessage | translate}}
+      </div>
       <br>
 
       <!-- Image -->

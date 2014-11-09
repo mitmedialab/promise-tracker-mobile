@@ -131,7 +131,6 @@ angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'pascal
     'START_SURVEY': 'Start survey',
     'NEXT': 'Next',
     'BACK': 'Back',
-    'REQUIRED': 'This question is required',
     'TAKE_PICTURE': 'Take a picture',
     'GET_LOCATION': 'Record location',
     'CHOOSE_ONE': 'Select one',
@@ -151,7 +150,8 @@ angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'pascal
     'UNSYNCED_SURVEYS': 'Unsynced data',
     'SYNCING': 'Syncing',
     'SURVEY_SYNCED': 'Survey saved',
-    'SYNC_NOW': 'Sync'
+    'SYNC_NOW': 'Sync',
+    'REQUIRED': 'This question is required'
   });
 
   $translateProvider.translations('pt-BR', {
@@ -184,7 +184,6 @@ angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'pascal
     'START_SURVEY': 'Preencher formulário',
     'NEXT': 'Próximo',
     'BACK': 'Voltar',
-    'REQUIRED': 'Este campo é obligatório',
     'TAKE_PICTURE': 'Tirar uma foto',
     'GET_LOCATION': 'Obter localização',
     'CHOOSE_ONE': 'Selecionar uma',
@@ -204,7 +203,8 @@ angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'pascal
     'UNSYNCED_SURVEYS': 'Dados sem salvar',
     'SYNCING': 'Salvando',
     'SURVEY_SYNCED': 'Formulário salvo',
-    'SYNC_NOW': 'Salvar'
+    'SYNC_NOW': 'Salvar',
+    'REQUIRED': 'Este campo é obligatório'
   });
 
   $translateProvider.addInterpolation('$translateMessageFormatInterpolation');

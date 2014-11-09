@@ -138,6 +138,7 @@ angular.module('ptApp.controllers', [])
   $scope.index = Survey.currentResponse.activeIndex;
   $scope.input = Survey.currentResponse.inputs[Survey.currentResponse.activeIndex];
   $scope.input.input_type == 'select' ? $scope.input.answer = $scope.input.answer || [] : false;
+  $scope.errorMessage = '';
 
   $scope.getImage = function(){
     var onSuccess = function(imageURI){
@@ -166,11 +167,11 @@ angular.module('ptApp.controllers', [])
     });
   };
 
-  $scope.validateRequired = function(input){
+  $scope.inputValid = function(input){
     if(input.required == true){
       switch(input.input_type){
         case "location":
-          return input.answer.lat != undefined && input.answer.lon != undefined;
+          return input.answer && input.answer.lat;
           break;
         case "select":
         case "select1":
@@ -180,13 +181,14 @@ angular.module('ptApp.controllers', [])
           return input.answer && input.answer.length > 0;
           break;
       }
+      return false;
     } else {
       return true;
     }
   };
 
   $scope.nextPrompt = function(currentInput){
-    if($scope.validateRequired(currentInput)){
+    if($scope.inputValid(currentInput)){
       if(Survey.currentResponse.activeIndex < (Survey.currentResponse.inputs.length - 1)){
         Survey.currentResponse.activeIndex += 1;
         $state.transitionTo('input', {
@@ -197,7 +199,6 @@ angular.module('ptApp.controllers', [])
         $state.go('survey-end', {surveyId:  $scope.survey.id});
       }
     } else {
-      // TODO: Insert notification here
       $scope.errorMessage = 'REQUIRED';
       console.log('REQUIRED');
     }

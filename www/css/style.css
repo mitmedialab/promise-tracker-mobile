@@ -254,7 +254,7 @@ ul {
   min-height: 150px;
 }
 
-/*Prompt display*/
+/*Input display*/
 
 .image-preview {
   width: 100%;
@@ -321,3 +321,9 @@ label.select {
   height: 100%;
 }
 
+#error-message {
+  background: #f9f0ef;
+  color: #ea7669;
+  margin-top: 10px;
+  padding-left: 20px;
+}
