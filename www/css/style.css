@@ -202,10 +202,6 @@ ul {
   background: #e9eae8;
 }
 
-/*#alerts.visible {
-  visibility: visible;
-}*/
-
 #alerts p {
   padding-top: 5px;
 }
@@ -220,6 +216,20 @@ ul {
 }
 
 /*User account page*/
+
+#user-info {
+  border-bottom: 1px solid whitesmoke;
+}
+
+#user-stats {
+  padding-top: 20px;
+}
+
+.profile-image {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+}
 
 .bio {
   text-align: center;

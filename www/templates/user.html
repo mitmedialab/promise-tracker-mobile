@@ -3,7 +3,8 @@
     <div class="section-title home-header">
       <icon class="ion-person"></icon> {{ 'MY_PROFILE' | translate }}
     </div>
-    <div class="padding center">
+    <div class="padding center" id="user-info">
+      <img src="images/user-icon.png" class="profile-image">
       <h2 ng-if="user.username">{{user.username}}</h2>
       <div class="bio">
         <div ng-if="user.bio">
@@ -14,16 +15,16 @@
           <button ng-click="openUserModal()" class="button button-bare with-border"><icon class="ion-plus"></icon> {{ 'ADD_BIO' | translate }}</button>
         </div>
       </div>
+    </div>
 
-      <div class="row center">
-        <div class="col">
-          <h1>{{surveys.length}}</h1>
-          <p>{{ 'CAMPAIGNS' | translate: "{NUM: surveys.length}" : "messageformat" }}</p>
-        </div>
-        <div class="col">
-          <h1>{{responses.length}}</h1>
-          <p>{{ 'SURVEYS' | translate: "{NUM: responses.length}" : "messageformat" }}</p> 
-        </div>
+    <div class="row center" id="user-stats">
+      <div class="col">
+        <h1>{{surveys.length}}</h1>
+        <p>{{ 'CAMPAIGNS' | translate: "{NUM: surveys.length}" : "messageformat" }}</p>
+      </div>
+      <div class="col">
+        <h1>{{responses.length}}</h1>
+        <p>{{ 'SURVEYS' | translate: "{NUM: responses.length}" : "messageformat" }}</p> 
       </div>
     </div>
   </ion-content>
