@@ -1,6 +1,6 @@
 angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'pascalprecht.translate'], function($httpProvider){
   $httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
-  
+
   /**
    * The workhorse; converts an object to x-www-form-urlencoded serialization.
    * @param {Object} obj
@@ -151,7 +151,8 @@ angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'pascal
     'SYNCING': 'Syncing',
     'SURVEY_SYNCED': 'Survey saved',
     'SYNC_NOW': 'Sync',
-    'REQUIRED': 'This question is required'
+    'REQUIRED': 'This question is required',
+    'OFFLINE': 'No network connection. Please try again later'
   });
 
   $translateProvider.translations('pt-BR', {
@@ -204,7 +205,8 @@ angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'pascal
     'SYNCING': 'Salvando',
     'SURVEY_SYNCED': 'Formulário salvo',
     'SYNC_NOW': 'Salvar',
-    'REQUIRED': 'Este campo é obligatório'
+    'REQUIRED': 'Este campo é obligatório',
+    'OFFLINE': 'Não tem conexão à internete. Por favor tente novament mais tarde.'
   });
 
   $translateProvider.addInterpolation('$translateMessageFormatInterpolation');

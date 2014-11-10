@@ -11,6 +11,11 @@ angular.module('ptApp.controllers', [])
     $scope.syncStatus = Survey.syncStatus;
   });
 
+  $scope.$on('connectionerror', function(){
+    $scope.alertConnectionError();
+    $scope.surveyLoading = false;
+  });
+
   $ionicModal.fromTemplateUrl(
     'enter-code.html', 
     function(modal){ $scope.codeModal = modal; }, 
@@ -61,7 +66,6 @@ angular.module('ptApp.controllers', [])
   };
 
   $scope.fetchSurvey = function(survey){
-    $scope.surveyLoading = true;
 
     var success = function(data){
       Survey.surveys[data.payload.id] = data.payload;
@@ -79,9 +83,9 @@ angular.module('ptApp.controllers', [])
     };
 
     if(survey && survey.code){
-      Survey.fetchSurvey(survey.code, success, error);
+      $scope.surveyLoading = true;
+        Survey.fetchSurvey(survey.code, success, error);
     } else {
-      $scope.surveyLoading = false;
       $scope.errorMessage = 'ENTER_CODE';
     }
   };
@@ -95,6 +99,15 @@ angular.module('ptApp.controllers', [])
   $scope.syncSurveys = function(){
     Survey.syncResponses();
     Survey.syncImages();
+  };
+
+  $scope.alertConnectionError = function(){
+    var alertPopup = $ionicPopup.alert({
+      template: $filter('translate')('OFFLINE')
+    });
+
+    alertPopup.then(function(res) {
+    });
   };
 })
 

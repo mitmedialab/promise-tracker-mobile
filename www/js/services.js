@@ -1,6 +1,18 @@
 angular.module('ptApp.services', [])
 
-.factory('Survey', function($rootScope, $http, $ionicPopup, $state, $filter){
+.factory('Main', function($rootScope, $http){
+  var service = {
+    interceptResponse: function(data, status){
+      if(status == 404){
+        $rootScope.$broadcast('connectionerror');
+      }
+    }
+  }
+
+  return service;
+})
+
+.factory('Survey', function($rootScope, $http, $ionicPopup, $state, $filter, Main){
   localStorage['surveys'] = localStorage['surveys'] || '{}';
   localStorage['unsynced'] = localStorage['unsynced'] || '[]';
   localStorage['unsyncedImages'] = localStorage['unsyncedImages'] || '[]';
@@ -18,14 +30,17 @@ angular.module('ptApp.services', [])
     fetchSurvey: function(surveyCode, successCallback, errorCallback){
       var self = this;
       $http.get(this.baseUrl + 'surveys/' + surveyCode)
-      .success(function(data){
-        if(data.status == 'success'){
-          successCallback(data);
-        } else {
-          errorCallback(data.error_code.toString());
-        }
-      })
-      .error(errorCallback);
+        .success(function(data){
+          if(data.status == 'success'){
+            successCallback(data);
+          } else {
+            errorCallback(data.error_code.toString());
+          }
+        })
+
+        .error(function(data, status){
+          Main.interceptResponse(data, status);
+        });
     },
 
     queueNewResponse: function(surveyId){
@@ -37,7 +52,7 @@ angular.module('ptApp.services', [])
       };
     },
 
-    addToUnsynced: function(response){
+    addResponseToUnsynced: function(response){
       var index = this.unsynced.indexOf(response);
       if(index == -1){
         this.unsynced.push(response);
@@ -45,7 +60,15 @@ angular.module('ptApp.services', [])
       }
     },
 
-    addResponseImageToUnsynced: function(response){
+    removeResponseFromUnsynced: function(response){
+      var index = this.unsynced.indexOf(response);
+      if(index > -1){
+        this.unsynced.splice(index, 1);
+        localStorage['unsynced'] = JSON.stringify(this.unsynced);
+      }
+    },
+
+    addImageToUnsynced: function(response){
       var self = this;
       // Search for images in the survey response
       response.inputs.forEach(function(input){
@@ -107,22 +130,25 @@ angular.module('ptApp.services', [])
         this.baseUrl + 'responses', 
         { response: JSON.stringify(formattedResponse) }
       )
-      .success(function(data){
-        if(data['status'] == 'success'){
-          response.id = data.payload.id;
-          self.addToSynced(response);
-          self.addResponseImageToUnsynced(response);
-          self.syncStatus = 'synced';
-          $rootScope.$broadcast('updatestatus');
-        } else {
-          console.log(data.error_message);
-          self.syncStatus = 'unsynced';
-          $rootScope.$broadcast('updatestatus');
-        }
-      })
-      .error(function(response){
-        self.addToUnsynced(response);
-      });
+        .success(function(data){
+          if(data['status'] == 'success'){
+            response.id = data.payload.id;
+            self.removeResponseFromUnsynced(response);
+            self.addToSynced(response);
+            self.addImageToUnsynced(response);
+            self.syncStatus = 'synced';
+            $rootScope.$broadcast('updatestatus');
+          } else {
+            self.addResponseToUnsynced(response);
+            self.syncStatus = 'unsynced';
+            $rootScope.$broadcast('updatestatus');
+          }
+        })
+
+        .error(function(data, status){
+          Main.interceptResponse(data, status);
+          self.addResponseToUnsynced(response);
+        });
     },
 
     syncImage: function(image){
@@ -137,15 +163,17 @@ angular.module('ptApp.services', [])
       options.mimeType = "image/jpeg";
       options.params = image;
       var fileTransfer = new FileTransfer();
-      fileTransfer.upload(image.fileLocation, encodeURI(self.baseUrl + 'upload_image'), 
+      fileTransfer.upload(image.fileLocation, encodeURI(self.baseUrl + 'upload_image'),
+
         function(){   // upload succeed
           self.removeImageFromUnsynced(image);
           self.syncStatus = 'synced';
           $rootScope.$broadcast('updatestatus');
         }, 
+
         function(error){   // upload failed
-          // TODO: notify the frontend about image upload failure
-          console.log(error);
+          // TODO: notify user of image upload failure
+          Main.interceptResponse(data, status);
           self.syncStatus = 'unsynced';
           $rootScope.$broadcast('updatestatus');
         }, options);
