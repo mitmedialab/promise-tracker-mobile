@@ -6,9 +6,23 @@ angular.module('ptApp.controllers', [])
   $scope.responseCount = Survey.synced.length + Survey.unsynced.length;
   $scope.errorMessage = '';
   $scope.status = Survey.getStatus();
+  $scope.showSyncingStatus = false;
+  $scope.showNeedSyncStatus = false;
 
   $scope.$on('updateStatus', function(){
-    $scope.status = Survey.getStatus();
+    var status = Survey.getStatus();
+    var updateStatusBar = function(){
+      $scope.showSyncingStatus = Survey.hasUnsyncedItems();
+      $scope.showNeedSyncStatus = Survey.isSyncing();
+    }
+    if(!$scope.$$phase){
+      $scope.$apply(updateStatusBar);
+    }
+    else{
+      updateStatusBar();
+    }
+    
+    
     console.log('value of syncing: ' + $scope.status.syncing);
     console.log('value of needsSync: ' + $scope.status.needsSync());
     console.log('number of unsynced: ' + (Survey.unsynced.length + Survey.unsyncedImages.length));

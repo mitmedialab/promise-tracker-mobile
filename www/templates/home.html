@@ -27,12 +27,12 @@
   </ion-content>
   <div class="bar home bar-footer">
     <div id="status" class="{alert: !status.syncing && status.needsSync()}">
-      <div ng-show="status.syncing">
+      <div ng-show="showSyncingStatus">
         <p>
           <icon class="ion-looping"></icon> {{ 'SYNCING' | translate }}
         </p>
       </div>
-      <div ng-show="status.needsSync()">
+      <div ng-show="showNeedSyncStatus">
         <p>
           <icon class="ion-alert"></icon> {{ 'UNSYNCED_SURVEYS' | translate }}
           <button class="button button-bare sync-button" ng-click="syncSurveys()">{{ 'SYNC_NOW' | translate }}<icon class="ion-loop"></icon></button>
