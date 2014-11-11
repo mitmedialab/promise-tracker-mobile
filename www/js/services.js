@@ -30,6 +30,14 @@ angular.module('ptApp.services', [])
       needsSync: false
     },
 
+    hasUnsyncedItems: function(){
+      return this.unsynced.length + this.unsyncedImages.length > 0;
+    },
+
+    isSyncing: function(){
+      return this.status.syncing;
+    },
+
     getStatus: function(){
       var self = this;
       self.status.needsSync = function(){
