@@ -25,17 +25,14 @@ angular.module('ptApp.services', [])
     synced: JSON.parse(localStorage['synced']),
     unsyncedImages: JSON.parse(localStorage['unsyncedImages']),
     currentResponse: {},
-    status: {
-      syncing: false,
-      needsSync: false
+    syncing: false,
+
+    isSyncing: function(){
+      return this.syncing;
     },
 
-    getStatus: function(){
-      var self = this;
-      self.status.needsSync = function(){
-        return self.unsynced.length + self.unsyncedImages.length > 0;
-      };
-      return self.status;
+    hasUnsyncedItems: function(){
+      return this.unsynced.length + this.unsyncedImages.length > 0;
     },
 
     fetchSurvey: function(surveyCode, successCallback, errorCallback){
@@ -97,8 +94,6 @@ angular.module('ptApp.services', [])
         this.unsyncedImages.splice(index, 1);
         localStorage['unsyncedImages'] = JSON.stringify(this.unsyncedImages);
       }
-      console.log('remove image from unsynced folder. images remaining:');
-      console.log(this.unsyncedImages.length);
     },
 
     addResponseToSynced: function(response){
@@ -137,10 +132,9 @@ angular.module('ptApp.services', [])
 
     syncResponse: function(response){
       var self = this;
-      self.status.syncing =  true;
-      console.log('start survey sync');
-      $rootScope.$broadcast('updateStatus');
       var formattedResponse = self.formatResponse(response);
+      self.syncing =  true;
+      $rootScope.$broadcast('updateStatus');
       $http.post(
         this.baseUrl + 'responses', 
         { response: JSON.stringify(formattedResponse) }
@@ -154,22 +148,20 @@ angular.module('ptApp.services', [])
           } else {
             self.addResponseToUnsynced(response);
           }
-          console.log('end survey sync');
-          self.status.syncing = false;
+          self.syncing = false;
           $rootScope.$broadcast('updateStatus');
         })
 
         .error(function(data, status){
           Main.interceptResponse(data, status);
-          self.status.syncing = false;
+          self.syncing = false;
           $rootScope.$broadcast('updateStatus');
         });
     },
 
     syncImage: function(image){
       var self = this;
-      self.status.syncing = true;
-      console.log('start image sync');
+      self.syncing = true;
       $rootScope.$broadcast('updateStatus');
       // TODO: need to find if the image really exists
       // upload the image with cordova file-transfer
@@ -183,15 +175,14 @@ angular.module('ptApp.services', [])
 
         function(){   // upload succeed
           self.removeImageFromUnsynced(image);
-          console.log('end image sync');
-          this.status.syncing = false;
+          self.syncing = false;
           $rootScope.$broadcast('updateStatus');
         }, 
 
         function(error){   // upload failed
           // TODO: notify user of image upload failure
           Main.interceptResponse(data, status);
-          self.status.syncing =false;
+          self.syncing =false;
           $rootScope.$broadcast('updateStatus');
         }, options);
     },

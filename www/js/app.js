@@ -159,7 +159,7 @@ angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'pascal
     // Home page
     'MY_SURVEYS': 'Meus formulários',
     'GREETING': 'Bem-vindo no Promise Tracker!',
-    'GET_STARTED': 'Para começar, baixar o seu primeiro formulário',
+    'GET_STARTED': 'Para começar, baixar seu primeiro formulário',
     'NEW_SURVEY': 'Baixar novo formulário',
     'PROMPTS': '{NUM, plural, one{campo} other{campos}}',
     'RESPONSES': '{NUM, plural, one{resposta} other{respostas}}',
