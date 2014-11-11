@@ -4,7 +4,7 @@ angular.module('ptApp.services', [])
   var service = {
     interceptResponse: function(data, status){
       if(status == 404){
-        $rootScope.$broadcast('connectionerror');
+        $rootScope.$broadcast('connectionError');
       }
     }
   }
@@ -25,7 +25,18 @@ angular.module('ptApp.services', [])
     synced: JSON.parse(localStorage['synced']),
     unsyncedImages: JSON.parse(localStorage['unsyncedImages']),
     currentResponse: {},
-    syncStatus: '',
+    status: {
+      syncing: false,
+      needsSync: false
+    },
+
+    getStatus: function(){
+      var self = this;
+      self.status.needsSync = function(){
+        return self.unsynced.length + self.unsyncedImages.length > 0;
+      };
+      return self.status;
+    },
 
     fetchSurvey: function(surveyCode, successCallback, errorCallback){
       var self = this;
@@ -80,14 +91,17 @@ angular.module('ptApp.services', [])
     },
 
     removeImageFromUnsynced: function(image){
+      var self = this;
       var index = this.unsyncedImages.indexOf(image);
       if(index > -1){
         this.unsyncedImages.splice(index, 1);
         localStorage['unsyncedImages'] = JSON.stringify(this.unsyncedImages);
       }
+      console.log('remove image from unsynced folder. images remaining:');
+      console.log(this.unsyncedImages.length);
     },
 
-    addToSynced: function(response){
+    addResponseToSynced: function(response){
       var index = this.unsynced.indexOf(response);
       this.synced.push(response);
       localStorage['synced'] = JSON.stringify(this.synced)
@@ -123,8 +137,9 @@ angular.module('ptApp.services', [])
 
     syncResponse: function(response){
       var self = this;
-      self.syncStatus = 'syncing';
-      $rootScope.$broadcast('updatestatus');
+      self.status.syncing =  true;
+      console.log('start survey sync');
+      $rootScope.$broadcast('updateStatus');
       var formattedResponse = self.formatResponse(response);
       $http.post(
         this.baseUrl + 'responses', 
@@ -134,27 +149,28 @@ angular.module('ptApp.services', [])
           if(data['status'] == 'success'){
             response.id = data.payload.id;
             self.removeResponseFromUnsynced(response);
-            self.addToSynced(response);
+            self.addResponseToSynced(response);
             self.addImageToUnsynced(response);
-            self.syncStatus = 'synced';
-            $rootScope.$broadcast('updatestatus');
           } else {
             self.addResponseToUnsynced(response);
-            self.syncStatus = 'unsynced';
-            $rootScope.$broadcast('updatestatus');
           }
+          console.log('end survey sync');
+          self.status.syncing = false;
+          $rootScope.$broadcast('updateStatus');
         })
 
         .error(function(data, status){
           Main.interceptResponse(data, status);
-          self.addResponseToUnsynced(response);
+          self.status.syncing = false;
+          $rootScope.$broadcast('updateStatus');
         });
     },
 
     syncImage: function(image){
       var self = this;
-      self.syncStatus = 'syncing';
-      $rootScope.$broadcast('updatestatus');
+      self.status.syncing = true;
+      console.log('start image sync');
+      $rootScope.$broadcast('updateStatus');
       // TODO: need to find if the image really exists
       // upload the image with cordova file-transfer
       var options = new FileUploadOptions();
@@ -167,15 +183,16 @@ angular.module('ptApp.services', [])
 
         function(){   // upload succeed
           self.removeImageFromUnsynced(image);
-          self.syncStatus = 'synced';
-          $rootScope.$broadcast('updatestatus');
+          console.log('end image sync');
+          this.status.syncing = false;
+          $rootScope.$broadcast('updateStatus');
         }, 
 
         function(error){   // upload failed
           // TODO: notify user of image upload failure
           Main.interceptResponse(data, status);
-          self.syncStatus = 'unsynced';
-          $rootScope.$broadcast('updatestatus');
+          self.status.syncing =false;
+          $rootScope.$broadcast('updateStatus');
         }, options);
     },
 

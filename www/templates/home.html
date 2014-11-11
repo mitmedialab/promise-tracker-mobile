@@ -15,27 +15,27 @@
         </a>
       </li>
     </ul>
+    is syncing: {{status.syncing}}<br>
+    needs sync: {{status.needsSync()}}
     <div class="padding center subtle" ng-show="surveyCount == 0" id="intro-text">
       <h4>{{ 'GREETING' | translate }}</h4>
       <p class="get-started">{{ 'GET_STARTED' | translate }}</p>
       <button type="submit" ng-click="openCodeModal()" class="button button-block button-calm"><icon class="ion-plus"></icon> {{ 'NEW_SURVEY' | translate }}</button>
     </div>
 
+
   </ion-content>
   <div class="bar home bar-footer">
-    <div id="alerts" ng-class="{alert: needsSync()}">
-      <div ng-if="needsSync()">
+    <div id="status" class="{alert: !status.syncing && status.needsSync()}">
+      <div ng-show="status.syncing">
+        <p>
+          <icon class="ion-looping"></icon> {{ 'SYNCING' | translate }}
+        </p>
+      </div>
+      <div ng-show="status.needsSync()">
         <p>
           <icon class="ion-alert"></icon> {{ 'UNSYNCED_SURVEYS' | translate }}
           <button class="button button-bare sync-button" ng-click="syncSurveys()">{{ 'SYNC_NOW' | translate }}<icon class="ion-loop"></icon></button>
-        </p>
-      </div>
-      <div ng-if="!needsSync()">
-        <p ng-show="syncStatus == 'syncing'">
-          <icon class="ion-looping"></icon> {{ 'SYNCING' | translate }}
-        </p>
-        <p ng-show="syncStatus == 'synced'">
-          <icon class="ion-checkmark"></icon> {{ 'SURVEY_SYNCED' | translate }}
         </p>
       </div>
     </div>

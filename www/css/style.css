@@ -11,7 +11,7 @@ a, a:visited, .button.button-positive.button-clear {
   text-decoration: none;
 }
 
-ul {
+.prompt-card ul {
   margin-top: 10px;
 }
 
@@ -127,6 +127,7 @@ ul {
 .home-header {
   padding: 15px;
   text-align: center;
+  margin-top: 15px;
 }
 
 /*Index page*/
@@ -196,17 +197,17 @@ ul {
   margin-top: -5px;
 }
 
-#alerts {
+#status {
   height: 50px;
   padding: 10px;
   background: #e9eae8;
 }
 
-#alerts p {
+#status p {
   padding-top: 5px;
 }
 
-#alerts.alert {
+#status.alert {
   background: #ea7669;
 }
 
@@ -221,10 +222,6 @@ ul {
   border-bottom: 1px solid whitesmoke;
 }
 
-#user-stats {
-  padding-top: 20px;
-}
-
 .profile-image {
   width: 100px;
   height: 100px;
@@ -233,7 +230,7 @@ ul {
 
 .bio {
   text-align: center;
-  padding: 20px 40px;
+  padding: 0 20px 20px 20px;
 }
 
 .subtle, a.subtle {
@@ -251,7 +248,11 @@ ul {
 }
 
 .bio {
-  min-height: 150px;
+  min-height: 80px;
+}
+
+#user-stats {
+  padding-top: 20px;
 }
 
 /*Input display*/

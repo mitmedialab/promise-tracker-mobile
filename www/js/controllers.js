@@ -5,15 +5,18 @@ angular.module('ptApp.controllers', [])
   $scope.surveyCount = Object.keys($scope.surveys).length;
   $scope.responseCount = Survey.synced.length + Survey.unsynced.length;
   $scope.errorMessage = '';
-  $scope.syncStatus = '';
+  $scope.status = Survey.getStatus();
 
-  $scope.$on('updatestatus', function(){
-    $scope.syncStatus = Survey.syncStatus;
+  $scope.$on('updateStatus', function(){
+    $scope.status = Survey.getStatus();
+    console.log('value of syncing: ' + $scope.status.syncing);
+    console.log('value of needsSync: ' + $scope.status.needsSync());
+    console.log('number of unsynced: ' + (Survey.unsynced.length + Survey.unsyncedImages.length));
   });
 
-  $scope.$on('connectionerror', function(){
+  $scope.$on('connectionError', function(){
     $scope.alertConnectionError();
-    $scope.surveyLoading = false;
+    $scope.syncing = false;
   });
 
   $ionicModal.fromTemplateUrl(
@@ -90,12 +93,6 @@ angular.module('ptApp.controllers', [])
     }
   };
 
-  $scope.needsSync = function(){
-    if (Survey.unsynced.length + Survey.unsyncedImages.length > 0){
-      return true;
-    }
-  };
-
   $scope.syncSurveys = function(){
     Survey.syncResponses();
     Survey.syncImages();
@@ -130,7 +127,7 @@ angular.module('ptApp.controllers', [])
 
   $scope.saveResponse = function(){
     Survey.currentResponse.timestamp = Date.now();
-    Survey.addToUnsynced(Survey.currentResponse);
+    Survey.addResponseToUnsynced(Survey.currentResponse);
     $state.go('home');
   };
 
