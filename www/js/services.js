@@ -2,6 +2,12 @@ angular.module('ptApp.services', [])
 
 .factory('Main', function($rootScope, $http){
   var service = {
+    campaignUrl: 'http://dev.monitor.promisetracker.org/campaigns/',
+
+    getCampaignUrl: function(){
+      return this.campaignUrl;
+    },
+
     interceptResponse: function(data, status){
       if(status == 404){
         $rootScope.$broadcast('connectionError');
@@ -19,7 +25,7 @@ angular.module('ptApp.services', [])
   localStorage['synced'] = localStorage['synced'] || '[]';
 
   var service = {
-    baseUrl: 'http://dev.aggregate.promisetracker.org/',
+    aggregatorUrl: 'http://dev.aggregate.promisetracker.org/',
     surveys: JSON.parse(localStorage['surveys']),
     unsynced: JSON.parse(localStorage['unsynced']),
     synced: JSON.parse(localStorage['synced']),
@@ -35,9 +41,14 @@ angular.module('ptApp.services', [])
       return this.unsynced.length + this.unsyncedImages.length > 0;
     },
 
+    getCampaignId: function(surveyId){
+      var survey = this.surveys[surveyId];
+      return survey.campaign_id;
+    },
+
     fetchSurvey: function(surveyCode, successCallback, errorCallback){
       var self = this;
-      $http.get(this.baseUrl + 'surveys/' + surveyCode)
+      $http.get(this.aggregatorUrl + 'surveys/' + surveyCode)
         .success(function(data){
           if(data.status == 'success'){
             successCallback(data);
@@ -136,7 +147,7 @@ angular.module('ptApp.services', [])
       self.syncing =  true;
       $rootScope.$broadcast('updateStatus');
       $http.post(
-        this.baseUrl + 'responses', 
+        this.aggregatorUrl + 'responses', 
         { response: JSON.stringify(formattedResponse) }
       )
         .success(function(data){
@@ -150,6 +161,7 @@ angular.module('ptApp.services', [])
           }
           self.syncing = false;
           $rootScope.$broadcast('updateStatus');
+          $rootScope.$broadcast('viewMap', self.getCampaignId(response.survey_id));
         })
 
         .error(function(data, status){
@@ -171,7 +183,7 @@ angular.module('ptApp.services', [])
       options.mimeType = "image/jpeg";
       options.params = image;
       var fileTransfer = new FileTransfer();
-      fileTransfer.upload(image.fileLocation, encodeURI(self.baseUrl + 'upload_image'),
+      fileTransfer.upload(image.fileLocation, encodeURI(self.aggregatorUrl + 'upload_image'),
 
         function(){   // upload succeed
           self.removeImageFromUnsynced(image);

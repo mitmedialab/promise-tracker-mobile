@@ -1,6 +1,6 @@
 angular.module('ptApp.controllers', [])
 
-.controller('HomeCtrl', function($scope, $ionicModal, $http, $state, $ionicPopup, $filter, Survey) {
+.controller('HomeCtrl', function($scope, $ionicModal, $http, $state, $ionicPopup, $filter, Survey, Main) {
   $scope.surveys = Survey.surveys;
   $scope.surveyCount = Object.keys($scope.surveys).length;
   $scope.responseCount = Survey.synced.length + Survey.unsynced.length;
@@ -16,16 +16,37 @@ angular.module('ptApp.controllers', [])
 
     if(!$scope.$$phase){
       $scope.$apply(updateSyncStatus);
-      console.log('apply');
     } else {
       updateSyncStatus();
-      console.log('normal');
     }
   });
 
   $scope.$on('connectionError', function(){
     $scope.alertConnectionError();
     $scope.syncing = false;
+  });
+
+  $scope.$on('viewMap', function(scope, campaignId){
+    var mapPopup = $ionicPopup.confirm({
+      title: $filter('translate')('SURVEY_SYNCED'),
+      template: $filter('translate')('VIEW_MAP_TEXT'),
+      buttons: [
+        {
+          text: $filter('translate')('CLOSE')
+        },
+        {
+          text: $filter('translate')('VIEW_MAP'),
+          type: 'button-positive',
+          onTap: function(){ return true; }
+        }
+      ]
+    });
+
+    mapPopup.then(function(res) {
+      if(res) {
+        navigator.app.loadUrl(Main.getCampaignUrl() + campaignId + '/share', {openExternal : true});
+      }
+    });
   });
 
   $ionicModal.fromTemplateUrl(

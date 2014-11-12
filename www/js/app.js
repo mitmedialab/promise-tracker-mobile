@@ -112,6 +112,9 @@ angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'pascal
     'SURVEY_CODE': 'Survey code',
     'GET_SURVEY': 'Get survey',
     'CANCEL': 'Cancel',
+    'CLOSE': 'Close',
+    'VIEW_MAP_TEXT': 'To see the map for this survey, click below',
+    'VIEW_MAP': 'View map',
 
     // User page
     'MY_PROFILE': 'My profile',
@@ -149,7 +152,7 @@ angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'pascal
     'DELETE': 'Delete',
     'UNSYNCED_SURVEYS': 'Unsynced data',
     'SYNCING': 'Syncing',
-    'SURVEY_SYNCED': 'Survey saved',
+    'SURVEY_SYNCED': 'Survey submitted',
     'SYNC_NOW': 'Sync',
     'REQUIRED': 'This question is required',
     'OFFLINE': 'No network connection. Please try again later'
@@ -166,6 +169,9 @@ angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'pascal
     'SURVEY_CODE': 'Código do formulário',
     'GET_SURVEY': 'Baixar formulário',
     'CANCEL': 'Cancelar',
+    'CLOSE': 'Fechar',
+    'VIEW_MAP_TEXT': 'Para ver o mapa para este formulário, clique abaixo',
+    'VIEW_MAP': 'Ver mapa',
 
      // User page
     'MY_PROFILE': 'Meu perfil',
