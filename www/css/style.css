@@ -216,6 +216,10 @@ a, a:visited, .button.button-positive.button-clear {
   margin-left: 20px;
 }
 
+.help-text {
+  margin: 15px 0;
+}
+
 /*User account page*/
 
 #user-info {

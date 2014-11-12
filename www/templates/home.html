@@ -57,6 +57,7 @@
 
     <ion-content>
       <form ng-submit="fetchSurvey(survey)">
+        <p class="center help-text">{{ 'SURVEY_CODE_PROMPT' | translate }}:</p>
         <div class="list">
           <label class="item item-input">
             <input type="number" placeholder="Ex: 56" ng-model="survey.code">
