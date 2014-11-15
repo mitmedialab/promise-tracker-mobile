@@ -2,16 +2,17 @@
   <div class="padding">
     <div class="home-header">
       <h2 class="section-title">{{survey.title}}</h2>
-      <p class="sub-line">{{survey.inputs.length}} {{ 'PROMPTS' | translate : "{NUM: survey.inputs.length}" : "messageformat"}}</p> 
       <hr>
     </div>
-    <p>{{ survey.description }}</p>
-    <br>
-    <p class="center">
-      <strong>{{ 'START_DATE' | translate }}</strong> {{survey.start_date}}
+    <div class="center">
+      <p><strong>{{ 'NUMBER_OF_FIELDS' | translate }}:</strong></p>
+      <p>{{survey.inputs.length}}</p>
       <br>
-    </p>
-    <br>
+      <p><strong>{{ 'START_DATE' | translate }}:</strong></p>
+      <p>{{survey.start_date}}</p>
+      <br>
+      <br>
+    </div>
     <a class="button button-calm button-block" ng-click="startSurvey()">
       {{ 'START_SURVEY' | translate }}
     </a>

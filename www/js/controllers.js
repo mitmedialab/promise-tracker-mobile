@@ -101,7 +101,7 @@ angular.module('ptApp.controllers', [])
   };
 
   $scope.shareSurvey = function(){
-    alert("Select share options....");
+    alert("Convide seus contatos para participar desta campanha...");
   };
 
   $scope.openCodeModal = function(){

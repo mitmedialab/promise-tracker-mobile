@@ -161,7 +161,7 @@ angular.module('ptApp.services', [])
           }
           self.syncing = false;
           $rootScope.$broadcast('updateStatus');
-          $rootScope.$broadcast('viewMap', self.getCampaignId(response.survey_id));
+          $rootScope.$broadcast('viewMap', response.survey_id);
         })
 
         .error(function(data, status){

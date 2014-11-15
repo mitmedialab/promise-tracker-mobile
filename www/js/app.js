@@ -103,6 +103,7 @@ angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'pascal
 .config(['$translateProvider', function ($translateProvider) {
   $translateProvider.translations('en', {
     // Home page
+    'APP_NAME': 'Promise Tracker',
     'MY_SURVEYS': 'My surveys',
     'GREETING': 'Welcome to Promise Tracker!',
     'GET_STARTED': 'To get started, download your first survey',
@@ -115,6 +116,7 @@ angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'pascal
     'GET_SURVEY': 'Get survey',
     'CANCEL': 'Cancel',
     'CLOSE': 'Close',
+    'SHARE': 'Share',
     'VIEW_MAP_TEXT': 'To see the map for this survey, click below',
     'VIEW_MAP': 'View map',
 
@@ -131,6 +133,7 @@ angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'pascal
     'DELETE_SURVEYS': 'Delete all survey forms',
 
     //Survey
+    'NUMBER_OF_FIELDS': 'Number of fields',
     'START_DATE': 'Start date',
     'END_DATE': 'End date',
     'START_SURVEY': 'Start survey',
@@ -162,61 +165,64 @@ angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'pascal
 
   $translateProvider.translations('pt-BR', {
     // Home page
+    'APP_NAME': 'Monitorando a Cidade',
     'MY_SURVEYS': 'Meus formulários',
-    'GREETING': 'Bem-vindo no Promise Tracker!',
-    'GET_STARTED': 'Para começar, baixar seu primeiro formulário',
+    'GREETING': 'Bem-vindo ao Monitorando a Cidade!',
+    'GET_STARTED': 'Para começar, baixe seu primeiro formulário',
     'NEW_SURVEY': 'Baixar novo formulário',
     'PROMPTS': '{NUM, plural, one{campo} other{campos}}',
-    'RESPONSES': '{NUM, plural, one{resposta} other{respostas}}',
+    'RESPONSES': '{NUM, plural, one{registro} other{registros}}',
     'SURVEY_CODE': 'Código do formulário',
-    'SURVEY_CODE_PROMPT': 'Digite o código do formulário abaixo',
+    'SURVEY_CODE_PROMPT': 'Digite o código do formulário',
     'SURVEY_CODE_HELP': "Se não tem um código, fala com o organizador da ação",
     'GET_SURVEY': 'Baixar formulário',
     'CANCEL': 'Cancelar',
     'CLOSE': 'Fechar',
+    'SHARE': 'Compartilhar',
     'VIEW_MAP_TEXT': 'Para ver o mapa para este formulário, clique abaixo',
     'VIEW_MAP': 'Ver mapa',
 
      // User page
     'MY_PROFILE': 'Meu perfil',
-    'USER_INFO': 'Informação do usuario',
+    'USER_INFO': 'Dados do usuario',
     'USERNAME': 'Nome do Usuario',
     'BIO': 'Biografia',
     'ADD_BIO': 'Adicionar biografia',
     'EDIT_BIO': 'Editar usuario & biografia',
     'SAVE': 'Salvar',
     'CAMPAIGNS': '{NUM, plural, one{ação} other{ações}}',
-    'SURVEYS': '{NUM, plural, one{formulário completado} other{formulários completados}}',
+    'SURVEYS': '{NUM, plural, one{registro} other{registros}}',
     'DELETE_SURVEYS': 'Eliminar todos os formulários',
 
     //Survey
-    'START_DATE': 'Data de lançamento',
+    'NUMBER_OF_FIELDS': 'Número de campos neste formulário',
+    'START_DATE': 'Data de lançamento da campanha',
     'END_DATE': 'Data final',
     'START_SURVEY': 'Preencher formulário',
     'NEXT': 'Próximo',
     'BACK': 'Voltar',
     'TAKE_PICTURE': 'Tirar uma foto',
     'GET_LOCATION': 'Obter localização',
-    'CHOOSE_ONE': 'Selecionar uma',
-    'CHOOSE_MANY': 'Selecionar todas que se aplicam',
+    'CHOOSE_ONE': 'Selecione uma',
+    'CHOOSE_MANY': 'Selecione (pode ser mais de uma)',
     'SURVEY_PROGRESS': 'Andamento',
-    'SURVEY_COMPLETE': 'Você completou o formulário!',
-    'SUBMIT_NOW': 'Mandar agora',
-    'SUBMIT_LATER': 'Mandar depois',
-    'CANCEL_AND_DELETE': 'Cancelar e eliminar esta resposta',
+    'SURVEY_COMPLETE': 'Parabéns! Você completou o formulário!',
+    'SUBMIT_NOW': 'Enviar agora',
+    'SUBMIT_LATER': 'Enviar depois',
+    'CANCEL_AND_DELETE': 'Cancelar e eliminar esta registro',
 
     //Errors, Alerts
-    'ENTER_CODE': 'Por favor digite o código do formulário',
-    '12': 'Este formulário não existe. Por favor verifique o código e tente novamente.',
-    'DELETE_RESPONSE': 'Tem certeza que quer eliminar este formulario?',
-    'DELETE_SURVEY': 'Tem certeza que quer eliminar este formulario?',
+    'ENTER_CODE': 'Por favor, digite o código do formulário',
+    '12': 'Este formulário não existe. Por favor, verifique o código e tente novamente.',
+    'DELETE_RESPONSE': 'Tem certeza que quer eliminar este registro?',
+    'DELETE_SURVEY': 'Tem certeza que quer eliminar este formulário?',
     'DELETE': 'Eliminar',
-    'UNSYNCED_SURVEYS': 'Dados sem salvar',
-    'SYNCING': 'Salvando',
-    'SURVEY_SYNCED': 'Formulário salvo',
-    'SYNC_NOW': 'Salvar',
-    'REQUIRED': 'Este campo é obligatório',
-    'OFFLINE': 'Não tem conexão à internete. Por favor tente novament mais tarde.'
+    'UNSYNCED_SURVEYS': 'Dados sem enviar',
+    'SYNCING': 'Enviando',
+    'SURVEY_SYNCED': 'Registro enviado',
+    'SYNC_NOW': 'Enviar',
+    'REQUIRED': 'Este campo é obrigatório',
+    'OFFLINE': 'Sem internet. Por favor, verifique sua conexão.'
   });
 
   $translateProvider.addInterpolation('$translateMessageFormatInterpolation');
