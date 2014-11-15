@@ -4,33 +4,44 @@
       <icon class="ion-clipboard"></icon> {{ 'MY_SURVEYS' | translate }}
       <icon class="ion-plus-circled right new-survey" ng-click="openCodeModal()"></icon>
     </div>
-    <ul class="list">
-      <li class="item" ng-repeat="survey in surveys">
-        <div ng-click="removeTemplate(survey.id)"class="button button-clear right">
-          <icon class="ion-close"></icon>
+    <ion-list id="surveys-list">
+      <ion-item ng-repeat="survey in surveys" item="survey" can-swipe="true">
+        <div class="button button-clear right" ng-click="swipe(survey)">
+          <icon class="ion-chevron-left right"></icon>
         </div>
         <a href="#/surveys/{{survey.id}}/start" class="survey-info">
           <h4 class="survey-title">{{survey.title}}</h4>
           <span class="sub-line">{{countSynced(survey.id)}} {{ 'RESPONSES' | translate : "{NUM: countSynced(survey.id)}" : "messageformat" }}</span>
         </a>
-      </li>
-    </ul>
+
+        <!-- Swipe options -->
+        <ion-option-button class="button button-calm" ng-click="viewMap(survey.id)">
+          <icon class="ion-map"></icon>
+        </ion-option-button>
+        <ion-option-button class="button button-positive" ng-click="shareSurvey(survey.id)">
+          <icon class="ion-share"></icon>
+        </ion-option-button>
+        <ion-option-button class="button button-pink" ng-click="deleteSurvey(survey.id)">
+          <icon class="ion-close"></icon>
+        </ion-option-button>
+      </ion-item>
+    </ion-list>
+
+    <!-- Intro text for new users -->
+    <img src="images/intro-arrow.png" ng-show="surveyCount == 0" class="intro-arrow">
     <div class="padding center subtle" ng-show="surveyCount == 0" id="intro-text">
       <h4>{{ 'GREETING' | translate }}</h4>
       <p class="get-started">{{ 'GET_STARTED' | translate }}</p>
-      <button type="submit" ng-click="openCodeModal()" class="button button-block button-calm"><icon class="ion-plus"></icon> {{ 'NEW_SURVEY' | translate }}</button>
     </div>
-
-
   </ion-content>
   <div class="bar home bar-footer">
-    <div id="status" class="{alert: needsSync}">
+    <div id="status">
       <div ng-show="showSyncingStatus">
         <p>
           <icon class="ion-looping"></icon> {{ 'SYNCING' | translate }}
         </p>
       </div>
-      <div ng-show="showNeedSyncStatus">
+      <div ng-show="!showSyncingStatus && showNeedSyncStatus" class="alert">
         <p>
           <icon class="ion-alert"></icon> {{ 'UNSYNCED_SURVEYS' | translate }}
           <button class="button button-bare sync-button" ng-click="syncSurveys()">{{ 'SYNC_NOW' | translate }}<icon class="ion-loop"></icon></button>

@@ -1,6 +1,6 @@
 angular.module('ptApp.controllers', [])
 
-.controller('HomeCtrl', function($scope, $ionicModal, $http, $state, $ionicPopup, $filter, Survey, Main) {
+.controller('HomeCtrl', function($scope, $ionicModal, $http, $state, $ionicPopup, $filter, $ionicListDelegate, Survey, Main) {
   $scope.surveys = Survey.surveys;
   $scope.surveyCount = Object.keys($scope.surveys).length;
   $scope.responseCount = Survey.synced.length + Survey.unsynced.length;
@@ -24,11 +24,31 @@ angular.module('ptApp.controllers', [])
   $scope.$on('connectionError', function(){
     $scope.alertConnectionError();
     $scope.syncing = false;
+    $scope.surveyLoading = false;
+
+    if(Survey.currentResponse.survey_id !== undefined){
+      Survey.addResponseToUnsynced(Survey.currentResponse);
+    }
   });
 
-  $scope.$on('viewMap', function(scope, campaignId){
+  $scope.$on('viewMap', function(scope, surveyId){
+    $scope.viewMap(surveyId, 'SURVEY_SYNCED');
+  });
+
+  $ionicModal.fromTemplateUrl(
+    'enter-code.html', 
+    function(modal){ $scope.codeModal = modal; }, 
+    {
+      scope: $scope,
+      animation: 'slide-in-up',
+      focusFirstInput: true
+    }
+  );
+
+  $scope.viewMap = function(surveyId, titleText){
+    var campaignId = Survey.getCampaignId(surveyId);
     var mapPopup = $ionicPopup.confirm({
-      title: $filter('translate')('SURVEY_SYNCED'),
+      title: $filter('translate')(titleText),
       template: $filter('translate')('VIEW_MAP_TEXT'),
       buttons: [
         {
@@ -47,17 +67,7 @@ angular.module('ptApp.controllers', [])
         navigator.app.loadUrl(Main.getCampaignUrl() + campaignId + '/share', {openExternal : true});
       }
     });
-  });
-
-  $ionicModal.fromTemplateUrl(
-    'enter-code.html', 
-    function(modal){ $scope.codeModal = modal; }, 
-    {
-      scope: $scope,
-      animation: 'slide-in-up',
-      focusFirstInput: true
-    }
-  );
+  };
 
   $scope.countSynced = function(surveyId){
     var filtered = Survey.synced.filter(function(response){
@@ -66,7 +76,8 @@ angular.module('ptApp.controllers', [])
     return filtered.length;
   };
 
-  $scope.removeTemplate = function(surveyId){
+  $scope.deleteSurvey = function(surveyId){
+    console.log("Delete");
     var confirmPopup = $ionicPopup.confirm({
       template: $filter('translate')('DELETE_SURVEY'),
       buttons: [
@@ -87,6 +98,10 @@ angular.module('ptApp.controllers', [])
         $scope.surveyCount = Object.keys($scope.surveys).length;
       }
     });
+  };
+
+  $scope.shareSurvey = function(){
+    alert("Select share options....");
   };
 
   $scope.openCodeModal = function(){
