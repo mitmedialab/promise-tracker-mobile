@@ -148,12 +148,6 @@ a, a:visited, .button.button-positive.button-clear {
   font-weight: normal;
 }
 
-.survey-footer p {
-  margin-bottom: 0;
-  text-align: center;
-}
-
-
 /*Home page*/
 
 .submission-status {
@@ -283,6 +277,10 @@ a, a:visited, .button.button-positive.button-clear {
 
 /*Input display*/
 
+.has-survey-footer {
+  bottom: 90px;
+}
+
 .image-preview {
   width: 100%;
   height: auto;
@@ -293,6 +291,7 @@ label.select {
   color: grey;
   margin-bottom: 10px;
 }
+
 .survey-header {
   padding: 10px;
   font-size: 22px;
@@ -308,13 +307,18 @@ label.select {
   display: block;
 }
 
-.full-footer {
+.survey-footer {
   display: block;
+  height: 90px;
 }
 
-.full-footer .section-title {
-  font-size: 18px;
-  color: grey;
+.survey-footer p {
+  margin: 5px 0;
+  text-align: center;
+}
+
+.cancel-survey {
+  padding: 5px;
 }
 
 .nav-buttons {
@@ -335,7 +339,7 @@ label.select {
 
 .progress-bar {
   display: block;
-  margin: 10px;
+  margin: 5px;
   border-radius: 4px;
   border: 1px solid #ddd;
   padding: 3px;
