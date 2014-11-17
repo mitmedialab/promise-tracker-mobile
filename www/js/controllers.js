@@ -77,7 +77,6 @@ angular.module('ptApp.controllers', [])
   };
 
   $scope.deleteSurvey = function(surveyId){
-    console.log("Delete");
     var confirmPopup = $ionicPopup.confirm({
       template: $filter('translate')('DELETE_SURVEY'),
       buttons: [
@@ -153,11 +152,13 @@ angular.module('ptApp.controllers', [])
   };
 })
 
-.controller('SurveysCtrl', function($scope, $stateParams, $state, $location, Survey) {
+.controller('SurveysCtrl', function($scope, $stateParams, $state, Survey) {
   $scope.survey = Survey.surveys[$stateParams.surveyId];
+  $scope.locationDisabled = false;
+  $scope.locationStamp = {};
 
   $scope.startSurvey = function(){
-    Survey.queueNewResponse($stateParams.surveyId);
+    Survey.queueNewResponse($stateParams.surveyId, $scope.locationDisabled);
     $state.transitionTo('input', {
       surveyId: $stateParams.surveyId, 
       inputId: Survey.currentResponse.inputs[Survey.currentResponse.activeIndex].id

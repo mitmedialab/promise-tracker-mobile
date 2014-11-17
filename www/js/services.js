@@ -18,7 +18,7 @@ angular.module('ptApp.services', [])
   return service;
 })
 
-.factory('Survey', function($rootScope, $http, $ionicPopup, $state, $filter, Main){
+.factory('Survey', function($rootScope, $http, $ionicPopup, $state, $filter, $location, Main){
   localStorage['surveys'] = localStorage['surveys'] || '{}';
   localStorage['unsynced'] = localStorage['unsynced'] || '[]';
   localStorage['unsyncedImages'] = localStorage['unsyncedImages'] || '[]';
@@ -62,13 +62,23 @@ angular.module('ptApp.services', [])
         });
     },
 
-    queueNewResponse: function(surveyId){
-      this.currentResponse = {
+    queueNewResponse: function(surveyId, locationDisabled){
+      var self = this;
+      self.currentResponse = {
         survey_id: surveyId,
         timestamp: '',
-        inputs: JSON.parse(JSON.stringify(this.surveys[surveyId].inputs)),
+        locationstamp: {},
+        inputs: JSON.parse(JSON.stringify(self.surveys[surveyId].inputs)),
         activeIndex: 0
       };
+
+      if(!locationDisabled){
+        navigator.geolocation.getCurrentPosition(function(position){
+          self.currentResponse.locationstamp.lon = position.coords.longitude;
+          self.currentResponse.locationstamp.lat = position.coords.latitude;
+        });
+      }
+      console.log(self.currentResponse);
     },
 
     addResponseToUnsynced: function(response){
@@ -121,6 +131,7 @@ angular.module('ptApp.services', [])
       var formattedResponse = {
         survey_id: response.survey_id,
         timestamp: response.timestamp,
+        locationstamp: response.locationstamp,
         answers: []
       };
 
