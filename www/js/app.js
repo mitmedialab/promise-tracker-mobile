@@ -119,6 +119,7 @@ angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'pascal
     'SHARE': 'Share',
     'VIEW_MAP_TEXT': 'To see the map for this survey, click below',
     'VIEW_MAP': 'View map',
+    'INVITE_FRIENDS': 'Invite your friends to collect data!',
 
     // User page
     'MY_PROFILE': 'My profile',
@@ -183,6 +184,8 @@ angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'pascal
     'SHARE': 'Compartilhar',
     'VIEW_MAP_TEXT': 'Para ver o mapa para este formulário, clique abaixo',
     'VIEW_MAP': 'Ver mapa',
+    'INVITE_FRIENDS': 'Convide seus contatos para participar desta campanha',
+
 
      // User page
     'MY_PROFILE': 'Meu perfil',

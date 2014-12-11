@@ -21,16 +21,6 @@ angular.module('ptApp.controllers', [])
     }
   });
 
-  // $scope.$on('connectionError', function(){
-  //   $scope.alertConnectionError();
-  //   $scope.syncing = false;
-  //   $scope.surveyLoading = false;
-
-  //   if(Survey.currentResponse.survey_id !== undefined){
-  //     Survey.addResponseToUnsynced(Survey.currentResponse);
-  //   }
-  // });
-
   $scope.$on('viewMap', function(scope, surveyId){
     $scope.viewMap(surveyId, 'SURVEY_SYNCED');
   });
@@ -100,7 +90,7 @@ angular.module('ptApp.controllers', [])
   };
 
   $scope.shareSurvey = function(){
-    alert("Convide seus contatos para participar desta campanha...");
+    alert($filter('translate')('INVITE_FRIENDS'));
   };
 
   $scope.openCodeModal = function(){
