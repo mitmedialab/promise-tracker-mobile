@@ -6,12 +6,12 @@
     </div>
     <ion-list id="surveys-list">
       <ion-item ng-repeat="survey in surveys" item="survey" can-swipe="true">
-        <div class="button button-clear right" ng-click="swipe(survey)">
-          <icon class="ion-chevron-left right"></icon>
-        </div>
+        <a class="button button-clear right" href="#/surveys/{{survey.id}}/start">
+          <icon class="ion-edit right"></icon>
+        </a>
         <a href="#/surveys/{{survey.id}}/start" class="survey-info">
           <h4 class="survey-title">{{survey.title}}</h4>
-          <span class="sub-line">{{countSynced(survey.id)}} {{ 'RESPONSES' | translate : "{NUM: countSynced(survey.id)}" : "messageformat" }}</span>
+          <span class="sub-line">({{countSynced(survey.id)}} {{ 'RESPONSES' | translate : "{NUM: countSynced(survey.id)}" : "messageformat" }})</span>
         </a>
 
         <!-- Swipe options -->

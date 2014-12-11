@@ -1,12 +1,12 @@
 <ion-content class="has-header has-footer">
   <div class="padding">
-    <div class="home-header">
-      <h2 class="section-title">{{survey.title}}</h2>
-      <hr>
+    <div class="home-header border-bottom">
+      <h2 class="section-title">{{survey.title}}</h2> 
     </div>
+    <br><br>
     <div class="center">
-      <p><strong>{{ 'NUMBER_OF_FIELDS' | translate }}:</strong></p>
-      <p>{{survey.inputs.length}}</p>
+      <p><strong>{{ 'DESCRIPTION' | translate }}:</strong></p>
+      <p>{{survey.description}}</p>
       <br>
       <p><strong>{{ 'START_DATE' | translate }}:</strong></p>
       <p>{{survey.start_date}}</p>
@@ -26,9 +26,9 @@
 
   </div>
 </ion-content>
-<div class="bar bar-footer">
-  <div class="padding center">
-    <a href="#/home" class="subtle">
+<div class="bar bar-footer cancel-survey">
+  <div class="center">
+    <a href="#/home" class="subtle button-cancel">
       <icon class="ion-close"></icon> {{ 'CANCEL' | translate }}
     </a>
   </div>

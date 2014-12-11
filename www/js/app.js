@@ -109,7 +109,7 @@ angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'pascal
     'GET_STARTED': 'To get started, download your first survey',
     'NEW_SURVEY': 'Get new survey',
     'PROMPTS': '{NUM, plural, one{prompt} other{prompts}}',
-    'RESPONSES': '{NUM, plural, one{response} other{responses}}',
+    'RESPONSES': '{NUM, plural, one{response} other{responses}} so far',
     'SURVEY_CODE': 'Survey code',
     'SURVEY_CODE_PROMPT': 'Enter your survey code below',
     'SURVEY_CODE_HELP': "If you don't have a code, talk with the campaign organizer",
@@ -133,6 +133,7 @@ angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'pascal
     'DELETE_SURVEYS': 'Delete all survey forms',
 
     //Survey
+    'DESCRIPTION': 'Description',
     'NUMBER_OF_FIELDS': 'Number of fields',
     'START_DATE': 'Start date',
     'END_DATE': 'End date',
@@ -143,7 +144,8 @@ angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'pascal
     'GET_LOCATION': 'Record location',
     'CHOOSE_ONE': 'Select one',
     'CHOOSE_MANY': 'Select all that apply',
-    'SURVEY_PROGRESS': 'Survey',
+    'YOUR_ANSWER': 'Your answer here...',
+    'SURVEY_PROGRESS': 'Survey progress',
     'SURVEY_COMPLETE': 'You have completed the survey!',
     'SUBMIT_NOW': 'Submit now',
     'SUBMIT_LATER': 'Submit later',
@@ -195,6 +197,7 @@ angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'pascal
     'DELETE_SURVEYS': 'Eliminar todos os formulários',
 
     //Survey
+    'DESCRIPTION': 'Descrição',
     'NUMBER_OF_FIELDS': 'Número de campos neste formulário',
     'START_DATE': 'Data de lançamento da campanha',
     'END_DATE': 'Data final',
@@ -205,11 +208,12 @@ angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'pascal
     'GET_LOCATION': 'Obter localização',
     'CHOOSE_ONE': 'Selecione uma',
     'CHOOSE_MANY': 'Selecione (pode ser mais de uma)',
+    'YOUR_ANSWER': 'Sua resposta aqui...',
     'SURVEY_PROGRESS': 'Andamento',
     'SURVEY_COMPLETE': 'Parabéns! Você completou o formulário!',
     'SUBMIT_NOW': 'Enviar agora',
     'SUBMIT_LATER': 'Enviar depois',
-    'CANCEL_AND_DELETE': 'Cancelar e eliminar esta registro',
+    'CANCEL_AND_DELETE': 'Cancelar e eliminar este registro',
 
     //Errors, Alerts
     'ENTER_CODE': 'Por favor, digite o código do formulário',
@@ -226,5 +230,5 @@ angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'pascal
   });
 
   $translateProvider.addInterpolation('$translateMessageFormatInterpolation');
-  $translateProvider.preferredLanguage('pt-BR');
+  $translateProvider.preferredLanguage('en');
 }]);

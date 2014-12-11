@@ -1,13 +1,8 @@
 <ion-view title="Promise Tracker">
   <ion-content class="has-header has-survey-footer">
-    <div class="padding nav-buttons">
-      <button ng-if="index > 0" class="left button button-calm icon-left ion-chevron-left" ng-click="previousPrompt()">{{ 'BACK' | translate }}</button>
-      <button class="right button button-calm icon-right ion-chevron-right" ng-click="nextPrompt(input)">{{ 'NEXT' | translate }} </button>  
-    </div>
     <div class="padding">
-      <div class="home-header">
+      <div class="home-header border-bottom">
         <h2 class="section-title">{{survey.title}}</h2> 
-        <hr>
       </div>
     </div>
 
@@ -22,14 +17,14 @@
 
       <!-- Image -->
       <div ng-if="input.input_type=='image'">
-        <a class="item item-icon-left assertive" ng-click="getImage()">
+        <a class="item no-border item-icon-left assertive" ng-click="getImage()">
           <i class="icon ion-ios7-camera"></i> {{ 'TAKE_PICTURE' | translate }}<br>
         </a>
         <img class="image-preview" ng-src="{{input.answer}}"/>
       </div>
 
       <!-- Location -->
-      <a ng-if="input.input_type=='location'" class="item item-icon-left assertive" ng-click="getLocation()">
+      <a ng-if="input.input_type=='location'" class="item item-icon-left assertive no-border" ng-click="getLocation()">
         <i class="icon ion-ios7-location"></i>
         {{ 'GET_LOCATION' | translate }}
         <p class="light" ng-if="input.msg && input.msg !== ''"><icon class="ion-loading-c"></icon> {{input.msg}}</p>
@@ -38,7 +33,7 @@
 
       <!-- Text -->
       <label ng-if="input.input_type=='text'" class="item item-input">
-        <input type="text" placeholder="Your answer..." autofocus ng-model="input.answer">
+        <input type="text" placeholder="{{ 'YOUR_ANSWER' | translate }}" autofocus ng-model="input.answer">
       </label>
 
       <!-- Number -->
@@ -82,15 +77,16 @@
     </div>
   </ion-content>
 
-  <div class="bar bar-footer survey-footer"> 
-    <div></div><p>{{ 'SURVEY_PROGRESS' | translate }}</p>
+  <div class="bar bar-footer survey-footer">
     <div class="progress-bar">
       <div class="progress" style="width: {{((index + 1) / survey.inputs.length) * 100}}%"></div>
     </div>
-    <div class="cancel-survey center">
-      <div class="subtle" ng-click="cancelResponse()">
-        <icon class="ion-close"></icon> {{ 'CANCEL_AND_DELETE' | translate }}
-      </div>
-    </div>
+    <div class="padding nav-buttons">
+      <button ng-if="index > 0" class="left button button-calm icon-left ion-chevron-left" ng-click="previousPrompt()">{{ 'BACK' | translate }}</button>
+      <button class="subtle button-cancel" ng-click="cancelResponse()">
+        <icon class="ion-close"></icon> {{ 'CANCEL' | translate }}
+      </button>
+      <button class="right button button-calm icon-right ion-chevron-right" ng-click="nextPrompt(input)">{{ 'NEXT' | translate }} </button>  
+    </div> 
   </div>
 </ion-view>

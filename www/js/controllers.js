@@ -21,15 +21,15 @@ angular.module('ptApp.controllers', [])
     }
   });
 
-  $scope.$on('connectionError', function(){
-    $scope.alertConnectionError();
-    $scope.syncing = false;
-    $scope.surveyLoading = false;
+  // $scope.$on('connectionError', function(){
+  //   $scope.alertConnectionError();
+  //   $scope.syncing = false;
+  //   $scope.surveyLoading = false;
 
-    if(Survey.currentResponse.survey_id !== undefined){
-      Survey.addResponseToUnsynced(Survey.currentResponse);
-    }
-  });
+  //   if(Survey.currentResponse.survey_id !== undefined){
+  //     Survey.addResponseToUnsynced(Survey.currentResponse);
+  //   }
+  // });
 
   $scope.$on('viewMap', function(scope, surveyId){
     $scope.viewMap(surveyId, 'SURVEY_SYNCED');
