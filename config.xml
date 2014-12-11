@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="com.ionicframework.starter" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>PromiseTracker</name>
+    <name>Promise Tracker</name>
     <description>
         A mobile data collection app for civic action.
     </description>
@@ -25,4 +25,13 @@
     <feature name="InAppBrowser">
         <param name="android-package" value="org.apache.cordova.InAppBrowser" />
     </feature>
+
+    <!--     App icons -->
+    <platform name="android">
+      <icon src="icons/android/icon-192.png" width="192" height="192" />
+      <icon src="icons/android/icon-144.png" width="144" height="144" />
+      <icon src="icons/android/icon-96.png" width="96" height="96" />
+      <icon src="icons/android/icon-72.png" width="72" height="72" />
+      <icon src="icons/android/icon-48.png" width="48" height="48" />
+    </platform>
 </widget>
