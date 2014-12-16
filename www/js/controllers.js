@@ -217,14 +217,13 @@ angular.module('ptApp.controllers', [])
     if(input.required == true){
       switch(input.input_type){
         case "location":
-          return input.answer && input.answer.lat;
+          return input.answer && input.answer.lat && input.answer.lon;
           break;
         case "select":
-        case "select1":
           return input.answer.filter(function(i) { return i == true;}).length > 0
           break;
         default:
-          return input.answer && input.answer.length > 0;
+          return input.answer && String(input.answer).length > 0;
           break;
       }
       return false;
