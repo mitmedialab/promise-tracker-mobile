@@ -1,16 +1,15 @@
-<ion-content class="has-header has-footer">
+<ion-content class="has-header has-footer" overflow-scroll="true">
   <div class="padding">
     <div class="home-header border-bottom">
       <h2 class="section-title">{{survey.title}}</h2> 
     </div>
-    <br><br>
+    <br>
     <div class="center">
-      <p><strong>{{ 'DESCRIPTION' | translate }}:</strong></p>
-      <p>{{survey.description}}</p>
+      <p><strong>{{ 'NUMBER_OF_FIELDS' | translate }}:</strong></p>
+      <p>{{survey.inputs.length}}</p>
       <br>
       <p><strong>{{ 'START_DATE' | translate }}:</strong></p>
       <p>{{survey.start_date}}</p>
-      <br>
       <br>
     </div>
     <!-- <div class="center" id="location-permission">
@@ -20,6 +19,10 @@
         Record without location
       </label>
     </div> -->
+    <div ng-show="{{survey.status === 'test'}}" class="test-warning test-explanation center">
+      <icon class="ion-wrench"></icon><br>
+      <p class="pad-top">This version of the survey is for testing only. No data will be stored.</p>
+    </div>
     <a class="button button-calm button-block" ng-click="startSurvey()">
       {{ 'START_SURVEY' | translate }}
     </a>

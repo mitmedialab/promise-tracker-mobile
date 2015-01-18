@@ -1,5 +1,5 @@
 <ion-view title="Promise Tracker">
-  <ion-content class="has-header has-home-footer">
+  <ion-content class="has-header has-home-footer" overflow-scroll="true">
     <div class="section-title home-header">
       <icon class="ion-clipboard"></icon> {{ 'MY_SURVEYS' | translate }}
       <icon class="ion-plus-circled right new-survey" ng-click="openCodeModal()"></icon>
@@ -11,15 +11,14 @@
         </a>
         <a href="#/surveys/{{survey.id}}/start" class="survey-info">
           <h4 class="survey-title">{{survey.title}}</h4>
-          <span class="sub-line">({{countSynced(survey.id)}} {{ 'RESPONSES' | translate : "{NUM: countSynced(survey.id)}" : "messageformat" }})</span>
+          <h6 class="test-warning" ng-show="{{survey.status === 'test'}}"><icon class="ion-wrench"></icon> {{ 'TESTING_ONLY' | translate}}</h4>
+
+          <span class="sub-line" ng-show="{{survey.status !== 'test'}}">({{countSynced(survey.id)}} {{ 'RESPONSES' | translate : "{NUM: countSynced(survey.id)}" : "messageformat" }})</span>
         </a>
 
         <!-- Swipe options -->
         <ion-option-button class="button button-calm" ng-click="viewMap(survey.id)">
           <icon class="ion-map"></icon>
-        </ion-option-button>
-        <ion-option-button class="button button-positive" ng-click="shareSurvey(survey.id)">
-          <icon class="ion-share"></icon>
         </ion-option-button>
         <ion-option-button class="button button-pink" ng-click="deleteSurvey(survey.id)">
           <icon class="ion-close"></icon>
@@ -43,7 +42,7 @@
       </div>
       <div ng-show="!showSyncingStatus && showNeedSyncStatus" class="alert">
         <p>
-          <icon class="ion-alert"></icon> {{ 'UNSYNCED_SURVEYS' | translate }}
+          <icon class="ion-alert"></icon> {{unsynced}} {{ 'UNSYNCED_SURVEYS' | translate : "{NUM: unsynced}" : "messageformat" }}
           <button class="button button-bare sync-button" ng-click="syncSurveys()">{{ 'SYNC_NOW' | translate }}<icon class="ion-loop"></icon></button>
         </p>
       </div>

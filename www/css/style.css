@@ -120,6 +120,10 @@ a, a:visited, .button.button-positive.button-clear {
   border-bottom: 1px solid #ccc;
 }
 
+.pad-top {
+  padding-top: 10px;
+}
+
 .error-message {
   color: #ea7669;
   background-color: #f2dede;
@@ -136,6 +140,10 @@ a, a:visited, .button.button-positive.button-clear {
   padding: 15px;
   text-align: center;
   margin: 10px 0;
+}
+
+.has-footer {
+  bottom: 60px;
 }
 
 /*Index page*/
@@ -188,6 +196,24 @@ a, a:visited, .button.button-positive.button-clear {
   color: #66c6ba;
   font-weight: normal;
   font-size: 1.2em !important;
+  line-height: 1.3em;
+}
+
+.test-warning {
+  color: #c15d56;
+  line-height: 1.3em;
+}
+
+.test-explanation {
+  background: #f9f0ef;
+  border-radius: 3px;
+  padding: 20px;
+  margin: 10px 0;
+}
+
+.test-explanation icon {
+  font-size: 200%;
+  margin-bottom: 10px;
 }
 
 #intro-text {

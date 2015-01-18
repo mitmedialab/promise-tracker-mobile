@@ -5,6 +5,7 @@ angular.module('ptApp.controllers', [])
   $scope.surveyCount = Object.keys($scope.surveys).length;
   $scope.responseCount = Survey.synced.length + Survey.unsynced.length;
   $scope.errorMessage = '';
+  $scope.unsynced = Survey.unsynced.length + Survey.unsyncedImages.length;
   $scope.showNeedSyncStatus = Survey.hasUnsyncedItems();
   $scope.showSyncingStatus = Survey.isSyncing();
 
@@ -22,7 +23,9 @@ angular.module('ptApp.controllers', [])
   });
 
   $scope.$on('viewMap', function(scope, surveyId){
-    $scope.viewMap(surveyId, 'SURVEY_SYNCED');
+    if($scope.unsynced === 0){
+      $scope.viewMap(surveyId, 'SURVEY_SYNCED');
+    }
   });
 
   $ionicModal.fromTemplateUrl(
