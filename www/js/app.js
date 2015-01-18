@@ -134,9 +134,8 @@ angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'pascal
     'DELETE_SURVEYS': 'Delete all survey forms',
 
     //Survey
-    'DESCRIPTION': 'Description',
-    'NUMBER_OF_FIELDS': 'Number of fields',
-    'START_DATE': 'Start date',
+    'NUMBER_OF_FIELDS': 'Total number of prompts',
+    'START_DATE': 'Date this survey was launched',
     'END_DATE': 'End date',
     'START_SURVEY': 'Start survey',
     'NEXT': 'Next',
@@ -154,6 +153,7 @@ angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'pascal
 
     //Errors, Alerts
     'ENTER_CODE': 'Please enter a survey code',
+    'CODE_LENGTH': 'The survey code should be a total of 6 numbers.',
     '12': 'Survey not found. Please check code and try again.',
     'DELETE_RESPONSE': "Are you sure you want to delete this reponse? All data will be lost.",
     'DELETE_SURVEY': "Are you sure you want to delete this survey?",
@@ -200,7 +200,6 @@ angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'pascal
     'DELETE_SURVEYS': 'Eliminar todos os formulários',
 
     //Survey
-    'DESCRIPTION': 'Descrição',
     'NUMBER_OF_FIELDS': 'Número de campos neste formulário',
     'START_DATE': 'Data de lançamento da campanha',
     'END_DATE': 'Data final',
@@ -220,6 +219,7 @@ angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'pascal
 
     //Errors, Alerts
     'ENTER_CODE': 'Por favor, digite o código do formulário',
+    'CODE_LENGTH': 'O código do formulário deve ser 6 números',
     '12': 'Este formulário não existe. Por favor, verifique o código e tente novamente.',
     'DELETE_RESPONSE': 'Tem certeza que quer eliminar este registro?',
     'DELETE_SURVEY': 'Tem certeza que quer eliminar este formulário?',
