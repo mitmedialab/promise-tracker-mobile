@@ -170,9 +170,11 @@ angular.module('ptApp.services', [])
           } else {
             self.addResponseToUnsynced(response);
           }
-          self.syncing = false;
-          $rootScope.$broadcast('updateStatus');
-          $rootScope.$broadcast('viewMap', response.survey_id);
+          if(self.unsynced.length + self.unsyncedImages.length == 0) {
+            self.syncing = false;
+            $rootScope.$broadcast('updateStatus');
+            $rootScope.$broadcast('viewMap', response.survey_id);
+          }
         })
 
         .error(function(data, status){
