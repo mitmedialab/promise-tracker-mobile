@@ -104,7 +104,9 @@ angular.module('ptApp.controllers', [])
 
   $scope.fetchSurvey = function(survey){
 
-    var success = function(data){
+    var success, error, sanitizedCode;
+
+    success = function(data){
       Survey.surveys[data.payload.id] = data.payload;
       Survey.surveys[data.payload.id].start_date = new Date(data.payload.start_date).toLocaleDateString();
       localStorage['surveys'] = JSON.stringify(Survey.surveys);
@@ -114,14 +116,20 @@ angular.module('ptApp.controllers', [])
       $state.go($state.current, {}, {reload: true});
     };
 
-    var error = function(error_code){
+    error = function(error_code){
       $scope.surveyLoading = false;
       $scope.errorMessage = (error_code.toString());
     };
 
     if(survey && survey.code){
-      $scope.surveyLoading = true;
-        Survey.fetchSurvey(survey.code, success, error);
+      sanitizedCode = survey.code.toString().replace(/-/, '');
+
+      if(sanitizedCode.length === 6){
+        $scope.surveyLoading = true;
+        Survey.fetchSurvey(sanitizedCode, success, error);
+      } else {
+        $scope.errorMessage = 'CODE_LENGTH';
+      }
     } else {
       $scope.errorMessage = 'ENTER_CODE';
     }

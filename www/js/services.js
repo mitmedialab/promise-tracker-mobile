@@ -2,7 +2,7 @@ angular.module('ptApp.services', [])
 
 .factory('Main', function($rootScope, $http){
   var service = {
-    campaignUrl: 'http://dev.monitor.promisetracker.org/campaigns/',
+    campaignUrl: 'http://monitor.promisetracker.org/campaigns/',
 
     getCampaignUrl: function(){
       return this.campaignUrl;
@@ -25,7 +25,7 @@ angular.module('ptApp.services', [])
   localStorage['synced'] = localStorage['synced'] || '[]';
 
   var service = {
-    aggregatorUrl: 'http://dev.aggregate.promisetracker.org/',
+    aggregatorUrl: 'http://aggregate.promisetracker.org/',
     surveys: JSON.parse(localStorage['surveys']),
     unsynced: JSON.parse(localStorage['unsynced']),
     synced: JSON.parse(localStorage['synced']),
