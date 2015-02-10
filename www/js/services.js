@@ -1,31 +1,37 @@
-angular.module('ptApp.services', [])
+angular.module('ptApp.services', ['ptConfig'])
 
-.factory('Main', function($rootScope, $http){
+.factory('Main', function($rootScope, $http, PT_CONFIG){
+
   var service = {
-    campaignUrl: 'http://monitor.promisetracker.org/campaigns/',
-
-    getCampaignUrl: function(){
-      return this.campaignUrl;
-    },
 
     interceptResponse: function(data, status){
       if(status == 404){
         $rootScope.$broadcast('connectionError');
       }
+    },
+
+    setInstallationId: function(aggregatorUrl){
+      $http.get(aggregatorUrl + 'getId')
+      .success(function(response){
+        localStorage['installationId'] = response['payload']['installation_id'];
+      });
     }
+  }
+
+  if(!localStorage['installationId']){
+    service.setInstallationId(PT_CONFIG.aggregatorUrl);
   }
 
   return service;
 })
 
-.factory('Survey', function($rootScope, $http, $ionicPopup, $state, $filter, $location, Main){
+.factory('Survey', function($rootScope, $http, $ionicPopup, $state, $filter, $location, PT_CONFIG){
   localStorage['surveys'] = localStorage['surveys'] || '{}';
   localStorage['unsynced'] = localStorage['unsynced'] || '[]';
   localStorage['unsyncedImages'] = localStorage['unsyncedImages'] || '[]';
   localStorage['synced'] = localStorage['synced'] || '[]';
 
   var service = {
-    aggregatorUrl: 'http://aggregate.promisetracker.org/',
     surveys: JSON.parse(localStorage['surveys']),
     unsynced: JSON.parse(localStorage['unsynced']),
     synced: JSON.parse(localStorage['synced']),
@@ -48,7 +54,7 @@ angular.module('ptApp.services', [])
 
     fetchSurvey: function(surveyCode, successCallback, errorCallback){
       var self = this;
-      $http.get(this.aggregatorUrl + 'surveys/' + surveyCode)
+      $http.get(PT_CONFIG.aggregatorUrl + 'surveys/' + surveyCode)
         .success(function(data){
           if(data.status == 'success'){
             successCallback(data);
@@ -65,8 +71,10 @@ angular.module('ptApp.services', [])
     queueNewResponse: function(surveyId, locationDisabled){
       var self = this;
       self.currentResponse = {
+        installationId: localStorage['installationId'],
         survey_id: surveyId,
-        timestamp: '',
+        status: self.surveys[surveyId].status,
+        timestamp: Date.now(),
         locationstamp: {},
         inputs: JSON.parse(JSON.stringify(self.surveys[surveyId].inputs)),
         activeIndex: 0
@@ -130,6 +138,7 @@ angular.module('ptApp.services', [])
     formatResponse: function(response){
       var formattedResponse = {
         survey_id: response.survey_id,
+        status: response.status,
         timestamp: response.timestamp,
         locationstamp: response.locationstamp,
         answers: []
@@ -158,14 +167,14 @@ angular.module('ptApp.services', [])
       self.syncing =  true;
       $rootScope.$broadcast('updateStatus');
       $http.post(
-        this.aggregatorUrl + 'responses', 
+        PT_CONFIG.aggregatorUrl + 'responses', 
         { response: JSON.stringify(formattedResponse) }
       )
         .success(function(data){
           if(data['status'] == 'success'){
             response.id = data.payload.id;
             self.removeResponseFromUnsynced(response);
-            self.addResponseToSynced(response);
+            self.addResponseToSynced(formattedResponse);
             self.addImageToUnsynced(response);
           } else {
             self.addResponseToUnsynced(response);

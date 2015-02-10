@@ -1,0 +1,5 @@
+angular.module('ptConfig', [])
+.constant('PT_CONFIG', {
+  aggregatorUrl: 'http://my-aggregator.com/',
+  campaignUrl: 'http://survey-builder.com/campaigns/'
+});

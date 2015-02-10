@@ -1,6 +1,6 @@
-angular.module('ptApp.controllers', [])
+angular.module('ptApp.controllers', ['ptConfig'])
 
-.controller('HomeCtrl', function($scope, $ionicModal, $http, $state, $ionicPopup, $filter, $ionicListDelegate, Survey, Main) {
+.controller('HomeCtrl', function($scope, $ionicModal, $http, $state, $ionicPopup, $filter, $ionicListDelegate, Survey, PT_CONFIG) {
   $scope.surveys = Survey.surveys;
   $scope.surveyCount = Object.keys($scope.surveys).length;
   $scope.responseCount = Survey.synced.length + Survey.unsynced.length;
@@ -23,7 +23,7 @@ angular.module('ptApp.controllers', [])
   });
 
   $scope.$on('viewMap', function(scope, surveyId){
-    if($scope.unsynced === 0){
+    if($scope.unsynced === 0 && surveys[surveyId].status != 'test'){
       $scope.viewMap(surveyId, 'SURVEY_SYNCED');
     }
   });
@@ -57,14 +57,14 @@ angular.module('ptApp.controllers', [])
 
     mapPopup.then(function(res) {
       if(res) {
-        navigator.app.loadUrl(Main.getCampaignUrl() + campaignId + '/share', {openExternal : true});
+        navigator.app.loadUrl(PT_CONFIG.campaignUrl + campaignId + '/share', {openExternal : true});
       }
     });
   };
 
   $scope.countSynced = function(surveyId){
     var filtered = Survey.synced.filter(function(response){
-      return response.survey_id == surveyId;
+      return response.survey_id == surveyId && Survey.surveys[surveyId].status != 'test';
     });
     return filtered.length;
   };
@@ -173,7 +173,6 @@ angular.module('ptApp.controllers', [])
   };
 
   $scope.saveResponse = function(){
-    Survey.currentResponse.timestamp = Date.now();
     Survey.addResponseToUnsynced(Survey.currentResponse);
     $state.go('home');
   };
@@ -277,7 +276,7 @@ angular.module('ptApp.controllers', [])
 
 .controller('UsersCtrl', function($scope, $stateParams, $state, $location, $ionicModal, Survey, User) {
   $scope.surveys = Object.keys(Survey.surveys);
-  $scope.responses = Survey.synced;
+  $scope.responses = Survey.synced.filter(function(response){return response.status != 'test'});
   $scope.user = User.user;
 
   $ionicModal.fromTemplateUrl(
