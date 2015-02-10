@@ -274,10 +274,10 @@ angular.module('ptApp.controllers', ['ptConfig'])
   }
 })
 
-.controller('UsersCtrl', function($scope, $stateParams, $state, $location, $ionicModal, Survey, User) {
+.controller('UsersCtrl', function($scope, $stateParams, $state, $location, $ionicModal, Survey, Main) {
   $scope.surveys = Object.keys(Survey.surveys);
   $scope.responses = Survey.synced.filter(function(response){return response.status != 'test'});
-  $scope.user = User.user;
+  $scope.user = Main.user;
 
   $ionicModal.fromTemplateUrl(
     'user-info.html', 
@@ -303,7 +303,7 @@ angular.module('ptApp.controllers', ['ptConfig'])
   };
 
   $scope.updateUser = function(){
-    User.updateInfo();
+    Main.updateUserInfo();
     $scope.userModal.hide();
   };
 });

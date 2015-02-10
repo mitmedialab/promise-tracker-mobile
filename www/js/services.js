@@ -1,8 +1,10 @@
 angular.module('ptApp.services', ['ptConfig'])
 
 .factory('Main', function($rootScope, $http, PT_CONFIG){
+  localStorage['user'] = localStorage['user'] || '{}';
 
   var service = {
+    user: JSON.parse(localStorage['user']),
 
     interceptResponse: function(data, status){
       if(status == 404){
@@ -15,6 +17,10 @@ angular.module('ptApp.services', ['ptConfig'])
       .success(function(response){
         localStorage['installationId'] = response['payload']['installation_id'];
       });
+    },
+    
+    updateUserInfo: function(){
+      localStorage['user'] = JSON.stringify(this.user);
     }
   }
 
@@ -260,17 +266,3 @@ angular.module('ptApp.services', ['ptConfig'])
 
   return service;
 })
-
-.factory('User', function($rootScope){
-  localStorage['user'] = localStorage['user'] || '{}';
-
-  var service = {
-    user: JSON.parse(localStorage['user']),
-
-    updateInfo: function(){
-      localStorage['user'] = JSON.stringify(this.user);
-    }
-  }
-
-  return service;
-});
