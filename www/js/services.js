@@ -18,7 +18,7 @@ angular.module('ptApp.services', ['ptConfig'])
         localStorage['installationId'] = response['payload']['installation_id'];
       });
     },
-    
+
     updateUserInfo: function(){
       localStorage['user'] = JSON.stringify(this.user);
     }
@@ -77,8 +77,8 @@ angular.module('ptApp.services', ['ptConfig'])
     queueNewResponse: function(surveyId, locationDisabled){
       var self = this;
       self.currentResponse = {
-        installationId: localStorage['installationId'],
-        survey_id: surveyId,
+        installation_id: localStorage['installationId'],
+        survey_Id: surveyId,
         status: self.surveys[surveyId].status,
         timestamp: Date.now(),
         locationstamp: {},
@@ -143,7 +143,8 @@ angular.module('ptApp.services', ['ptConfig'])
 
     formatResponse: function(response){
       var formattedResponse = {
-        survey_id: response.survey_id,
+        installation_id: localStorage.installationId,
+        survey_id: response.surveyId,
         status: response.status,
         timestamp: response.timestamp,
         locationstamp: response.locationstamp,

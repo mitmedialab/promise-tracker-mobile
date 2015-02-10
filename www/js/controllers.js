@@ -23,7 +23,7 @@ angular.module('ptApp.controllers', ['ptConfig'])
   });
 
   $scope.$on('viewMap', function(scope, surveyId){
-    if($scope.unsynced === 0 && surveys[surveyId].status != 'test'){
+    if($scope.unsynced === 0 && $scope.surveys[surveyId].status != 'test'){
       $scope.viewMap(surveyId, 'SURVEY_SYNCED');
     }
   });
