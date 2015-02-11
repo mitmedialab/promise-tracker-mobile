@@ -1,5 +1,6 @@
 angular.module('ptConfig', [])
 .constant('PT_CONFIG', {
+  accessKey: 'aggregator access key'
   aggregatorUrl: 'http://my-aggregator.com/',
   campaignUrl: 'http://survey-builder.com/campaigns/'
 });
