@@ -167,7 +167,6 @@ angular.module('ptApp.controllers', ['ptConfig'])
   };
 
   $scope.submitResponse = function(){
-    Survey.currentResponse.timestamp = Date.now();
     Survey.syncResponse(Survey.currentResponse);
     $state.go('home');
   };

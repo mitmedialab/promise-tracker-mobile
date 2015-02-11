@@ -59,11 +59,6 @@ angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'pascal
   });
 })
 
-.constant('PT_CONFIG', {
-  aggregatorUrl: 'http://192.168.1.22:9292/',
-  campaignUrl: 'http://monitor.promisetracker.org/campaigns/'
-})
-
 .config(function($stateProvider, $urlRouterProvider) {
 
   // Ionic uses AngularUI Router which uses the concept of states

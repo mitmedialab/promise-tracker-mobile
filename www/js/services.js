@@ -31,7 +31,7 @@ angular.module('ptApp.services', ['ptConfig'])
   return service;
 })
 
-.factory('Survey', function($rootScope, $http, $ionicPopup, $state, $filter, $location, PT_CONFIG){
+.factory('Survey', function($rootScope, $http, $ionicPopup, $state, $filter, $location, PT_CONFIG, Main){
   localStorage['surveys'] = localStorage['surveys'] || '{}';
   localStorage['unsynced'] = localStorage['unsynced'] || '[]';
   localStorage['unsyncedImages'] = localStorage['unsyncedImages'] || '[]';
@@ -78,7 +78,7 @@ angular.module('ptApp.services', ['ptConfig'])
       var self = this;
       self.currentResponse = {
         installation_id: localStorage['installationId'],
-        survey_Id: surveyId,
+        survey_id: surveyId,
         status: self.surveys[surveyId].status,
         timestamp: Date.now(),
         locationstamp: {},
@@ -144,7 +144,7 @@ angular.module('ptApp.services', ['ptConfig'])
     formatResponse: function(response){
       var formattedResponse = {
         installation_id: localStorage.installationId,
-        survey_id: response.surveyId,
+        survey_id: response.survey_id,
         status: response.status,
         timestamp: response.timestamp,
         locationstamp: response.locationstamp,
