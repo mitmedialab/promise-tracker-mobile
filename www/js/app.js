@@ -1,5 +1,6 @@
-angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'pascalprecht.translate'], function($httpProvider){
-  $httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
+angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'pascalprecht.translate', 'ptConfig'], function($httpProvider, PT_CONFIG){
+    $httpProvider.defaults.headers.common['Authorization'] = PT_CONFIG.accessKey;
+    $httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
 
   /**
    * The workhorse; converts an object to x-www-form-urlencoded serialization.
