@@ -57,7 +57,7 @@ angular.module('ptApp.controllers', ['ptConfig'])
 
     mapPopup.then(function(res) {
       if(res) {
-        navigator.app.loadUrl(PT_CONFIG.campaignUrl + campaignId + '/share', {openExternal : true});
+        navigator.app.loadUrl(PT_CONFIG.campaignUrl + campaignId + '/share?map', {openExternal : true});
       }
     });
   };

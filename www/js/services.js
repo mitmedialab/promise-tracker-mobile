@@ -211,8 +211,9 @@ angular.module('ptApp.services', ['ptConfig'])
       options.fileName = image.fileLocation.substr(image.fileLocation.lastIndexOf('/') + 1);
       options.mimeType = "image/jpeg";
       options.params = image;
+      options.headers = { 'Authorization': PT_CONFIG.accessKey };
       var fileTransfer = new FileTransfer();
-      fileTransfer.upload(image.fileLocation, encodeURI(self.aggregatorUrl + 'upload_image'),
+      fileTransfer.upload(image.fileLocation, encodeURI(PT_CONFIG.aggregatorUrl + 'upload_image'),
 
         function(){   // upload succeed
           self.removeImageFromUnsynced(image);
