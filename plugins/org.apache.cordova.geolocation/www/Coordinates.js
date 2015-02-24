@@ -22,7 +22,7 @@
 /**
  * This class contains position information.
  * @param {Object} lat
- * @param {Object} lon
+ * @param {Object} lng
  * @param {Object} alt
  * @param {Object} acc
  * @param {Object} head
@@ -30,7 +30,7 @@
  * @param {Object} altacc
  * @constructor
  */
-var Coordinates = function(lat, lon, alt, acc, head, vel, altacc) {
+var Coordinates = function(lat, lng, alt, acc, head, vel, altacc) {
     /**
      * The latitude of the position.
      */
@@ -38,7 +38,7 @@ var Coordinates = function(lat, lon, alt, acc, head, vel, altacc) {
     /**
      * The longitude of the position,
      */
-    this.longitude = lon;
+    this.longitude = lng;
     /**
      * The accuracy of the position.
      */

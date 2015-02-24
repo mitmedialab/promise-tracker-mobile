@@ -43,6 +43,8 @@ angular.module('ptApp.services', ['ptConfig'])
     synced: JSON.parse(localStorage['synced']),
     unsyncedImages: JSON.parse(localStorage['unsyncedImages']),
     currentResponse: {},
+    currentSyncItemTotal: 0,
+    currentSyncPercentage: 0,
     syncing: false,
 
     isSyncing: function(){
@@ -109,6 +111,19 @@ angular.module('ptApp.services', ['ptConfig'])
         this.unsynced.splice(index, 1);
         localStorage['unsynced'] = JSON.stringify(this.unsynced);
       }
+    },
+
+    refreshSyncItemCount: function(){
+      this.currentSyncItemTotal = this.unsyncedImages.length + this.unsynced.length;
+    },
+
+    getSyncMessage: function(){
+      var itemsToGo = this.unsyncedImages.length + this.unsynced.length;
+      var message = (this.currentSyncItemTotal-itemsToGo+1) + '/' + this.currentSyncItemTotal;
+      if(this.currentSyncPercentage > 0 && this.currentSyncPercentage < 100){
+        message += " " + this.currentSyncPercentage + "%";
+      }
+      return message;
     },
 
     addImageToUnsynced: function(response){
@@ -191,6 +206,8 @@ angular.module('ptApp.services', ['ptConfig'])
             $rootScope.$broadcast('updateStatus');
             $rootScope.$broadcast('viewMap', response.survey_id);
           }
+          self.refreshSyncItemCount();
+          self.syncResponses();
         })
 
         .error(function(data, status){
@@ -213,17 +230,26 @@ angular.module('ptApp.services', ['ptConfig'])
       options.params = image;
       options.headers = { 'Authorization': PT_CONFIG.accessKey };
       var fileTransfer = new FileTransfer();
+      fileTransfer.onprogress = function(result){
+           var percent =  result.loaded / result.total * 100;
+           percent = Math.round(percent);
+           self.currentSyncPercentage = percent;
+           $rootScope.$broadcast('updateStatus');
+      };
       fileTransfer.upload(image.fileLocation, encodeURI(PT_CONFIG.aggregatorUrl + 'upload_image'),
 
         function(){   // upload succeed
           self.removeImageFromUnsynced(image);
           self.syncing = false;
           $rootScope.$broadcast('updateStatus');
+          self.syncImages();
+          self.currentSyncPercentage = 0;
         }, 
 
         function(error){   // upload failed
           // TODO: notify user of image upload failure
           Main.interceptResponse(data, status);
+          self.currentSyncPercentage = 0;
           self.syncing =false;
           $rootScope.$broadcast('updateStatus');
         }, options);
@@ -231,16 +257,16 @@ angular.module('ptApp.services', ['ptConfig'])
 
     syncResponses: function(){
       var self = this;
-      self.unsynced.forEach(function(response){
-        self.syncResponse(response);
-      })
+      if(self.unsynced.length>0){
+        self.syncResponse(self.unsynced[0]);
+      }
     },
 
     syncImages: function(){
       var self = this;
-      self.unsyncedImages.forEach(function(image){
-        self.syncImage(image);
-      })
+      if(self.unsyncedImages.length>0){
+        self.syncImage(self.unsyncedImages[0]);
+      }
     },
 
     cancelResponse: function() {
