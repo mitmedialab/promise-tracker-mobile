@@ -263,7 +263,7 @@ angular.module('ptApp.controllers', ['ptConfig'])
       Survey.currentResponse.activeIndex -= 1;
       $state.go('input', {
         surveyId: $stateParams.surveyId, 
-        inputId: Survey.currentResponse.inputs[Survey.currentResponse.activeIndex.id]
+        inputId: Survey.currentResponse.inputs[Survey.currentResponse.activeIndex].id
       });
     }
   };

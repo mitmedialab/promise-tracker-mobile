@@ -124,6 +124,18 @@ a, a:visited, .button.button-positive.button-clear {
   padding-top: 10px;
 }
 
+.padding {
+  padding: 10px 30px;
+}
+
+button.icon-left.pad-right:before {
+  padding-right: 10px !important;
+}
+
+button.icon-right.pad-left:before {
+  padding-left: 10px !important;
+}
+
 .error-message {
   color: #ea7669;
   background-color: #f2dede;
@@ -136,10 +148,14 @@ a, a:visited, .button.button-positive.button-clear {
   color: #ea7669;
 }
 
-.home-header {
-  padding: 15px;
+.survey-header, .home-header {
+  padding: 5px 0 15px 0;
   text-align: center;
   margin: 10px 0;
+}
+
+.home-header {
+  padding: 15px;
 }
 
 .has-footer {
@@ -149,14 +165,19 @@ a, a:visited, .button.button-positive.button-clear {
 /*Index page*/
 
 .branding img {
-  width: 25px;
-  height: auto;
+  height: 28px;
+  width: auto;
   margin-left: 20px;
+}
+
+.branding .title {
+  padding-top: 4px;
 }
 
 .bar-header {
   background: #5a5a5e;
-  padding: 8px;
+  padding: 12px 8px;
+  height: 52px;
 }
 
 .title {
@@ -169,6 +190,10 @@ a, a:visited, .button.button-positive.button-clear {
 .submission-status {
   width: 100%;
   font-size: 16px;
+}
+
+.has-header {
+  top: 52px;
 }
 
 .has-home-footer {
@@ -231,7 +256,7 @@ a, a:visited, .button.button-positive.button-clear {
 }
 
 .new-survey {
-  font-size: 1.6em;
+  font-size: 1.5em;
   margin-top: -5px;
 }
 
@@ -326,10 +351,11 @@ label.select {
   margin-bottom: 10px;
 }
 
-.survey-header {
-  padding: 10px;
-  font-size: 22px;
-  background: rgba(10, 10, 10, .3) !important;
+.top-cancel-button {
+  position: absolute;
+  top: 15px;
+  right: 25px;
+  color: #808085;
 }
 
 .prompt-card {

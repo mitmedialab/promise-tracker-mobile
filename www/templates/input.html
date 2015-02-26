@@ -1,9 +1,10 @@
 <ion-view title="Promise Tracker">
   <ion-content class="has-header has-survey-footer" overflow-scroll="true">
     <div class="padding">
-      <div class="home-header border-bottom">
+      <div class="survey-header border-bottom">
         <h2 class="section-title">{{survey.title}}</h2> 
       </div>
+      <icon class="ion-close top-cancel-button" ng-click="cancelResponse()"></icon>
     </div>
 
     <div class="padding prompt-card">
@@ -82,11 +83,8 @@
       <div class="progress" style="width: {{((index + 1) / survey.inputs.length) * 100}}%"></div>
     </div>
     <div class="padding nav-buttons">
-      <button ng-if="index > 0" class="left button button-calm icon-left ion-chevron-left" ng-click="previousPrompt()">{{ 'BACK' | translate }}</button>
-      <button class="subtle button-cancel" ng-click="cancelResponse()">
-        <icon class="ion-close"></icon> {{ 'CANCEL' | translate }}
-      </button>
-      <button class="right button button-calm icon-right ion-chevron-right" ng-click="nextPrompt(input)">{{ 'NEXT' | translate }} </button>  
+      <button ng-if="index > 0" class="left button button-calm icon-left ion-chevron-left pad-right" ng-click="previousPrompt()">{{ 'BACK' | translate }}</button>
+      <button class="right button button-calm icon-right ion-chevron-right pad-left" ng-click="nextPrompt(input)">{{ 'NEXT' | translate }} </button>  
     </div> 
   </div>
 </ion-view>

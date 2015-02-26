@@ -7,13 +7,13 @@
     <ion-list id="surveys-list">
       <ion-item ng-repeat="survey in surveys" item="survey" can-swipe="true">
         <a class="button button-clear right" href="#/surveys/{{survey.id}}/start">
-          <icon class="ion-edit right"></icon>
+          <icon class="ion-chevron-right right"></icon>
         </a>
         <a href="#/surveys/{{survey.id}}/start" class="survey-info">
           <h4 class="survey-title">{{survey.title}}</h4>
           <h6 class="test-warning" ng-show="{{survey.status === 'test'}}"><icon class="ion-wrench"></icon> {{ 'TESTING_ONLY' | translate}}</h4>
 
-          <span class="sub-line" ng-show="{{survey.status !== 'test'}}">({{countSynced(survey.id)}} {{ 'RESPONSES' | translate : "{NUM: countSynced(survey.id)}" : "messageformat" }})</span>
+          <span class="sub-line" ng-show="{{survey.status !== 'test'}}">{{ 'RESPONSES' | translate : "{NUM: countSynced(survey.id)}" : "messageformat" }}</span>
         </a>
 
         <!-- Swipe options -->
@@ -58,6 +58,7 @@
   </div>
 </ion-view>
 
+<!-- Enter code modal -->
 <script id="enter-code.html" type="text/ng-template">
   <div class="modal">
     <ion-header-bar class="bar-secondary">

@@ -109,7 +109,7 @@ angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'pascal
     'GREETING': 'Welcome to Promise Tracker!',
     'GET_STARTED': 'To get started, download your first survey',
     'NEW_SURVEY': 'Get new survey',
-    'RESPONSES': '{NUM, plural, one{response} other{responses}} so far',
+    'RESPONSES': "You've responded {NUM, plural, one{once} other{ {NUM} times}}",
     'TESTING_ONLY': 'For testing only',
     'SURVEY_CODE': 'Survey code',
     'SURVEY_CODE_PROMPT': 'Enter your survey code below',

@@ -1,12 +1,9 @@
 <ion-view title="Promise Tracker">
   <ion-content class="has-header has-footer" overflow-scroll="true">
-    <div class="padding nav-buttons">
-      <button class="left button button-calm icon-left ion-chevron-left" ng-click="backToSurvey()">{{ 'BACK' | translate }}</button>
-    </div> 
     <div class="padding center">
-      <div class="home-header">
+      <div class="survey-header border-bottom">
         <h2 class="section-title">{{survey.title}}</h2> 
-        <hr>
+        <icon class="ion-close top-cancel-button" ng-click="cancelResponse()"></icon>
       </div>
     
       <p>{{ 'SURVEY_COMPLETE' |  translate }}</p>
@@ -20,11 +17,12 @@
       </p>
     </div>
   </ion-content>
-  <div class="bar bar-footer">
-    <a class="subtle" ng-click="cancelResponse()">
-      <div class="padding center">
-        <icon class="ion-close"></icon> {{ 'CANCEL_AND_DELETE' | translate }}
-      </div>
-    </a>
+  <div class="bar bar-footer survey-footer">
+    <div class="progress-bar">
+      <div class="progress" style="width: 100%"></div>
+    </div>
+    <div class="padding nav-buttons">
+      <button class="left button button-calm icon-left ion-chevron-left pad-right" ng-click="backToSurvey()">  {{ 'BACK' | translate }}</button>
+    </div> 
   </div>
 </ion-view>
