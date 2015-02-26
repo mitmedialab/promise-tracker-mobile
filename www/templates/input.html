@@ -34,7 +34,7 @@
 
       <!-- Text -->
       <label ng-if="input.input_type=='text'" class="item item-input">
-        <input type="text" placeholder="{{ 'YOUR_ANSWER' | translate }}" autofocus ng-model="input.answer">
+        <textarea rows="5" autofocus ng-model="input.answer"></textarea>
       </label>
 
       <!-- Number -->

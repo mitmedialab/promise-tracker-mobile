@@ -99,6 +99,9 @@ angular.module('ptApp.controllers', ['ptConfig'])
 
   $scope.openCodeModal = function(){
     $scope.codeModal.show();
+    window.setTimeout(function(){
+      cordova.plugins.Focus.focus(document.querySelector("input"));
+    }, 200);
   };
 
   $scope.closeCodeModal = function(){

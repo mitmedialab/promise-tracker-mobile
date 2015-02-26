@@ -353,8 +353,8 @@ label.select {
 
 .top-cancel-button {
   position: absolute;
-  top: 15px;
-  right: 25px;
+  top: 10px;
+  right: 15px;
   color: #808085;
 }
 
@@ -441,4 +441,11 @@ label.select {
   color: #ea7669;
   margin-top: 10px;
   padding-left: 20px;
+}
+
+.enter-code-input input {
+  font-size: 20px;
+  text-align: center;
+  padding: 20px;
+  line-height: 20px;
 }
