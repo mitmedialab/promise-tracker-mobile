@@ -13,6 +13,7 @@ angular.module('ptApp.controllers', ['ptConfig'])
     var updateSyncStatus = function(){
       $scope.showNeedSyncStatus = Survey.hasUnsyncedItems();
       $scope.showSyncingStatus = Survey.isSyncing();
+      $scope.syncMessage = Survey.getSyncMessage();
     }
 
     if(!$scope.$$phase){
@@ -139,6 +140,7 @@ angular.module('ptApp.controllers', ['ptConfig'])
   };
 
   $scope.syncSurveys = function(){
+    Survey.refreshSyncItemCount();
     Survey.syncResponses();
     Survey.syncImages();
   };
