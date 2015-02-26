@@ -50,7 +50,7 @@
       <!-- Select one -->
       <div ng-if="input.input_type=='select1'" class="list answer-list">
         <label class="select">{{ 'CHOOSE_ONE' | translate}}:</label>
-        <ul>
+        <ul class="wrap">
           <li ng-repeat="option in input.options">
             <label class="item item-radio">
               <input type="radio" name="input.id" value="{{option}}" ng-model="input.answer" checked="input.answer == option">
@@ -66,7 +66,7 @@
       <!-- Select many -->
       <div ng-if="input.input_type=='select'" class="list">
         <label class="select">{{ 'CHOOSE_MANY' | translate}}:</label>
-        <ul>
+        <ul class="wrap">
           <li class="item item-checkbox" ng-repeat="option in input.options">
             <label class="checkbox">
               <input type="checkbox" ng-model="input.answer[$index]" checked="input.answer[$index]">

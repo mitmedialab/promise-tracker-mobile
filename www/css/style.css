@@ -237,7 +237,7 @@ button.icon-right.pad-left:before {
 }
 
 .test-explanation icon {
-  font-size: 200%;
+  font-size: 150%;
   margin-bottom: 10px;
 }
 
@@ -448,4 +448,8 @@ label.select {
   text-align: center;
   padding: 20px;
   line-height: 20px;
+}
+
+.wrap .item-content {
+  white-space: normal !important;
 }
