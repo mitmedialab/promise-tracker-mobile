@@ -201,7 +201,7 @@ angular.module('ptApp.services', ['ptConfig'])
           } else {
             self.addResponseToUnsynced(response);
           }
-          if(self.unsynced.length + self.unsyncedImages.length <= 1) {
+          if(self.unsynced.length + self.unsyncedImages.length == 0) {
             self.syncing = false;
             $rootScope.$broadcast('updateStatus');
             $rootScope.$broadcast('viewMap', response.survey_id);

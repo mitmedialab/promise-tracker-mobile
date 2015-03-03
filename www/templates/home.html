@@ -37,7 +37,7 @@
     <div id="status">
       <div ng-show="showSyncingStatus">
         <p>
-          <icon class="ion-looping"></icon> {{ 'SYNCING' | translate }} ({{syncMessage}})
+          <icon class="ion-looping"></icon> {{ 'SYNCING' | translate }} <!-- ({{syncMessage}}) -->
         </p>
       </div>
       <div ng-show="!showSyncingStatus && showNeedSyncStatus" class="alert">
