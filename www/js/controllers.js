@@ -21,6 +21,7 @@ angular.module('ptApp.controllers', ['ptConfig'])
     } else {
       updateSyncStatus();
     }
+    $state.go($state.current, {}, {reload: true});
   });
 
   $scope.$on('viewMap', function(scope, surveyId){
@@ -64,10 +65,10 @@ angular.module('ptApp.controllers', ['ptConfig'])
   };
 
   $scope.countSynced = function(surveyId){
-    var filtered = Survey.synced.filter(function(response){
+    var completed = Survey.synced.concat(Survey.unsynced).filter(function(response){
       return response.survey_id == surveyId && Survey.surveys[surveyId].status != 'test';
     });
-    return filtered.length;
+    return completed.length;
   };
 
   $scope.deleteSurvey = function(surveyId){
