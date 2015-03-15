@@ -66,14 +66,14 @@ angular.module('ptApp.controllers', ['ptConfig'])
 
   $scope.countSynced = function(surveyId){
     var completed = Survey.synced.concat(Survey.unsynced).filter(function(response){
-      return response.survey_id == surveyId && Survey.surveys[surveyId].status != 'test';
+      return response.survey_id == surveyId && response.status != 'test';
     });
     return completed.length;
   };
 
   $scope.deleteSurvey = function(surveyId){
     var confirmPopup = $ionicPopup.confirm({
-      template: $filter('translate')('DELETE_SURVEY'),
+      template: $filter('translate')('DELETE_CAMPAIGN'),
       buttons: [
         {
           text: $filter('translate')('CANCEL')
@@ -102,7 +102,7 @@ angular.module('ptApp.controllers', ['ptConfig'])
     $scope.codeModal.show();
     window.setTimeout(function(){
       cordova.plugins.Focus.focus(document.querySelector("input"));
-    }, 200);
+    }, 150);
   };
 
   $scope.closeCodeModal = function(){

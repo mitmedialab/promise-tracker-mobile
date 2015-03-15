@@ -5,26 +5,22 @@
     </div>
     <br>
     <div class="center">
-      <p><strong>{{ 'NUMBER_OF_FIELDS' | translate }}:</strong></p>
-      <p>{{survey.inputs.length}}</p>
-      <br>
       <p><strong>{{ 'START_DATE' | translate }}:</strong></p>
       <p>{{survey.start_date}}</p>
       <br>
     </div>
-    <!-- <div class="center" id="location-permission">
-      <p>Location information will be recorded upon starting this survey. To complete the form without location, check below:</p>
+    <div class="center" id="location-permission">
       <label class="checkbox">
         <input type="checkbox" ng-model="locationDisabled" checked="locationPermitted">
-        Record without location
+        {{ 'LOCATION_CONSENT' | translate }}
       </label>
-    </div> -->
+    </div>
     <div ng-show="{{survey.status === 'test'}}" class="test-warning test-explanation center">
       <icon class="ion-wrench"></icon><br>
-      <p class="pad-top">This version of the survey is for testing only. No data will be stored.</p>
+      <p class="pad-top">{{ 'TEST_DESCRIPTION' | translate }}</p>
     </div>
     <a class="button button-calm button-block" ng-click="startSurvey()">
-      {{ 'START_SURVEY' | translate }}
+      {{ 'START_RESPONSE' | translate }}
     </a>
 
   </div>

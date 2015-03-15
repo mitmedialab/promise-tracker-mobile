@@ -23,14 +23,17 @@ a, a:visited, .button.button-positive.button-clear {
   font-size: 1.3em;
 }
 
+.small {
+  font-size: .9em;
+}
+
 .bar-grey {
   background: #333;
 }
 
-.nav-menu {
+.nav-menu, .nav-menu {
   height: 60px !important;
   background: #353535;
-  display: flex !important;
 }
 
 .nav-menu a, .nav-menu a:visited, .nav-menu button {
@@ -54,6 +57,7 @@ a, a:visited, .button.button-positive.button-clear {
 .bar-menu a {
   padding-bottom: 5px;
   margin: 0 auto;
+  width: 50%;
 }
 
 .button {
@@ -207,6 +211,11 @@ button.icon-right.pad-left:before {
   display: block;
   border-color: transparent;
   background-image: none;
+}
+
+.user.bar-footer {
+  height: 60px;
+  padding: 0px;
 }
 
 #surveys-list .item-content {

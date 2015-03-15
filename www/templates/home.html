@@ -1,7 +1,7 @@
 <ion-view title="Promise Tracker">
   <ion-content class="has-header has-home-footer" overflow-scroll="true">
     <div class="section-title home-header">
-      <icon class="ion-clipboard"></icon> {{ 'MY_SURVEYS' | translate }}
+      <icon class="ion-clipboard"></icon> {{ 'MY_CAMPAIGNS' | translate }}
       <icon class="ion-plus-circled right new-survey" ng-click="openCodeModal()"></icon>
     </div>
     <ion-list id="surveys-list">
@@ -30,6 +30,7 @@
     <img src="images/intro-arrow.png" ng-show="surveyCount == 0" class="intro-arrow">
     <div class="padding center subtle" ng-show="surveyCount == 0" id="intro-text">
       <h4>{{ 'GREETING' | translate }}</h4>
+      <p class="get-started">{{ 'APP_DESCRIPTION' | translate }}</p>
       <p class="get-started">{{ 'GET_STARTED' | translate }}</p>
     </div>
   </ion-content>
@@ -42,7 +43,7 @@
       </div>
       <div ng-show="!showSyncingStatus && showNeedSyncStatus" class="alert">
         <p>
-          <icon class="ion-alert"></icon> {{unsynced}} {{ 'UNSYNCED_SURVEYS' | translate : "{NUM: unsynced}" : "messageformat" }}
+          {{ 'UNSYNCED_RESPONSES' | translate : "{NUM: countSynced(survey.id)}" : "messageformat" }}
           <button class="button button-bare sync-button" ng-click="syncSurveys()">{{ 'SYNC_NOW' | translate }}<icon class="ion-loop"></icon></button>
         </p>
       </div>
@@ -62,13 +63,13 @@
 <script id="enter-code.html" type="text/ng-template">
   <div class="modal">
     <ion-header-bar class="bar-secondary">
-      <h1 class=title>{{ 'SURVEY_CODE' | translate }}</h1>
+      <h1 class=title>{{ 'CAMPAIGN_CODE' | translate }}</h1>
       <button type="submit" class="button button-clear button-positive" ng-click="closeCodeModal(survey)">{{ 'CANCEL' | translate }}</button>
     </ion-header-bar>
 
     <ion-content>
       <form ng-submit="fetchSurvey(survey)">
-        <p class="center help-text">{{ 'SURVEY_CODE_PROMPT' | translate }}:</p>
+        <p class="center help-text">{{ 'CAMPAIGN_CODE_PROMPT' | translate }}:</p>
         <div class="list">
           <label class="item item-input enter-code-input">
             <input type="tel" placeholder="Ex: 568-237" auto-focus ng-model="survey.code">
@@ -80,10 +81,13 @@
         <div class="padding">
           <button type="submit" class="button button-block button-calm">
             <icon ng-if="surveyLoading" class="ion-loading-c"></icon>
-            <span ng-if="!surveyLoading">{{ 'GET_SURVEY' | translate }}</span>
+            <span ng-if="!surveyLoading">{{ 'GET_CAMPAIGN' | translate }}</span>
           </button>
         </div>
       </form>
+      <div class="padding subtle small center">
+        <p class="get-started">{{ 'CODE_TIP' | translate }}</p>
+      </div>
     </ion-content>
   </div>
 </script>
