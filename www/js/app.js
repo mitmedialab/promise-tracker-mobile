@@ -108,7 +108,7 @@ angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'pascal
     'MY_CAMPAIGNS': 'My surveys',
     'GREETING': 'Welcome to Promise Tracker!',
     'GET_STARTED': 'To get started, download your first survey',
-    'RESPONSES': "{NUM, plural, one{You've responded once} 0{Get started on your first response!} other{You've responded {NUM} times}}",
+    'RESPONSES_TO_DATE': "{NUM, plural, one{You've responded once} 0{Get started on your first response!} other{You've responded {NUM} times}}",
     'TESTING_ONLY': 'Testing copy',
     'CAMPAIGN_CODE': 'Survey code',
     'CAMPAIGN_CODE_PROMPT': 'Enter your survey code below',
@@ -128,8 +128,7 @@ angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'pascal
     'ADD_BIO': 'Add bio',
     'EDIT_BIO': 'Edit',
     'SAVE': 'Save',
-    'CAMPAIGNS': '{NUM, plural, one{data collection campaign} other{data collection campaigns}}',
-    'CAMPAIGNS': '{NUM, plural, one{survey} other{surveys}} completed',
+    'RESPONSES': '{NUM, plural, one{survey} other{surveys}} completed',
 
     //Survey
     'NUMBER_OF_FIELDS': 'Total number of prompts',
@@ -173,7 +172,7 @@ angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'pascal
     'APP_DESCRIPTION': 'Com este aplicativo você poderá participar de campanhas de coleta de dados criadas no módulo Web.',
     'GET_STARTED': 'Para começar, adicione sua primeira campanha!',
     'CODE_TIP': 'Toda campanha tem um código associado a ela. Obtenha o código com os organizadores da campanha ou crie sua própria campanha no módulo Web.',
-    'RESPONSES': "{NUM, plural, one{Você já completou um registro} 0{Preencha seu primeiro registro!} other{Você já completou {NUM} registros}}",
+    'RESPONSES_TO_DATE': "{NUM, plural, one{Você já completou um registro} 0{Preencha seu primeiro registro!} other{Você já completou {NUM} registros}}",
     'TESTING_ONLY': 'Versão de teste',
     'CAMPAIGN_CODE': 'Baixar campanha',
     'CAMPAIGN_CODE_PROMPT': 'Digite o código da campanha',
@@ -193,8 +192,7 @@ angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'pascal
     'ADD_BIO': 'Adicionar biografia',
     'EDIT_BIO': 'Editar',
     'SAVE': 'Salvar',
-    'CAMPAIGNS': '{NUM, plural, one{ação} other{ações}}',
-    'CAMPAIGNS': '{NUM, plural, one{registro} other{registros}}',
+    'RESPONSES': '{NUM, plural, one{registro} other{registros}}',
 
     //Survey
     'NUMBER_OF_FIELDS': 'Número de campos neste registro',

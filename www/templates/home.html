@@ -13,7 +13,7 @@
           <h4 class="survey-title">{{survey.title}}</h4>
           <h6 class="test-warning" ng-show="{{survey.status === 'test'}}"><icon class="ion-wrench"></icon> {{ 'TESTING_ONLY' | translate}}</h4>
 
-          <span class="sub-line" ng-show="{{survey.status !== 'test'}}">{{ 'RESPONSES' | translate : "{NUM: countSynced(survey.id)}" : "messageformat" }}</span>
+          <span class="sub-line" ng-show="{{survey.status !== 'test'}}">{{ 'RESPONSES_TO_DATE' | translate : "{NUM: countSynced(survey.id)}" : "messageformat" }}</span>
         </a>
 
         <!-- Swipe options -->

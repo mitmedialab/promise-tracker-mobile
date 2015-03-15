@@ -194,6 +194,7 @@ angular.module('ptApp.services', ['ptConfig'])
     syncResponse: function(response){
       var self = this;
       var formattedResponse = self.formatResponse(response);
+      self.addResponseToUnsynced(response);
       self.syncing =  true;
       $rootScope.$broadcast('updateStatus');
       $http.post(
@@ -206,8 +207,6 @@ angular.module('ptApp.services', ['ptConfig'])
             self.removeResponseFromUnsynced(response);
             self.addResponseToSynced(formattedResponse);
             self.addImageToUnsynced(response);
-          } else {
-            self.addResponseToUnsynced(response);
           }
           if(self.unsynced.length + self.unsyncedImages.length == 0) {
             self.syncing = false;
@@ -246,8 +245,10 @@ angular.module('ptApp.services', ['ptConfig'])
       };
       fileTransfer.upload(image.fileLocation, encodeURI(PT_CONFIG.aggregatorUrl + 'upload_image'),
 
-        function(){   // upload succeed
-          self.removeImageFromUnsynced(image);
+        function(result){   // upload succeed
+          if(typeof result.response != 'undefined'){
+            self.removeImageFromUnsynced(image);
+          }
           self.syncing = false;
           $rootScope.$broadcast('updateStatus');
           self.syncImages();
@@ -256,7 +257,6 @@ angular.module('ptApp.services', ['ptConfig'])
 
         function(error){   // upload failed
           // TODO: notify user of image upload failure
-          Main.interceptResponse(data, status);
           self.currentSyncPercentage = 0;
           self.syncing =false;
           $rootScope.$broadcast('updateStatus');
