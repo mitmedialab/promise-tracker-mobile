@@ -27,6 +27,14 @@ a, a:visited, .button.button-positive.button-clear {
   font-size: .9em;
 }
 
+.popup {
+  background-color: white;
+}
+
+.no-border {
+  border: 0px solid transparent;
+}
+
 .bar-grey {
   background: #333;
 }
@@ -304,6 +312,12 @@ button.icon-right.pad-left:before {
   font-size: 1.3em;
 }
 
+/*Response start page*/
+
+#location-consent {
+  margin-top: 60px;
+}
+
 /*User account page*/
 
 #user-info {
@@ -365,6 +379,7 @@ label.select {
   top: 10px;
   right: 15px;
   color: #808085;
+  padding: 10px 20px;
 }
 
 .prompt-card {
@@ -459,6 +474,6 @@ label.select {
   line-height: 20px;
 }
 
-.wrap .item-content {
+.wrap .item-content, .wrap {
   white-space: normal !important;
 }

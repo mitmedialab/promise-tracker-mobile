@@ -72,7 +72,7 @@
         <p class="center help-text">{{ 'CAMPAIGN_CODE_PROMPT' | translate }}:</p>
         <div class="list">
           <label class="item item-input enter-code-input">
-            <input type="tel" placeholder="Ex: 568-237" auto-focus ng-model="survey.code">
+            <input type="tel" auto-focus ng-model="survey.code" ui-mask="999-999">
           </label>
         </div>
         <div ng-if="errorMessage.length > 0" class="padding error-message">

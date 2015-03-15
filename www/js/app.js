@@ -1,4 +1,4 @@
-angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'pascalprecht.translate', 'ptConfig'], function($httpProvider, PT_CONFIG){
+angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'pascalprecht.translate', 'ptConfig', 'ui.mask'], function($httpProvider, PT_CONFIG){
     $httpProvider.defaults.headers.common['Authorization'] = PT_CONFIG.accessKey;
     $httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
 
@@ -197,7 +197,7 @@ angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'pascal
     'CAMPAIGNS': '{NUM, plural, one{registro} other{registros}}',
 
     //Survey
-    'NUMBER_OF_FIELDS': 'Número de campos neste formulário',
+    'NUMBER_OF_FIELDS': 'Número de campos neste registro',
     'START_DATE': 'Data de lançamento desta campanha',
     'END_DATE': 'Data final',
     'TEST_DESCRIPTION': 'Esta é uma versão de teste. Os dados não serão salvos.',
@@ -228,7 +228,7 @@ angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'pascal
     'RESPONSE_SYNCED': 'Registro enviado',
     'SYNC_NOW': 'Enviar',
     'REQUIRED': 'Este campo é obrigatório',
-    'OFFLINE': 'Sem internet. Por favor, verifique sua conexão.'
+    'OFFLINE': 'Sem internet. Por favor, verifique sua conexão e tente novamente.'
   });
 
   $translateProvider.addInterpolation('$translateMessageFormatInterpolation');

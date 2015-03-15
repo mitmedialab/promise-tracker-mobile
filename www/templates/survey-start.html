@@ -5,15 +5,13 @@
     </div>
     <br>
     <div class="center">
-      <p><strong>{{ 'START_DATE' | translate }}:</strong></p>
-      <p>{{survey.start_date}}</p>
-      <br>
+      <p><strong>{{ 'NUMBER_OF_FIELDS' | translate }}:</strong></p>
+      <p>{{survey.inputs.length}}</p>
     </div>
-    <div class="center" id="location-permission">
-      <label class="checkbox">
-        <input type="checkbox" ng-model="locationDisabled" checked="locationPermitted">
+    <div class="center" id="location-consent">
+      <ion-checkbox ng-model="responseSettings.locationConsent" class="wrap no-border">
         {{ 'LOCATION_CONSENT' | translate }}
-      </label>
+      </ion-checkbox>
     </div>
     <div ng-show="{{survey.status === 'test'}}" class="test-warning test-explanation center">
       <icon class="ion-wrench"></icon><br>

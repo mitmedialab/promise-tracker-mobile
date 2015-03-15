@@ -21,6 +21,14 @@ angular.module('ptApp.services', ['ptConfig'])
 
     updateUserInfo: function(){
       localStorage['user'] = JSON.stringify(this.user);
+    },
+
+    confirmInternetConnection: function(successCallback){
+      if(window.Connection && navigator.connection.type !== Connection.NONE) {
+        successCallback();  
+      } else {
+        $rootScope.$broadcast('connectionError');
+      }
     }
   }
 
@@ -76,7 +84,7 @@ angular.module('ptApp.services', ['ptConfig'])
         });
     },
 
-    queueNewResponse: function(surveyId, locationDisabled){
+    queueNewResponse: function(surveyId, locationConsent){
       var self = this;
       self.currentResponse = {
         installation_id: localStorage['installationId'],
@@ -88,7 +96,7 @@ angular.module('ptApp.services', ['ptConfig'])
         activeIndex: 0
       };
 
-      if(!locationDisabled){
+      if(locationConsent){
         navigator.geolocation.getCurrentPosition(function(position){
           self.currentResponse.locationstamp.lon = position.coords.longitude;
           self.currentResponse.locationstamp.lat = position.coords.latitude;

@@ -1,6 +1,6 @@
 angular.module('ptApp.controllers', ['ptConfig'])
 
-.controller('HomeCtrl', function($scope, $ionicModal, $http, $state, $ionicPopup, $filter, $ionicListDelegate, Survey, PT_CONFIG) {
+.controller('HomeCtrl', function($scope, $ionicModal, $http, $state, $ionicPopup, $filter, $ionicListDelegate, Survey, PT_CONFIG, Main) {
   $scope.surveys = Survey.surveys;
   $scope.surveyCount = Object.keys($scope.surveys).length;
   $scope.responseCount = Survey.synced.length + Survey.unsynced.length;
@@ -8,6 +8,15 @@ angular.module('ptApp.controllers', ['ptConfig'])
   $scope.unsynced = Survey.unsynced.length + Survey.unsyncedImages.length;
   $scope.showNeedSyncStatus = Survey.hasUnsyncedItems();
   $scope.showSyncingStatus = Survey.isSyncing();
+
+  $scope.$on('connectionError', function(){
+    var alertPopup = $ionicPopup.alert({
+      template: $filter('translate')('OFFLINE')
+    });
+
+    alertPopup.then(function(res) {
+    });
+  });
 
   $scope.$on('updateStatus', function(){
     var updateSyncStatus = function(){
@@ -99,10 +108,12 @@ angular.module('ptApp.controllers', ['ptConfig'])
   };
 
   $scope.openCodeModal = function(){
-    $scope.codeModal.show();
-    window.setTimeout(function(){
-      cordova.plugins.Focus.focus(document.querySelector("input"));
-    }, 150);
+    Main.confirmInternetConnection(function(){
+      $scope.codeModal.show();
+      window.setTimeout(function(){
+        cordova.plugins.Focus.focus(document.querySelector("input"));
+      }, 150);
+    });
   };
 
   $scope.closeCodeModal = function(){
@@ -133,8 +144,10 @@ angular.module('ptApp.controllers', ['ptConfig'])
       sanitizedCode = survey.code.toString().replace(/-/, '');
 
       if(sanitizedCode.length === 6){
-        $scope.surveyLoading = true;
-        Survey.fetchSurvey(sanitizedCode, success, error);
+        Main.confirmInternetConnection(function(){
+          $scope.surveyLoading = true;
+          Survey.fetchSurvey(sanitizedCode, success, error);
+        });
       } else {
         $scope.errorMessage = 'CODE_LENGTH';
       }
@@ -144,28 +157,23 @@ angular.module('ptApp.controllers', ['ptConfig'])
   };
 
   $scope.syncSurveys = function(){
-    Survey.refreshSyncItemCount();
-    Survey.syncResponses();
-    Survey.syncImages();
-  };
-
-  $scope.alertConnectionError = function(){
-    var alertPopup = $ionicPopup.alert({
-      template: $filter('translate')('OFFLINE')
-    });
-
-    alertPopup.then(function(res) {
-    });
+    Main.confirmInternetConnection(function(){
+      Survey.refreshSyncItemCount();
+      Survey.syncResponses();
+      Survey.syncImages();
+    }); 
   };
 })
 
 .controller('SurveysCtrl', function($scope, $stateParams, $state, Survey) {
   $scope.survey = Survey.surveys[$stateParams.surveyId];
-  $scope.locationDisabled = false;
+  $scope.responseSettings = {
+    locationConsent: true
+  };
   $scope.locationStamp = {};
 
   $scope.startSurvey = function(){
-    Survey.queueNewResponse($stateParams.surveyId, $scope.locationDisabled);
+    Survey.queueNewResponse($stateParams.surveyId, $scope.responseSettings.locationConsent);
     $state.transitionTo('input', {
       surveyId: $stateParams.surveyId, 
       inputId: Survey.currentResponse.inputs[Survey.currentResponse.activeIndex].id
