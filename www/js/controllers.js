@@ -226,7 +226,7 @@ angular.module('ptApp.controllers', ['ptConfig'])
 
   $scope.getLocation = function(){
     $scope.input.answer = $scope.input.answer || {};
-    $scope.input.msg = 'Getting Location...';
+    $scope.input.msg = $filter('translate')('GETTING_LOCATION');
 
     navigator.geolocation.getCurrentPosition(function(position){
       $scope.input.answer.lon = position.coords.longitude;

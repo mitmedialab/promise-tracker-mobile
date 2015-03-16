@@ -140,6 +140,7 @@ angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'pascal
     'BACK': 'Back',
     'TAKE_PICTURE': 'Take a picture',
     'GET_LOCATION': 'Record location',
+    'GETTING_LOCATION': 'Getting location',
     'CHOOSE_ONE': 'Select one',
     'CHOOSE_MANY': 'Select all that apply',
     'YOUR_ANSWER': 'Your answer here...',
@@ -192,7 +193,7 @@ angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'pascal
     'ADD_BIO': 'Adicionar biografia',
     'EDIT_BIO': 'Editar',
     'SAVE': 'Salvar',
-    'RESPONSES': '{NUM, plural, one{registro} other{registros}}',
+    'RESPONSES': '{NUM, plural, one{registro completado} other{registros completados}}',
 
     //Survey
     'NUMBER_OF_FIELDS': 'Número de campos neste registro',
@@ -205,6 +206,7 @@ angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'pascal
     'BACK': 'Voltar',
     'TAKE_PICTURE': 'Tirar uma foto',
     'GET_LOCATION': 'Obter localização',
+    'GETTING_LOCATION': 'Procurando localização',
     'CHOOSE_ONE': 'Selecione uma',
     'CHOOSE_MANY': 'Selecione (pode ser mais de uma)',
     'YOUR_ANSWER': 'Sua resposta aqui...',
