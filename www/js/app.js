@@ -131,6 +131,7 @@ angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'pascal
     'RESPONSES': '{NUM, plural, one{survey} other{surveys}} completed',
 
     //Survey
+    'CAMPAIGN_CODE': 'Campaign code',
     'NUMBER_OF_FIELDS': 'Total number of prompts',
     'START_DATE': 'Date this survey was launched',
     'END_DATE': 'End date',
@@ -144,7 +145,6 @@ angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'pascal
     'CHOOSE_ONE': 'Select one',
     'CHOOSE_MANY': 'Select all that apply',
     'YOUR_ANSWER': 'Your answer here...',
-    'RESPONSE_PROGRESS': 'Survey progress',
     'RESPONSE_COMPLETE': 'You have completed the survey!',
     'SUBMIT_NOW': 'Submit now',
     'SUBMIT_LATER': 'Submit later',
@@ -171,8 +171,8 @@ angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'pascal
     'MY_CAMPAIGNS': 'Minhas campanhas',
     'GREETING': 'Bem-vindo ao Monitorando a Cidade!',
     'APP_DESCRIPTION': 'Com este aplicativo você poderá participar de campanhas de coleta de dados criadas no módulo Web.',
-    'GET_STARTED': 'Para começar, adicione sua primeira campanha!',
-    'CODE_TIP': 'Toda campanha tem um código associado a ela. Obtenha o código com os organizadores da campanha ou crie sua própria campanha no módulo Web.',
+    'GET_STARTED': 'Para começar, baixe sua primeira campanha!',
+    'CODE_TIP': 'Toda campanha tem um código associado a ela. Obtenha o código com os organizadores da campanha ou crie sua própria campanha no site monitorandoacidade.org.',
     'RESPONSES_TO_DATE': "{NUM, plural, one{Você já completou um registro} 0{Preencha seu primeiro registro!} other{Você já completou {NUM} registros}}",
     'TESTING_ONLY': 'Versão de teste',
     'CAMPAIGN_CODE': 'Baixar campanha',
@@ -196,6 +196,7 @@ angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'pascal
     'RESPONSES': '{NUM, plural, one{registro completado} other{registros completados}}',
 
     //Survey
+    'CAMPAIGN_CODE': 'Código da campanha',
     'NUMBER_OF_FIELDS': 'Número de campos neste registro',
     'START_DATE': 'Data de lançamento desta campanha',
     'END_DATE': 'Data final',
@@ -221,7 +222,7 @@ angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'pascal
     'CODE_LENGTH': 'O código da campanha deve ser 6 números',
     '12': 'Esta campanha não existe. Por favor, verifique o código e tente novamente.',
     'DELETE_RESPONSE': 'Tem certeza que quer eliminar este registro?',
-    'DELETE_CAMPAIGN': 'Tem certeza que quer eliminar esta campanha',
+    'DELETE_CAMPAIGN': 'Tem certeza que quer eliminar esta campanha?',
     'DELETE': 'Eliminar',
     'UNSYNCED_RESPONSES': "{NUM, plural, other{Registros}} sem salvar!",
     'SYNCING': 'Enviando',

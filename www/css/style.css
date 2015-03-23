@@ -136,6 +136,10 @@ a, a:visited, .button.button-positive.button-clear {
   padding-top: 10px;
 }
 
+.unpad-top {
+  padding-top: 0px !important;
+}
+
 .padding {
   padding: 10px 30px;
 }
@@ -259,11 +263,7 @@ button.icon-right.pad-left:before {
 }
 
 #intro-text {
-  padding: 80px 20px 20px 20px;
-}
-
-.get-started {
-  margin-bottom: 30px;
+  padding: 20px;
 }
 
 .intro-arrow {

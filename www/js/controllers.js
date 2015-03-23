@@ -68,7 +68,7 @@ angular.module('ptApp.controllers', ['ptConfig'])
 
     mapPopup.then(function(res) {
       if(res) {
-        navigator.app.loadUrl(PT_CONFIG.campaignUrl + campaignId + '/share?map', {openExternal : true});
+        navigator.app.loadUrl(PT_CONFIG.campaignUrl + campaignId + '/share?locale=pt-BR', {openExternal : true});
       }
     });
   };
@@ -167,6 +167,7 @@ angular.module('ptApp.controllers', ['ptConfig'])
 
 .controller('SurveysCtrl', function($scope, $stateParams, $state, Survey) {
   $scope.survey = Survey.surveys[$stateParams.surveyId];
+  $scope.code = $scope.survey.code.toString();
   $scope.responseSettings = {
     locationConsent: true
   };

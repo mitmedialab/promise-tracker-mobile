@@ -2,13 +2,12 @@
   <ion-content class="has-header has-footer">
     <div class="padding center">
       <div class="survey-header border-bottom">
-        <h2 class="section-title">{{survey.title}}</h2> 
-        <icon class="ion-close top-cancel-button" ng-click="cancelResponse()"></icon>
+        <h2 class="section-title">{{survey.title}}</h2>
       </div>
     
       <p>{{ 'RESPONSE_COMPLETE' |  translate }}</p>
-
       <br><br>
+      
       <a class="button button-positive button-block" ng-click="submitResponse()">
         {{ 'SUBMIT_NOW' |  translate }}
       </a>

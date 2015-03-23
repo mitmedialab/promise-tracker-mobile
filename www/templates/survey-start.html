@@ -5,8 +5,8 @@
     </div>
     <br>
     <div class="center">
-      <p><strong>{{ 'NUMBER_OF_FIELDS' | translate }}:</strong></p>
-      <p>{{survey.inputs.length}}</p>
+      <p><strong>{{ 'CAMPAIGN_CODE' | translate }}:</strong></p>
+      <h3 class="subtle">{{code.slice(0,3) + "-" + code.slice(3,6)}}</h3>
     </div>
     <div class="center" id="location-consent">
       <ion-checkbox ng-model="responseSettings.locationConsent" class="wrap no-border">

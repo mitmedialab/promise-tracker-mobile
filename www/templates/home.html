@@ -2,7 +2,9 @@
   <ion-content class="has-header has-home-footer" overflow-scroll="true">
     <div class="section-title home-header">
       <icon class="ion-clipboard"></icon> {{ 'MY_CAMPAIGNS' | translate }}
-      <icon class="ion-plus-circled right new-survey" ng-click="openCodeModal()"></icon>
+    </div>
+    <div class="padding unpad-top">
+      <button class="button button-block button-calm" ng-click="openCodeModal()"><icon class="ion-plus-circled"></icon> {{ 'GET_CAMPAIGN' | translate}}</button>
     </div>
     <ion-list id="surveys-list">
       <ion-item ng-repeat="survey in surveys" item="survey" can-swipe="true">
@@ -27,10 +29,8 @@
     </ion-list>
 
     <!-- Intro text for new users -->
-    <img src="images/intro-arrow.png" ng-show="surveyCount == 0" class="intro-arrow">
     <div class="padding center subtle" ng-show="surveyCount == 0" id="intro-text">
       <h4>{{ 'GREETING' | translate }}</h4>
-      <p class="get-started">{{ 'APP_DESCRIPTION' | translate }}</p>
       <p class="get-started">{{ 'GET_STARTED' | translate }}</p>
     </div>
   </ion-content>
