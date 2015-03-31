@@ -39,7 +39,7 @@ a, a:visited, .button.button-positive.button-clear {
   background: #333;
 }
 
-.nav-menu, .nav-menu {
+.nav-menu {
   height: 60px !important;
   background: #353535;
 }
@@ -48,7 +48,7 @@ a, a:visited, .button.button-positive.button-clear {
   color: #d3d3d3;
 }
 
-.nav-menu a.selected {
+.nav-menu a.selected .button {
   border-bottom: 2px solid #5a5a5e;
 }
 
@@ -57,15 +57,16 @@ a, a:visited, .button.button-positive.button-clear {
 }
 
 .bar-menu {
+  display: block;
   text-align: center;
   font-size: 30px;
   padding: 10px;
 }
 
-.bar-menu a {
+.bar-menu .button {
+  width: 48%;
   padding-bottom: 5px;
-  margin: 0 auto;
-  width: 50%;
+  border-radius: 0;
 }
 
 .button {
