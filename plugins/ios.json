@@ -51,6 +51,14 @@
                         {
                             "xml": "<feature name=\"Geolocation\"><param name=\"ios-package\" value=\"CDVLocation\" /></feature>",
                             "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"Globalization\"><param name=\"ios-package\" value=\"CDVGlobalization\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"NetworkStatus\"><param name=\"ios-package\" value=\"CDVConnection\" /></feature>",
+                            "count": 1
                         }
                     ]
                 }
@@ -85,6 +93,12 @@
                         {
                             "xml": "false",
                             "count": 2
+                        }
+                    ],
+                    "SystemConfiguration.framework": [
+                        {
+                            "xml": "true",
+                            "count": 1
                         }
                     ]
                 }
@@ -128,6 +142,15 @@
         },
         "org.apache.cordova.geolocation": {
             "PACKAGE_NAME": "com.ionicframework.starter"
+        },
+        "fr._46cl.focus": {
+            "PACKAGE_NAME": "com.ionicframework.monitorandoacidade"
+        },
+        "org.apache.cordova.globalization": {
+            "PACKAGE_NAME": "com.ionicframework.monitorandoacidade"
+        },
+        "org.apache.cordova.network-information": {
+            "PACKAGE_NAME": "com.ionicframework.monitorandoacidade"
         }
     },
     "dependent_plugins": {}
