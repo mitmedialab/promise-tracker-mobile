@@ -1,6 +1,6 @@
-angular.module('ptApp.services', ['ptConfig'])
+angular.module('ptApp.services', ['ptConfig', 'pascalprecht.translate'])
 
-.factory('Main', function($rootScope, $http, PT_CONFIG){
+.factory('Main', function($rootScope, $http, PT_CONFIG, $translate){
   localStorage['user'] = localStorage['user'] || '{}';
 
   var service = {
@@ -32,6 +32,8 @@ angular.module('ptApp.services', ['ptConfig'])
     }
   }
 
+  $translate.use(navigator.language.split("-")[0] == "en" ? "en" : "pt-BR");
+  
   if(!localStorage['installationId']){
     service.setInstallationId(PT_CONFIG.aggregatorUrl);
   }
