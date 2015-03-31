@@ -58,6 +58,13 @@ angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'pascal
       StatusBar.styleDefault();
     }
   });
+
+  // Style iOS status bar
+  $ionicPlatform.ready(function() {
+    if(window.StatusBar) {
+      StatusBar.styleDefault();
+    }
+  });
 })
 
 .config(function($stateProvider, $urlRouterProvider) {
