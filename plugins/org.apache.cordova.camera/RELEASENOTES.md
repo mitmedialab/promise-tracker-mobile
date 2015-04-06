@@ -114,3 +114,64 @@
 * Removes File plugin dependency from windows8 code.
 * Use WinJS functionality to resize image instead of File plugin functionality
 * CB-6127 Updated translations for docs
+
+### 0.3.2 (Sep 17, 2014)
+* CB-7551 [Camera][iOS 8] Scaled images show a white line
+* CB-7558 hasPendingOperation flag in Camera plugin's takePicture should be reversed to fix memory errors
+* CB-7557 Camera plugin tests is missing a File dependency
+* CB-7423 do cleanup after copyImage manual test
+* CB-7471 cordova-plugin-camera documentation translation: cordova-plugin-camera
+* CB-7413 Resolve 'ms-appdata' URIs with File plugin
+* Fixed minor bugs with the browser
+* CB-7433 Adds missing window reference to prevent manual tests failure on Android and iOS
+* CB-7249 cordova-plugin-camera documentation translation: cordova-plugin-camera
+* CB-4003 Add config option to not use location information in Camera plugin (and default to not use it)
+* CB-7461 Geolocation fails in Camera plugin in iOS 8
+* CB-7378 Use single Proxy for both windows8 and windows.
+* CB-7378 Adds support for windows platform
+* CB-7433 Fixes manual tests failure on windows
+* CB-6958 Get the correct default for "quality" in the test
+* add documentation for manual tests
+* CB-7249 cordova-plugin-camera documentation translation: cordova-plugin-camera
+* CB-4003 Add config option to not use location information in Camera plugin (and default to not use it)
+* CB-7461 Geolocation fails in Camera plugin in iOS 8
+* CB-7433 Fixes manual tests failure on windows
+* CB-7378 Use single Proxy for both windows8 and windows.
+* CB-7378 Adds support for windows platform
+* CB-6958 Get the correct default for "quality" in the test
+* add documentation for manual tests
+* Updated docs for browser
+* Added support for the browser
+* CB-7286 [BlackBerry10] Use getUserMedia if camera card is unavailable
+* CB-7180 Update Camera plugin to support generic plugin webView UIView (which can be either a UIWebView or WKWebView)
+* Renamed test dir, added nested plugin.xml
+* CB-6958 added manual tests
+* CB-6958 Port camera tests to plugin-test-framework
+
+### 0.3.3 (Oct 03, 2014)
+* CB-7600 Adds informative message to error callback in manual test.
+
+### 0.3.4 (Dec 02, 2014)
+* CB-7977 Mention `deviceready` in plugin docs
+* CB-7979 Each plugin doc should have a ## Installation section
+* Fix memory leak of image data in `imagePickerControllerReturnImageResult`
+* Pass uri to crop instead of pulling the low resolution image out of the intent return (close #43)
+* Add orientation support for PNG to Android (closes #45)
+* CB-7700 cordova-plugin-camera documentation translation: cordova-plugin-camera
+
+### 0.3.5 (Feb 04, 2015)
+* CB-8351 ios: Stop using now-deprecated [NSData base64EncodedString]
+* CB-8351 ios: Stop using now-deprecated integerValueForKey: class extension
+* CB-8351 ios: Use argumentForIndex rather than NSArray extension
+* CB-8032 ios: Add nativeURL external method support for CDVFileSystem->makeEntryForPath:isDirectory:
+* CB-7938 ios: Added XCTest unit tests project, with stubs (adapted from SplashScreen unit test setup)
+* CB-7937 ios: Re-factor iOS Camera plugin so that it is testable
+
+### 0.3.6 (Mar 10, 2015)
+* Fix localize key for Videos. This closes #58
+* CB-8235 android: Fix crash when selecting images from DropBox with spaces in path (close #65)
+* add try ... catch for getting image orientation
+* CB-8599 fix threading issue with cameraPicker (fixes #72)
+* CB-8559 Integrate TravisCI
+* CB-8438 cordova-plugin-camera documentation translation: cordova-plugin-camera
+* CB-8538 Added package.json file

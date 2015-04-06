@@ -12,7 +12,7 @@
     <preference name="DisallowOverscroll" value="true" />
     <preference name="StatusBarOverlaysWebView" value="false" />
     <preference name="StatusBarBackgroundColor" value="#333333" />
-    <preference name="StatusBarStyle" value="blackopaque" />
+    <preference name="StatusBarStyle" value="BlackTranslucent" />
     <preference name="BackupWebStorage" value="none" />
     <preference name="KeyboardDisplayRequiresUserAction" value="false" />
 
@@ -24,12 +24,15 @@
     </feature>
     <feature name="Camera">
         <param name="android-package" value="org.apache.cordova.camera.CameraLauncher" />
+        <param name="ios-package" value="CDVCamera" />
     </feature>
     <feature name="InAppBrowser">
         <param name="android-package" value="org.apache.cordova.InAppBrowser" />
+        <param name="ios-package" value="CDVInAppBrowser" />
     </feature>
     <feature name="Globalization">
       <param name="android-package" value="org.apache.cordova.globalization.Globalization" />
+      <param name="ios-package" value="CDVGlobalization" />
     </feature>
 
     <feature name="Media">
@@ -70,6 +73,20 @@
       <icon src="icons/android/icon-96.png" width="96" height="96" />
       <icon src="icons/android/icon-72.png" width="72" height="72" />
       <icon src="icons/android/icon-48.png" width="48" height="48" />
+    </platform>
+
+    <platform name="ios">
+    <!-- images are determined by width and height. The following are supported -->
+        <splash src="res/screen/ios/Default~iphone.png" width="320" height="480"/>
+        <splash src="res/screen/ios/Default@2x~iphone_640x960.png" width="640" height="960"/>
+        <splash src="res/screen/ios/Default-Portrait~ipad_768x1024.png" width="768" height="1024"/>
+        <splash src="res/screen/ios/Default-Portrait@2x~ipad_1536x2048.png" width="1536" height="2048"/>
+        <splash src="res/screen/ios/Default-Landscape~ipad_1024x768.png" width="1024" height="768"/>
+        <splash src="res/screen/ios/Default-Landscape@2x~ipad_2048x1536.png" width="2048" height="1536"/>
+        <splash src="res/screen/ios/Default-568h@2x~iphone_640x1136.png" width="640" height="1136"/>
+        <splash src="res/screen/ios/Default-750@2x~iphone6-portrait_750x1334.png" width="750" height="1334"/>
+        <splash src="res/screen/ios/Default-1242@3x~iphone6s-portrait_1242x2208.png" width="1242" height="2208"/>
+        <splash src="res/screen/ios/Default-1242@3x~iphone6s-landscape_2208x1242.png" width="2208" height="1242"/>
     </platform>
 
     <platform name="ios">

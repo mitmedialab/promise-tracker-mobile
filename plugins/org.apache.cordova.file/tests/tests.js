@@ -18,6 +18,8 @@
  *
  */
 exports.defineAutoTests = function () {
+    var isWindows = (cordova.platformId == "windows") || (navigator.appVersion.indexOf("MSAppHost/1.0") !== -1);
+
     describe('File API', function () {
         // Adding a Jasmine helper matcher, to report errors when comparing to FileError better.
         var fileErrorMap = {
@@ -1599,6 +1601,24 @@ exports.defineAutoTests = function () {
                     });
                 }, failed.bind(null, done, 'createDirectory - Error creating directory : ' + srcDir));
             });
+            it("file.spec.130 moveTo: directory into similar directory", function (done) {
+                var srcDir = "entry.move.dis.srcDir",
+                dstDir = "entry.move.dis.srcDir-backup",
+                srcPath = joinURL(root.fullPath, srcDir);
+                // create a new directory entry to kick off it
+                createDirectory(srcDir, function (srcDirEntry) {
+                deleteEntry(dstDir, function () {
+                createDirectory(dstDir, function (dstDirEntry) {
+                    // move source directory into itself
+                    srcDirEntry.moveTo(dstDirEntry, 'file', function (newDirEntry) {
+                        expect(newDirEntry).toBeDefined();
+                        deleteEntry(dstDir);
+                        done();
+                    }, failed.bind(null, done, 'directory.moveTo - Error moving a directory into a similarly-named directory: ' + srcDir));
+                }, failed.bind(null, done, 'createDirectory - Error creating directory : ' + dstDir));
+                }, failed.bind(null, done, 'deleteEntry - Error deleting directory : ' + dstDir));
+                }, failed.bind(null, done, 'createDirectory - Error creating directory : ' + srcDir));
+            });
             it("file.spec.72 moveTo: file onto itself", function (done) {
                 var file1 = "entry.move.fos.file1",
                 filePath = joinURL(root.fullPath, file1);
@@ -1925,6 +1945,7 @@ exports.defineAutoTests = function () {
                 expect(typeof reader.readAsText).toBe('function');
                 expect(typeof reader.readAsArrayBuffer).toBe('function');
                 expect(typeof reader.abort).toBe('function');
+                expect(reader.result).toBe(null);
             });
         });
         //FileReader
@@ -2652,17 +2673,20 @@ exports.defineAutoTests = function () {
                 /* This is a direct copy of file.spec.9, with the filename changed, * as reported in CB-5721.
                  */
                 var fileName = "resolve.file.uri";
+                var dirName = "resolve.dir.uri";
                 // create a new file entry
-                createFile("../" + fileName, function (entry) {
-                    // lookup file system entry
-                    window.resolveLocalFileSystemURL(entry.toURL(), function (fileEntry) {
-                        expect(fileEntry).toBeDefined();
-                        expect(fileEntry.name).toCanonicallyMatch(fileName);
-                        // cleanup
-                        deleteEntry(fileName);
-                        done();
-                    }, failed.bind(null, done, 'window.resolveLocalFileSystemURL - Error resolving URI: ' + entry.toURL()));
-                }, failed.bind(null, done, 'createFile - Error creating file: ../' + fileName));
+                createDirectory(dirName, function () {
+                    createFile(dirName+"/../" + fileName, function (entry) {
+                        // lookup file system entry
+                        window.resolveLocalFileSystemURL(entry.toURL(), function (fileEntry) {
+                            expect(fileEntry).toBeDefined();
+                            expect(fileEntry.name).toCanonicallyMatch(fileName);
+                            // cleanup
+                            deleteEntry(fileName);
+                            done();
+                        }, failed.bind(null, done, 'window.resolveLocalFileSystemURL - Error resolving URI: ' + entry.toURL()));
+                    }, failed.bind(null, done, 'createFile - Error creating file: ../' + fileName));
+                }, failed.bind(null, done, 'createDirectory - Error creating directory: ' + dirName));
             });
             it("file.spec.111 should not traverse above above the root directory", function (done) {
                 var fileName = "traverse.file.uri";
@@ -2672,9 +2696,10 @@ exports.defineAutoTests = function () {
                     root.getFile('../' + fileName, {
                         create : false
                     }, function (fileEntry) {
+                        // Note: we expect this to still resolve, as the correct behaviour is to ignore the ../, not to fail out.
                         expect(fileEntry).toBeDefined();
                         expect(fileEntry.name).toBe(fileName);
-                        expect(fileEntry.fullPath).toCanonicallyMatch('/' + fileName);
+                        expect(fileEntry.fullPath).toCanonicallyMatch(root.fullPath +'/' + fileName);
                         // cleanup
                         deleteEntry(fileName);
                         done();
@@ -2709,7 +2734,10 @@ exports.defineAutoTests = function () {
                     create : false
                 }, succeed.bind(null, done, 'root.getFile - Unexpected success callback, it should not locate nonexistent file: ' + fileName), function (error) {
                     expect(error).toBeDefined();
-                    expect(error).toBeFileError(FileError.NOT_FOUND_ERR);
+                    if (cordova.platformId == "windows8" || cordova.platformId == "windows")
+                        expect(error).toBeFileError(FileError.SECURITY_ERR);
+                    else
+                        expect(error).toBeFileError(FileError.NOT_FOUND_ERR);
                     done();
                 });
             });
@@ -2719,17 +2747,25 @@ exports.defineAutoTests = function () {
             /* These specs verify that FileEntries have a toNativeURL method
              * which appears to be sane.
              */
-            var pathExpect = cordova.platformId === 'windowsphone' ? "//nativ" : "file://";
+            var pathExpect = cordova.platformId === 'windowsphone' ? "//nativ" : 
+                (cordova.platformId == "windows8" || cordova.platformId == "windows")?
+                "ms-appdata:/":
+                "file://";
             it("file.spec.114 fileEntry should have a toNativeURL method", function (done) {
                 var fileName = "native.file.uri";
+                if (isWindows) {
+                    var rootPath = root.fullPath;
+                    pathExpect = rootPath.substr(0, rootPath.indexOf(":"));
+                }
                 // create a new file entry
                 createFile(fileName, function (entry) {
                     expect(entry.toNativeURL).toBeDefined();
                     expect(entry.name).toCanonicallyMatch(fileName);
                     expect(typeof entry.toNativeURL).toBe('function');
                     var nativeURL = entry.toNativeURL();
+                    var indexOfRoot = isWindows ? rootPath.indexOf(":") : 7;
                     expect(typeof nativeURL).toBe("string");
-                    expect(nativeURL.substring(0, 7)).toEqual(pathExpect);
+                    expect(nativeURL.substring(0, pathExpect.length)).toEqual(pathExpect);
                     expect(nativeURL.substring(nativeURL.length - fileName.length)).toEqual(fileName);
                     // cleanup
                     deleteEntry(fileName);
@@ -2746,8 +2782,9 @@ exports.defineAutoTests = function () {
                     expect(entries[0].toNativeURL).toBeDefined();
                     expect(typeof entries[0].toNativeURL).toBe('function');
                     var nativeURL = entries[0].toNativeURL();
+                    var indexOfRoot = (isWindows) ? nativeURL.indexOf(":") : 7;
                     expect(typeof nativeURL).toBe("string");
-                    expect(nativeURL.substring(0, 7)).toEqual(pathExpect);
+                    expect(nativeURL.substring(0, pathExpect.length)).toEqual(pathExpect);
                     expect(nativeURL.substring(nativeURL.length - fileName.length)).toEqual(fileName);
                     // cleanup
                     directory.removeRecursively(null, null);
@@ -2774,8 +2811,9 @@ exports.defineAutoTests = function () {
                         expect(entry.name).toCanonicallyMatch(fileName);
                         expect(typeof entry.toNativeURL).toBe('function');
                         var nativeURL = entry.toNativeURL();
+                        var indexOfRoot = (isWindows) ? nativeURL.indexOf(":") : 7;
                         expect(typeof nativeURL).toBe("string");
-                        expect(nativeURL.substring(0, 7)).toEqual(pathExpect);
+                        expect(nativeURL.substring(0, pathExpect.length)).toEqual(pathExpect);
                         expect(nativeURL.substring(nativeURL.length - fileName.length)).toEqual(fileName);
                         // cleanup
                         deleteEntry(fileName);
@@ -2821,7 +2859,7 @@ exports.defineAutoTests = function () {
                 // create a new file entry
                 createFile(fileName, function (entry) {
                     resolveLocalFileSystemURL(entry.toNativeURL(), function (fileEntry) {
-                        expect(fileEntry.fullPath).toCanonicallyMatch("/" + fileName);
+                        expect(fileEntry.fullPath).toCanonicallyMatch(root.fullPath + "/" + fileName);
                         // cleanup
                         deleteEntry(fileName);
                         done();
@@ -2835,7 +2873,7 @@ exports.defineAutoTests = function () {
                     var url = entry.toNativeURL();
                     url = url.replace("///", "//localhost/");
                     resolveLocalFileSystemURL(url, function (fileEntry) {
-                        expect(fileEntry.fullPath).toCanonicallyMatch("/" + fileName);
+                        expect(fileEntry.fullPath).toCanonicallyMatch(root.fullPath + "/" + fileName);
                         // cleanup
                         deleteEntry(fileName);
                         done();
@@ -2849,7 +2887,7 @@ exports.defineAutoTests = function () {
                     var url = entry.toNativeURL();
                     url = url + "?test/test";
                     resolveLocalFileSystemURL(url, function (fileEntry) {
-                        expect(fileEntry.fullPath).toCanonicallyMatch("/" + fileName);
+                        expect(fileEntry.fullPath).toCanonicallyMatch(root.fullPath + "/" + fileName);
                         // cleanup
                         deleteEntry(fileName);
                         done();
@@ -2863,7 +2901,7 @@ exports.defineAutoTests = function () {
                     var url = entry.toNativeURL();
                     url = url.replace("///", "//localhost/") + "?test/test";
                     resolveLocalFileSystemURL(url, function (fileEntry) {
-                        expect(fileEntry.fullPath).toCanonicallyMatch("/" + fileName);
+                        expect(fileEntry.fullPath).toCanonicallyMatch(root.fullPath + "/" + fileName);
                         // cleanup
                         deleteEntry(fileName);
                         done();

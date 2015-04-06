@@ -17,7 +17,7 @@
                             "count": 1
                         },
                         {
-                            "xml": "<feature name=\"Console\"><param name=\"ios-package\" value=\"CDVLogger\" /></feature>",
+                            "xml": "<preference name=\"CameraUsesGeolocation\" value=\"false\" />",
                             "count": 1
                         },
                         {
@@ -34,6 +34,10 @@
                         },
                         {
                             "xml": "<feature name=\"Geolocation\"><param name=\"ios-package\" value=\"CDVLocation\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"Globalization\"><param name=\"ios-package\" value=\"CDVGlobalization\" /></feature>",
                             "count": 1
                         },
                         {
@@ -54,14 +58,6 @@
                         },
                         {
                             "xml": "<preference name=\"StatusBarStyle\" value=\"lightcontent\" />",
-                            "count": 1
-                        },
-                        {
-                            "xml": "<feature name=\"Globalization\"><param name=\"ios-package\" value=\"CDVGlobalization\" /></feature>",
-                            "count": 1
-                        },
-                        {
-                            "xml": "<feature name=\"NetworkStatus\"><param name=\"ios-package\" value=\"CDVConnection\" /></feature>",
                             "count": 1
                         }
                     ]
@@ -112,7 +108,7 @@
                     "NSLocationWhenInUseUsageDescription": [
                         {
                             "xml": "<string />",
-                            "count": 1
+                            "count": 2
                         }
                     ]
                 }
@@ -129,19 +125,16 @@
         "org.apache.cordova.camera": {
             "PACKAGE_NAME": "com.ionicframework.monitorandoacidade"
         },
-        "org.apache.cordova.console": {
-            "PACKAGE_NAME": "com.ionicframework.monitorandoacidade"
-        },
         "org.apache.cordova.device": {
-            "PACKAGE_NAME": "com.ionicframework.monitorandoacidade"
-        },
-        "org.apache.cordova.file": {
             "PACKAGE_NAME": "com.ionicframework.monitorandoacidade"
         },
         "org.apache.cordova.file-transfer": {
             "PACKAGE_NAME": "com.ionicframework.monitorandoacidade"
         },
         "org.apache.cordova.geolocation": {
+            "PACKAGE_NAME": "com.ionicframework.monitorandoacidade"
+        },
+        "org.apache.cordova.globalization": {
             "PACKAGE_NAME": "com.ionicframework.monitorandoacidade"
         },
         "org.apache.cordova.inappbrowser": {
@@ -151,11 +144,12 @@
             "PACKAGE_NAME": "com.ionicframework.monitorandoacidade"
         },
         "org.apache.cordova.statusbar": {
-            "PACKAGE_NAME": "com.ionicframework.starter"
-        },
-        "org.apache.cordova.globalization": {
             "PACKAGE_NAME": "com.ionicframework.monitorandoacidade"
         }
     },
-    "dependent_plugins": {}
+    "dependent_plugins": {
+        "org.apache.cordova.file": {
+            "PACKAGE_NAME": "com.ionicframework.monitorandoacidade"
+        }
+    }
 }
