@@ -121,7 +121,7 @@ angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'pascal
     'MY_CAMPAIGNS': 'My surveys',
     'GREETING': 'Welcome to Promise Tracker!',
     'GET_STARTED': 'To get started, download your first survey',
-    'CODE_TIP': 'Every campaign has a code associated with it. Get the code from the organizers of the campaign or create your own campaign in promisetracker.org site.',
+    'CODE_TIP': 'Every campaign has a code associated with it. Get the code from the organizers of the campaign or create your own campaign at monitor.promisetracker.org.',
     'RESPONSES_TO_DATE': "{NUM, plural, one{You've responded once} 0{Get started on your first response!} other{You've responded {NUM} times}}",
     'TESTING_ONLY': 'Testing copy',
     'CAMPAIGN_CODE': 'Survey code',
