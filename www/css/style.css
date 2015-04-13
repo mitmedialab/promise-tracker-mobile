@@ -475,6 +475,6 @@ label.select {
   line-height: 20px;
 }
 
-.wrap .item-content, .wrap {
+.prompt-card .item {
   white-space: normal !important;
 }
