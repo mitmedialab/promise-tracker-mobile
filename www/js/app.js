@@ -154,6 +154,7 @@ angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'pascal
     'GET_NEW_VERSION': 'Get newest version',
     'LOCATION_CONSENT': 'Allow my location to be recorded',
     'START_RESPONSE': 'Start survey',
+    'LOCATION_CONSENT': 'Let my location be saved',
     'NEXT': 'Next',
     'BACK': 'Back',
     'TAKE_PICTURE': 'Take a picture',
