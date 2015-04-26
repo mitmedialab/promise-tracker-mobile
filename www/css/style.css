@@ -386,6 +386,7 @@ label.select {
 .prompt-card {
   min-height: 150px;
   padding: 10px 30px;
+  font-size: 1.2em;
 }
 
 .bar-footer {

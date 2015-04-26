@@ -150,6 +150,7 @@ angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'pascal
     'START_DATE': 'Date this survey was launched',
     'END_DATE': 'End date',
     'TEST_DESCRIPTION': 'This version of the survey is for testing only. No data will be stored.',
+    'LOCATION_CONSENT': 'Allow my location to be recorded',
     'START_RESPONSE': 'Start survey',
     'NEXT': 'Next',
     'BACK': 'Back',
