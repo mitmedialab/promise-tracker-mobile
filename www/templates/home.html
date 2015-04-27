@@ -11,6 +11,9 @@
         <a class="button button-clear right" href="#/surveys/{{survey.id}}/start">
           <icon class="ion-chevron-right right"></icon>
         </a>
+        <div class="button button-clear right" ng-show="{{survey.status == 'test'}}" ng-click="fetchSurvey(survey)">
+          <icon class="ion-loop right"></icon>
+        </div>
         <a href="#/surveys/{{survey.id}}/start" class="survey-info">
           <h4 class="survey-title">{{survey.title}}</h4>
           <h6 class="test-warning" ng-show="{{survey.status === 'test'}}"><icon class="ion-wrench"></icon> {{ 'TESTING_ONLY' | translate}}</h4>
@@ -81,7 +84,7 @@
         <div class="padding">
           <button type="submit" class="button button-block button-calm">
             <icon ng-if="surveyLoading" class="ion-loading-c"></icon>
-            <span ng-if="!surveyLoading">{{ 'GET_CAMPAIGN' | translate }}</span>
+            <span ng-if="!surveyLoading">{{ 'DOWNLOAD' | translate }}</span>
           </button>
         </div>
       </form>
