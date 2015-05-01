@@ -16,6 +16,10 @@
     <div ng-show="{{survey.status === 'test'}}" class="test-warning test-explanation center">
       <icon class="ion-wrench"></icon><br>
       <p class="pad-top">{{ 'TEST_DESCRIPTION' | translate }}</p>
+
+      <div class="button button-clear" ng-show="{{survey.status == 'test'}}" ng-click="fetchSurvey(survey)">
+          <icon class="ion-loop right"></icon> {{ 'GET_NEW_VERSION' | translate }}
+        </div>
     </div>
     <a class="button button-calm button-block" ng-click="startSurvey()">
       {{ 'START_RESPONSE' | translate }}
