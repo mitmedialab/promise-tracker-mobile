@@ -1,6 +1,6 @@
 angular.module('ptApp.controllers', ['ptConfig'])
 
-.controller('HomeCtrl', function($scope, $ionicModal, $http, $state, $ionicPopup, $filter, $ionicListDelegate, Survey, PT_CONFIG, Main) {
+.controller('HomeCtrl', function($scope, $ionicModal, $http, $state, $ionicPopup, $filter, $ionicListDelegate, $translate, Survey, PT_CONFIG, Main) {
   $scope.surveys = Survey.surveys;
   $scope.surveyCount = Object.keys($scope.surveys).length;
   $scope.responseCount = Survey.synced.length + Survey.unsynced.length;
@@ -68,7 +68,7 @@ angular.module('ptApp.controllers', ['ptConfig'])
 
     mapPopup.then(function(res) {
       if(res) {
-        navigator.app.loadUrl(PT_CONFIG.campaignUrl + campaignId + '/share?locale=pt-BR', {openExternal : true});
+        navigator.app.loadUrl(PT_CONFIG.campaignUrl + campaignId + '/share?locale=' + $translate.use(), {openExternal : true});
       }
     });
   };
