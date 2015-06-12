@@ -32,7 +32,7 @@ angular.module('ptApp.services', ['ptConfig', 'pascalprecht.translate'])
     }
   }
 
-  $translate.use(navigator.language.split("-")[0] == "en" ? "en" : "pt-BR");
+  $translate.use(navigator.language.split("-")[0]);
   
   if(!localStorage['installationId']){
     service.setInstallationId(PT_CONFIG.aggregatorUrl);

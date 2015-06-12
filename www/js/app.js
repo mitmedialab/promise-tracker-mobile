@@ -62,7 +62,7 @@ angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'pascal
     if(typeof navigator.globalization !== "undefined") {
       navigator.globalization.getPreferredLanguage(
         function(language){
-          $translate.use((language.value).split("-")[0] == "en" ? "en" : "pt-BR");
+          $translate.use((language.value).split("-")[0]);
         }, 
         function(error) {
           console.log("ERROR -> " + error);
@@ -115,6 +115,74 @@ angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'pascal
 })
 
 .config(['$translateProvider', function ($translateProvider) {
+  $translateProvider.translations('es', {
+    // Home page
+    'APP_NAME': 'Promise Tracker',
+    'MY_CAMPAIGNS': 'Mis encuestas',
+    'GREETING': 'Bienvenido a Promise Tracker!',
+    'GET_STARTED': 'Para comenzar, descarga tu primera encuesta',
+    'CODE_TIP': 'Cada campaña tiene un código asociado a ella. Obten el código del organizador de la campaña o crea tu propia campaña en monitor.promisetracker.org.',
+    'RESPONSES_TO_DATE': "{NUM, plural, one{Has respondido una} 0{¡Comienza con tu primer respuesta!} other{Has contestado {NUM} veces}}",
+    'TESTING_ONLY': 'Copia de prueba',
+    'CAMPAIGN_CODE': 'Código de encuesta',
+    'CAMPAIGN_CODE_PROMPT': 'Ingresa tu código de encuesta abajo',
+    'CAMPAIGN_CODE_HELP': "Si no tienes un código habla con el organizador de la campaña",
+    'GET_CAMPAIGN': 'Obtener campaña',
+    'DOWNLOAD': 'Descarga',
+    'CANCEL': 'Cancelar',
+    'CLOSE': 'Cerrar',
+    'SHARE': 'Compartir',
+    'VIEW_MAP_TEXT': 'Para ver el mapa de esta encusta da clic abajo',
+    'VIEW_MAP': 'Ver mapa',
+
+    // User page
+    'MY_PROFILE': 'Mi perfil',
+    'USER_INFO': 'Información del usuario',
+    'USERNAME': 'Nombre de usuario',
+    'BIO': 'Biografía',
+    'ADD_BIO': 'Agregar biografía',
+    'EDIT_BIO': 'Editar',
+    'SAVE': 'Guardar',
+    'RESPONSES': '{NUM, plural, one{Encuesta} other{encuestas}} completadas',
+
+    //Survey
+    'CAMPAIGN_CODE': 'Código de campaña',
+    'NUMBER_OF_FIELDS': 'Campos totales',
+    'START_DATE': 'Fecha en la que comenzó esta encuesta',
+    'END_DATE': 'Fecha de final',
+    'TEST_DESCRIPTION': 'Esta versión de la encuesta es de prueba. No se guardarán los datos.',
+    'GET_NEW_VERSION': 'Obtener la version más reciente',
+    'LOCATION_CONSENT': 'Permitir conocer mi ubicación',
+    'START_RESPONSE': 'Comenzar encuesta',
+    'LOCATION_CONSENT': 'Permitir que se guarde mi ubicación',
+    'NEXT': 'Siguiente',
+    'BACK': 'Atras',
+    'TAKE_PICTURE': 'Tomar una fotografía',
+    'GET_LOCATION': 'Guardar ubicación',
+    'GETTING_LOCATION': 'Guardando ubicación',
+    'CHOOSE_ONE': 'Seleccionar una',
+    'CHOOSE_MANY': 'Seleccionar todas las que apliquen',
+    'YOUR_ANSWER': 'Tu respuesta aquí...',
+    'RESPONSE_COMPLETE': '¡Has finalizado la encuesta!',
+    'SUBMIT_NOW': 'Enviar ahora',
+    'SUBMIT_LATER': 'Enviar después',
+    'CANCEL_AND_DELETE': 'Cancelar y borrar esta respuesta',
+
+    //Errors, Alerts
+    'ENTER_CODE': 'Por favor incerte un código de encuesta',
+    'CODE_LENGTH': 'El código de la encuesta deben ser 6 números.',
+    '12': 'Encuesta no encontrada. Por favor verifica el código e intenta de nuevo.',
+    'DELETE_RESPONSE': "¿Estás seguro que deseas eliminar esta respuesta? Todos los datos se perderán.",
+    'DELETE_CAMPAIGN': "¿Estás seguro que deseas eliminar está encuesta?",
+    'DELETE': 'Eliminar',
+    'UNSYNCED_RESPONSES': "Sin sincronizar {NUM, plural, other{items}}!",
+    'SYNCING': 'Enviand',
+    'RESPONSE_SYNCED': 'Encuesta enviada',
+    'SYNC_NOW': 'Sincronizar ahora',
+    'REQUIRED': 'Esta pregunta es requerida',
+    'OFFLINE': 'Sin conección. Por favor intenta después'
+  });
+
   $translateProvider.translations('en', {
     // Home page
     'APP_NAME': 'Promise Tracker',
@@ -215,6 +283,74 @@ angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'pascal
 
     //Survey
     'CAMPAIGN_CODE': 'Código da campanha',
+    'NUMBER_OF_FIELDS': 'Número de campos neste registro',
+    'START_DATE': 'Data de lançamento desta campanha',
+    'END_DATE': 'Data final',
+    'TEST_DESCRIPTION': 'Esta é uma versão de teste. Os dados não serão salvos.',
+    'GET_NEW_VERSION': 'Baixar nova versão',
+    'LOCATION_CONSENT': 'Permitir que minha localização seja gravada',
+    'START_RESPONSE': 'Preencher registro',
+    'NEXT': 'Próximo',
+    'BACK': 'Voltar',
+    'TAKE_PICTURE': 'Tirar uma foto',
+    'GET_LOCATION': 'Clique aqui para obter localização',
+    'GETTING_LOCATION': 'Procurando localização',
+    'CHOOSE_ONE': 'Selecione uma',
+    'CHOOSE_MANY': 'Selecione (pode ser mais de uma)',
+    'YOUR_ANSWER': 'Sua resposta aqui...',
+    'RESPONSE_PROGRESS': 'Andamento',
+    'RESPONSE_COMPLETE': 'Parabéns! Você completou o registro!',
+    'SUBMIT_NOW': 'Enviar agora',
+    'SUBMIT_LATER': 'Enviar depois',
+    'CANCEL_AND_DELETE': 'Cancelar e eliminar este registro',
+
+    //Errors, Alerts
+    'ENTER_CODE': 'Por favor, digite um código de campanha',
+    'CODE_LENGTH': 'O código da campanha deve ser 6 números',
+    '12': 'Esta campanha não existe. Por favor, verifique o código e tente novamente.',
+    'DELETE_RESPONSE': 'Tem certeza que quer eliminar este registro?',
+    'DELETE_CAMPAIGN': 'Tem certeza que quer eliminar esta campanha?',
+    'DELETE': 'Eliminar',
+    'UNSYNCED_RESPONSES': "{NUM, plural, other{Registros}} sem enviar!",
+    'SYNCING': 'Enviando',
+    'RESPONSE_SYNCED': 'Registro enviado',
+    'SYNC_NOW': 'Enviar',
+    'REQUIRED': 'Este campo é obrigatório',
+    'OFFLINE': 'Sem internet. Por favor, verifique sua conexão e tente novamente.'
+  });
+
+$translateProvider.translations('fr', {
+    // Home page
+    'APP_NAME': 'Monitorando la ville',
+    'MY_CAMPAIGNS': 'Mes campagnes',
+    'GREETING': 'Bem-vindo ao Monitorando a Cidade!',
+    'APP_DESCRIPTION': 'Com este aplicativo você poderá participar de campanhas de coleta de dados criadas no módulo Web.',
+    'GET_STARTED': 'Para começar, baixe sua primeira campanha!',
+    'CODE_TIP': 'Toda campanha tem um código associado a ela. Obtenha o código com os organizadores da campanha ou crie sua própria campanha no site monitorandoacidade.org.',
+    'RESPONSES_TO_DATE': "{NUM, plural, one{Você já completou um registro} 0{Preencha seu primeiro registro!} other{Você já completou {NUM} registros}}",
+    'TESTING_ONLY': 'Versão de teste',
+    'CAMPAIGN_CODE_PROMPT': 'Digite o código da campanha',
+    'CAMPAIGN_CODE_HELP': "Se não tem um código, fala com o organizador da ação",
+    'GET_CAMPAIGN': 'Baixar nova campanha',
+    'DOWNLOAD': 'Baixar',
+    'CANCEL': 'Cancelar',
+    'CLOSE': 'Fechar',
+    'SHARE': 'Compartilhar',
+    'VIEW_MAP_TEXT': 'Para ver o mapa para esta campanha, clique abaixo',
+    'VIEW_MAP': 'Ver mapa',
+
+     // User page
+    'MY_PROFILE': 'Mon perfis',
+    'USER_INFO': 'Dados do usuario',
+    'USERNAME': 'Nome do Usuario',
+    'BIO': 'Biografia',
+    'ADD_BIO': 'Adicionar biografia',
+    'EDIT_BIO': 'Editar',
+    'SAVE': 'Salvar',
+    'RESPONSES': '{NUM, plural, one{registro completado} other{registros completados}}',
+
+    //Survey
+    'CAMPAIGN_CODE': 'La code',
     'NUMBER_OF_FIELDS': 'Número de campos neste registro',
     'START_DATE': 'Data de lançamento desta campanha',
     'END_DATE': 'Data final',
