@@ -1,36 +1,38 @@
-<ion-content class="has-header has-footer">
-  <div class="padding">
-    <div class="survey-header border-bottom">
-      <h2 class="section-title">{{survey.title}}</h2> 
+<ion-view title="Promise Tracker">
+  <ion-content class="has-header has-footer" overflow-scroll="true">
+    <div class="padding">
+      <div class="survey-header border-bottom">
+        <h2 class="section-title">{{survey.title}}</h2> 
+      </div>
+      <br>
+      <div class="center">
+        <p><strong>{{ 'CAMPAIGN_CODE' | translate }}:</strong></p>
+        <h3 class="subtle">{{code.slice(0,3) + "-" + code.slice(3,6)}}</h3>
+      </div>
+      <div class="center" id="location-consent">
+        <ion-checkbox ng-model="responseSettings.locationConsent" class="wrap no-border">
+          {{ 'LOCATION_CONSENT' | translate }}
+        </ion-checkbox>
+      </div>
+      <div ng-show="{{survey.status === 'test'}}" class="test-warning test-explanation center">
+        <icon class="ion-wrench"></icon><br>
+        <p class="pad-top">{{ 'TEST_DESCRIPTION' | translate }}</p>
+
+        <div class="button button-clear" ng-show="{{survey.status == 'test'}}" ng-click="fetchSurvey(survey)">
+            <icon class="ion-loop right"></icon> {{ 'GET_NEW_VERSION' | translate }}
+          </div>
+      </div>
+      <a class="button button-calm button-block" ng-click="startSurvey()">
+        {{ 'START_RESPONSE' | translate }}
+      </a>
+
     </div>
-    <br>
+  </ion-content>
+  <div class="bar bar-footer cancel-survey">
     <div class="center">
-      <p><strong>{{ 'CAMPAIGN_CODE' | translate }}:</strong></p>
-      <h3 class="subtle">{{code.slice(0,3) + "-" + code.slice(3,6)}}</h3>
+      <a href="#/home" class="subtle button-cancel">
+        <icon class="ion-close"></icon> {{ 'CANCEL' | translate }}
+      </a>
     </div>
-    <div class="center" id="location-consent">
-      <ion-checkbox ng-model="responseSettings.locationConsent" class="wrap no-border">
-        {{ 'LOCATION_CONSENT' | translate }}
-      </ion-checkbox>
-    </div>
-    <div ng-show="{{survey.status === 'test'}}" class="test-warning test-explanation center">
-      <icon class="ion-wrench"></icon><br>
-      <p class="pad-top">{{ 'TEST_DESCRIPTION' | translate }}</p>
-
-      <div class="button button-clear" ng-show="{{survey.status == 'test'}}" ng-click="fetchSurvey(survey)">
-          <icon class="ion-loop right"></icon> {{ 'GET_NEW_VERSION' | translate }}
-        </div>
-    </div>
-    <a class="button button-calm button-block" ng-click="startSurvey()">
-      {{ 'START_RESPONSE' | translate }}
-    </a>
-
   </div>
-</ion-content>
-<div class="bar bar-footer cancel-survey">
-  <div class="center">
-    <a href="#/home" class="subtle button-cancel">
-      <icon class="ion-close"></icon> {{ 'CANCEL' | translate }}
-    </a>
-  </div>
-</div>
+</ion-view>

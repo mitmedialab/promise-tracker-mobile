@@ -203,12 +203,25 @@ angular.module('ptApp.controllers', ['ptConfig'])
   }
 })
 
-.controller('InputsCtrl', function($scope, $stateParams, $state, Survey, $ionicPopup, $filter){
+.controller('InputsCtrl', function($scope, $stateParams, $state, Survey, $ionicPopup, $filter, $timeout, Main){
   $scope.survey = Survey.surveys[$stateParams.surveyId];
   $scope.index = Survey.currentResponse.activeIndex;
   $scope.input = Survey.currentResponse.inputs[Survey.currentResponse.activeIndex];
-  $scope.input.input_type == 'select' ? $scope.input.answer = $scope.input.answer || [] : false;
+  $scope.input.input_type === 'select' ? $scope.input.answer = $scope.input.answer || [] : false;
   $scope.errorMessage = '';
+
+  if($scope.input.input_type === 'location'){
+    $scope.location = {
+      status: $scope.input.answer && $scope.input.answer.lat ? "recorded" : "blank",
+      message: ""
+    };
+
+    $timeout(function() {
+     if($scope.input.answer && $scope.input.answer.lat){
+        $scope.renderMap($scope.input.answer.lat, $scope.input.answer.lon);
+      }
+    });
+  }
 
   $scope.getImage = function(){
     var onSuccess = function(imageURI){
@@ -225,15 +238,47 @@ angular.module('ptApp.controllers', ['ptConfig'])
     });
   };
 
+  $scope.renderMap = function(lat, lon){
+    var latLong = new google.maps.LatLng(lat, lon);
+     
+    var mapOptions = {
+      center: latLong,
+      disableDefaultUI: true,
+      zoom: 13,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
+
+    var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
+
+    var marker = new google.maps.Marker({
+      position: latLong,
+      map: map,
+      draggable: true,
+      title: ''
+    });
+
+    google.maps.event.addListener(marker, 'dragend', function(event){
+      $scope.input.answer.lat = event.latLng.lat();
+      $scope.input.answer.lon = event.latLng.lng();
+    });
+  }
+
   $scope.getLocation = function(){
     $scope.input.answer = $scope.input.answer || {};
-    $scope.input.msg = $filter('translate')('GETTING_LOCATION');
+    $scope.location.status = "searching";
 
     navigator.geolocation.getCurrentPosition(function(position){
       $scope.input.answer.lon = position.coords.longitude;
       $scope.input.answer.lat = position.coords.latitude;
-      $scope.input.msg = '';
-      $state.go($state.current, {}, {reload: true});
+      $scope.$apply(function(){
+        $scope.location.status = "recorded";
+        $scope.renderMap($scope.input.answer.lat, $scope.input.answer.lon);
+
+        if(!window.Connection || navigator.connection.type == Connection.NONE){
+          $scope.location.message = $filter('translate')('LOCATION') + ": " + $scope.input.answer.lat + ", " + $scope.input.answer.lon;
+        }
+      });
+
     });
   };
 
@@ -285,7 +330,7 @@ angular.module('ptApp.controllers', ['ptConfig'])
 
   $scope.cancelResponse = function() {
     Survey.cancelResponse();
-  }
+  };
 })
 
 .controller('UsersCtrl', function($scope, $stateParams, $state, $location, $ionicModal, Survey, Main) {

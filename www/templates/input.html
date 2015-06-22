@@ -16,38 +16,58 @@
       <br>
 
       <!-- Image -->
-      <div ng-if="input.input_type=='image'">
-        <a class="item no-border item-icon-left assertive" ng-click="getImage()">
-          <i class="icon ion-ios7-camera"></i> {{ 'TAKE_PICTURE' | translate }}<br>
-        </a>
+      <div ng-if="input.input_type === 'image'">
+        <button class="button button-block button-calm input-action" ng-click="getImage()">
+          <span ng-if="!input.answer">
+            <i class="icon ion-ios7-camera"></i> {{ 'TAKE_PICTURE' | translate }}
+          </span>
+          <span ng-if="input.answer">
+            <i class="icon ion-checkmark"></i>
+            Pronto!
+          </span>  
+        </button>
         <img class="image-preview" ng-src="{{input.answer}}"/>
       </div>
 
       <!-- Location -->
-      <a ng-if="input.input_type=='location'" class="item item-icon-left assertive no-border" ng-click="getLocation()">
-        <i class="icon ion-ios7-location"></i>
-        {{ 'GET_LOCATION' | translate }}
-        <p class="light" ng-if="input.msg && input.msg !== ''"><icon class="ion-loading-c"></icon> {{input.msg}}</p>
-        <p class="light" ng-if="input.answer.lon">({{input.answer.lon}}, {{input.answer.lat}})</p>
-      </a>
+      <div ng-if="input.input_type === 'location'">
+        <button class="button button-block button-calm input-action" ng-click="getLocation()">
+          <span ng-if="location.status === 'blank'">
+            <i class="icon ion-ios7-location"></i>
+            {{ 'GET_LOCATION' | translate }}
+          </span>
+          <span ng-if="location.status === 'searching'">
+            <i class="icon ion-looping"></i>
+          </span>
+          <span ng-if="location.status === 'recorded' || input.answer.lat">
+            <i class="icon ion-checkmark"></i>
+            {{ 'LOCATION_RECORDED' | translate }}
+          </span>
+        </button>
+        <p class="sub-line center"> 
+          <span ng-if="location.message !== ''">
+          {{location.message}}</span>
+        </p>
+        <div id="map-canvas" ng-onload="renderMap()"></div>
+      </div>
 
       <!-- Text -->
-      <label ng-if="input.input_type=='text'" class="item item-input">
+      <label ng-if="input.input_type === 'text'" class="item item-input">
         <textarea rows="5" autofocus ng-model="input.answer"></textarea>
       </label>
 
       <!-- Number -->
-      <label ng-if="input.input_type=='number'" class="item item-input">
+      <label ng-if="input.input_type === 'number'" class="item item-input">
         <input type="number" placeholder="Enter a number" ng-model="input.answer">
       </label>
 
       <!-- Date -->
-      <label ng-if="input.input_type=='date'" class="item item-input">
+      <label ng-if="input.input_type === 'date'" class="item item-input">
         <input type="date" ng-model="input.answer">
       </label>
 
       <!-- Select one -->
-      <div ng-if="input.input_type=='select1'" class="list answer-list">
+      <div ng-if="input.input_type === 'select1'" class="list answer-list">
         <label class="select">{{ 'CHOOSE_ONE' | translate}}:</label>
         <ul class="wrap">
           <li ng-repeat="option in input.options">
@@ -63,7 +83,7 @@
       </div>
 
       <!-- Select many -->
-      <div ng-if="input.input_type=='select'" class="list">
+      <div ng-if="input.input_type === 'select'" class="list">
         <label class="select">{{ 'CHOOSE_MANY' | translate}}:</label>
         <ul class="wrap">
           <li class="item item-checkbox" ng-repeat="option in input.options">
@@ -82,7 +102,7 @@
       <div class="progress" style="width: {{((index + 1) / survey.inputs.length) * 100}}%"></div>
     </div>
     <div class="padding nav-buttons">
-      <button ng-if="index > 0" class="left button button-calm icon-left ion-chevron-left pad-right" ng-click="previousPrompt()">{{ 'BACK' | translate }}</button>
+      <button ng-if="index > 0" class="left button button-stable icon-left ion-chevron-left pad-right" ng-click="previousPrompt()">{{ 'BACK' | translate }}</button>
       <button class="subtle button-cancel" ng-click="cancelResponse()">
         <icon class="ion-close"></icon>
       </button>

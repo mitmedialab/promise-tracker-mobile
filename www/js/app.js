@@ -96,7 +96,7 @@ angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'pascal
     .state('input', {
       url: '/surveys/:surveyId/:inputId',
       templateUrl: 'templates/input.html',
-      controller: 'InputsCtrl'   
+      controller: 'InputsCtrl'  
     })
 
     .state('survey-end', {
@@ -160,6 +160,8 @@ angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'pascal
     'TAKE_PICTURE': 'Tomar una fotografía',
     'GET_LOCATION': 'Guardar ubicación',
     'GETTING_LOCATION': 'Guardando ubicación',
+    'LOCATION_RECORDED': 'Listo!',
+    'LOCATION': 'Ubicación',
     'CHOOSE_ONE': 'Seleccionar una',
     'CHOOSE_MANY': 'Seleccionar todas las que apliquen',
     'YOUR_ANSWER': 'Tu respuesta aquí...',
@@ -222,12 +224,13 @@ angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'pascal
     'GET_NEW_VERSION': 'Get newest version',
     'LOCATION_CONSENT': 'Allow my location to be recorded',
     'START_RESPONSE': 'Start survey',
-    'LOCATION_CONSENT': 'Let my location be saved',
     'NEXT': 'Next',
     'BACK': 'Back',
     'TAKE_PICTURE': 'Take a picture',
     'GET_LOCATION': 'Record location',
     'GETTING_LOCATION': 'Getting location',
+    'LOCATION_RECORDED': 'Got it!',
+    'LOCATION': 'Location',
     'CHOOSE_ONE': 'Select one',
     'CHOOSE_MANY': 'Select all that apply',
     'YOUR_ANSWER': 'Your answer here...',
@@ -295,6 +298,8 @@ angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'pascal
     'TAKE_PICTURE': 'Tirar uma foto',
     'GET_LOCATION': 'Clique aqui para obter localização',
     'GETTING_LOCATION': 'Procurando localização',
+    'LOCATION_RECORDED': 'Pronto!',
+    'LOCATION': 'Localização',
     'CHOOSE_ONE': 'Selecione uma',
     'CHOOSE_MANY': 'Selecione (pode ser mais de uma)',
     'YOUR_ANSWER': 'Sua resposta aqui...',
@@ -318,74 +323,5 @@ angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'pascal
     'REQUIRED': 'Este campo é obrigatório',
     'OFFLINE': 'Sem internet. Por favor, verifique sua conexão e tente novamente.'
   });
-
-$translateProvider.translations('fr', {
-    // Home page
-    'APP_NAME': 'Monitorando la ville',
-    'MY_CAMPAIGNS': 'Mes campagnes',
-    'GREETING': 'Bem-vindo ao Monitorando a Cidade!',
-    'APP_DESCRIPTION': 'Com este aplicativo você poderá participar de campanhas de coleta de dados criadas no módulo Web.',
-    'GET_STARTED': 'Para começar, baixe sua primeira campanha!',
-    'CODE_TIP': 'Toda campanha tem um código associado a ela. Obtenha o código com os organizadores da campanha ou crie sua própria campanha no site monitorandoacidade.org.',
-    'RESPONSES_TO_DATE': "{NUM, plural, one{Você já completou um registro} 0{Preencha seu primeiro registro!} other{Você já completou {NUM} registros}}",
-    'TESTING_ONLY': 'Versão de teste',
-    'CAMPAIGN_CODE_PROMPT': 'Digite o código da campanha',
-    'CAMPAIGN_CODE_HELP': "Se não tem um código, fala com o organizador da ação",
-    'GET_CAMPAIGN': 'Baixar nova campanha',
-    'DOWNLOAD': 'Baixar',
-    'CANCEL': 'Cancelar',
-    'CLOSE': 'Fechar',
-    'SHARE': 'Compartilhar',
-    'VIEW_MAP_TEXT': 'Para ver o mapa para esta campanha, clique abaixo',
-    'VIEW_MAP': 'Ver mapa',
-
-     // User page
-    'MY_PROFILE': 'Mon perfis',
-    'USER_INFO': 'Dados do usuario',
-    'USERNAME': 'Nome do Usuario',
-    'BIO': 'Biografia',
-    'ADD_BIO': 'Adicionar biografia',
-    'EDIT_BIO': 'Editar',
-    'SAVE': 'Salvar',
-    'RESPONSES': '{NUM, plural, one{registro completado} other{registros completados}}',
-
-    //Survey
-    'CAMPAIGN_CODE': 'La code',
-    'NUMBER_OF_FIELDS': 'Número de campos neste registro',
-    'START_DATE': 'Data de lançamento desta campanha',
-    'END_DATE': 'Data final',
-    'TEST_DESCRIPTION': 'Esta é uma versão de teste. Os dados não serão salvos.',
-    'GET_NEW_VERSION': 'Baixar nova versão',
-    'LOCATION_CONSENT': 'Permitir que minha localização seja gravada',
-    'START_RESPONSE': 'Preencher registro',
-    'NEXT': 'Próximo',
-    'BACK': 'Voltar',
-    'TAKE_PICTURE': 'Tirar uma foto',
-    'GET_LOCATION': 'Clique aqui para obter localização',
-    'GETTING_LOCATION': 'Procurando localização',
-    'CHOOSE_ONE': 'Selecione uma',
-    'CHOOSE_MANY': 'Selecione (pode ser mais de uma)',
-    'YOUR_ANSWER': 'Sua resposta aqui...',
-    'RESPONSE_PROGRESS': 'Andamento',
-    'RESPONSE_COMPLETE': 'Parabéns! Você completou o registro!',
-    'SUBMIT_NOW': 'Enviar agora',
-    'SUBMIT_LATER': 'Enviar depois',
-    'CANCEL_AND_DELETE': 'Cancelar e eliminar este registro',
-
-    //Errors, Alerts
-    'ENTER_CODE': 'Por favor, digite um código de campanha',
-    'CODE_LENGTH': 'O código da campanha deve ser 6 números',
-    '12': 'Esta campanha não existe. Por favor, verifique o código e tente novamente.',
-    'DELETE_RESPONSE': 'Tem certeza que quer eliminar este registro?',
-    'DELETE_CAMPAIGN': 'Tem certeza que quer eliminar esta campanha?',
-    'DELETE': 'Eliminar',
-    'UNSYNCED_RESPONSES': "{NUM, plural, other{Registros}} sem enviar!",
-    'SYNCING': 'Enviando',
-    'RESPONSE_SYNCED': 'Registro enviado',
-    'SYNC_NOW': 'Enviar',
-    'REQUIRED': 'Este campo é obrigatório',
-    'OFFLINE': 'Sem internet. Por favor, verifique sua conexão e tente novamente.'
-  });
-
   $translateProvider.addInterpolation('$translateMessageFormatInterpolation');
 }]);

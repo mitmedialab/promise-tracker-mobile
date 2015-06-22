@@ -15,6 +15,11 @@ a, a:visited, .button.button-positive.button-clear {
   margin-top: 10px;
 }
 
+#map-canvas {
+  width: 100%;
+  height: 250px;
+}
+
 .assertive, a.assertive {
   color: #ea7669;
 }
@@ -73,6 +78,10 @@ a, a:visited, .button.button-positive.button-clear {
   border-radius: 4px;
 }
 
+.button-positive {
+  border: none;
+}
+
 .button-calm {
   background-color: #66c6ba !important;
   border: none;
@@ -111,6 +120,10 @@ a, a:visited, .button.button-positive.button-clear {
   color: grey;
   font-size: .9em;
   display: block;
+}
+
+.input-action {
+  margin-top: -10px !important;
 }
 
 .right {
