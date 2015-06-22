@@ -67,7 +67,7 @@
   <div class="modal">
     <ion-header-bar class="bar-secondary">
       <h1 class=title>{{ 'CAMPAIGN_CODE' | translate }}</h1>
-      <button type="submit" class="button button-clear button-positive" ng-click="closeCodeModal(survey)">{{ 'CANCEL' | translate }}</button>
+      <span class="top-right action cancel-button" ng-click="closeCodeModal()">{{ 'CANCEL' | translate }}</span>
     </ion-header-bar>
 
     <ion-content>
@@ -81,14 +81,14 @@
         <div ng-if="errorMessage.length > 0" class="padding error-message">
           <p>{{ errorMessage | translate }}</p>
         </div>
-        <div class="padding">
+        <div class="padding unpad-top">
           <button type="submit" class="button button-block button-calm">
             <icon ng-if="surveyLoading" class="ion-loading-c"></icon>
             <span ng-if="!surveyLoading">{{ 'DOWNLOAD' | translate }}</span>
           </button>
         </div>
       </form>
-      <div class="padding subtle small center">
+      <div class="padding subtle small center unpad-top">
         <p class="get-started">{{ 'CODE_TIP' | translate }}</p>
       </div>
     </ion-content>

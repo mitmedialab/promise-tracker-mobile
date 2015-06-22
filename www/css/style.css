@@ -6,10 +6,11 @@ p {
   font-size: 1.2em
 }
 
-a, a:visited, .button.button-positive.button-clear {
+a, a:visited, .action {
   color: #66c6ba;
   text-decoration: none;
 }
+
 
 .prompt-card ul {
   margin-top: 10px;
@@ -124,6 +125,10 @@ a, a:visited, .button.button-positive.button-clear {
 
 .input-action {
   margin-top: -10px !important;
+}
+
+.cancel-button {
+  padding-top: 2px;
 }
 
 .right {
@@ -446,7 +451,7 @@ label.select {
   padding: 0 12px;
 }
 
-.nav-buttons .right {
+.nav-buttons .right, .top-right {
   position: absolute;
   right: 20px;
 }
