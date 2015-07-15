@@ -11,6 +11,10 @@ a, a:visited, .action {
   text-decoration: none;
 }
 
+.turquoise {
+  color: #66c6ba;
+}
+
 
 .prompt-card ul {
   margin-top: 10px;
@@ -163,6 +167,10 @@ a, a:visited, .action {
   padding: 10px 30px;
 }
 
+.margin-top {
+  margin-top: 10px;
+}
+
 button.icon-left.pad-right:before {
   padding-right: 10px !important;
 }
@@ -264,21 +272,25 @@ button.icon-right.pad-left:before {
   line-height: 1.3em;
 }
 
+.survey-intro {
+  min-height: 160px;
+  padding-top: 20px;
+}
+
 .test-warning {
   color: #c15d56;
   line-height: 1.3em;
+}
+
+.test-warning icon {
+  margin-right: 7px;
 }
 
 .test-explanation {
   background: #f9f0ef;
   border-radius: 3px;
   padding: 20px;
-  margin: 10px 0;
-}
-
-.test-explanation icon {
-  font-size: 150%;
-  margin-bottom: 10px;
+  margin: 20px 0;
 }
 
 #intro-text {
@@ -313,6 +325,11 @@ button.icon-right.pad-left:before {
   background: #ea7669;
 }
 
+#status .all-synced {
+  padding-top: 14px;
+  color: #646468;
+}
+
 .sync-button {
   margin-top: -5px;
   margin-left: 20px;
@@ -331,10 +348,9 @@ button.icon-right.pad-left:before {
   font-size: 1.3em;
 }
 
-/*Response start page*/
-
-#location-consent {
-  margin-top: 30px;
+/*Survey start page*/
+.campaign-code h3 {
+  margin-top: 0;
 }
 
 /*User account page*/

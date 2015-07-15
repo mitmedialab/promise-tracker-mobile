@@ -41,7 +41,7 @@
     <div id="status">
       <div ng-show="showSyncingStatus">
         <p>
-          <icon class="ion-looping"></icon> {{ 'SYNCING' | translate }} <!-- ({{syncMessage}}) -->
+          <icon class="ion-looping"></icon> {{ 'SYNCING' | translate }}
         </p>
       </div>
       <div ng-show="!showSyncingStatus && showNeedSyncStatus" class="alert">
@@ -49,6 +49,9 @@
           {{ 'UNSYNCED_RESPONSES' | translate : "{NUM: countSynced(survey.id)}" : "messageformat" }}
           <button class="button button-bare sync-button" ng-click="syncSurveys()">{{ 'SYNC_NOW' | translate }}<icon class="ion-loop"></icon></button>
         </p>
+      </div>
+      <div ng-show="!showSyncingStatus && responseCount > 0" class="all-synced">
+        <i class="icon ion-checkmark"></i> {{ 'ALL_SYNCED' | translate }}
       </div>
     </div>
     <div class="bar bar-menu nav-menu">

@@ -4,16 +4,32 @@
       <div class="survey-header border-bottom">
         <h2 class="section-title">{{survey.title}}</h2>
       </div>
-    
-      <p>{{ 'RESPONSE_COMPLETE' |  translate }}</p>
+
+      <br>
+      <div ng-if="location.coordinates.lon">
+        <p><i class="icon ion-checkmark-circled turquoise"></i> All set!</p>
+      </div>
+      <p></i> {{ 'RESPONSE_COMPLETE' |  translate }}</p>
+      <div id="location-missing" ng-if="location.consent && !location.coordinates.lon">
+        {{ 'LOCATION_MISSING' |  translate }}<br>
+        <button class="button button-calm margin-top small" ng-click="getLocation()">
+          <span ng-if="location.status === null">
+            <i class="icon ion-ios7-location"></i>
+            {{ 'GET_LOCATION' | translate }}
+          </span>
+          <span ng-if="location.status === 'searching'">
+            <i class="icon ion-looping"></i>
+          </span>
+        </button>
+      </div>
       <br><br>
       
       <a class="button button-positive button-block" ng-click="submitResponse()">
         {{ 'SUBMIT_NOW' |  translate }}
       </a>
-      <p class="button button-stable button-block" ng-click="saveResponse()">
+      <button class="button button-stable button-block" ng-click="saveResponse()">
         {{ 'SUBMIT_LATER' |  translate }}
-      </p>
+      </button>
     </div>
   </ion-content>
   <div class="bar bar-footer survey-footer">

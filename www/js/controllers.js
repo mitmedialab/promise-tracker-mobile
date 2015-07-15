@@ -13,9 +13,6 @@ angular.module('ptApp.controllers', ['ptConfig'])
     var alertPopup = $ionicPopup.alert({
       template: $filter('translate')('OFFLINE')
     });
-
-    alertPopup.then(function(res) {
-    });
   });
 
   $scope.$on('updateStatus', function(){
@@ -61,15 +58,11 @@ angular.module('ptApp.controllers', ['ptConfig'])
         {
           text: $filter('translate')('VIEW_MAP'),
           type: 'button-positive',
-          onTap: function(){ return true; }
+          onTap: function(){ 
+            navigator.app.loadUrl(PT_CONFIG.campaignUrl + campaignId + '/share?locale=' + $translate.use(), {openExternal : true});
+          }
         }
       ]
-    });
-
-    mapPopup.then(function(res) {
-      if(res) {
-        navigator.app.loadUrl(PT_CONFIG.campaignUrl + campaignId + '/share?locale=' + $translate.use(), {openExternal : true});
-      }
     });
   };
 
@@ -90,16 +83,13 @@ angular.module('ptApp.controllers', ['ptConfig'])
         {
           text: $filter('translate')('DELETE'),
           type: 'button-pink',
-          onTap: function(){ return true; }
+          onTap: function(){ 
+            delete Survey.surveys[surveyId];
+            localStorage['surveys'] = JSON.stringify(Survey.surveys);
+            $scope.surveyCount = Object.keys($scope.surveys).length; 
+          }
         }
       ]
-    });
-    confirmPopup.then(function(res) {
-      if(res) {
-        delete Survey.surveys[surveyId];
-        localStorage['surveys'] = JSON.stringify(Survey.surveys);
-        $scope.surveyCount = Object.keys($scope.surveys).length;
-      }
     });
   };
 
@@ -122,26 +112,20 @@ angular.module('ptApp.controllers', ['ptConfig'])
   };
 
   $scope.fetchSurvey = function(survey){
-
-    var success, error, sanitizedCode;
-
-    success = function(data){
-      Survey.surveys[data.payload.id] = data.payload;
-      Survey.surveys[data.payload.id].start_date = new Date(data.payload.start_date).toLocaleDateString();
-      localStorage['surveys'] = JSON.stringify(Survey.surveys);
+    var success = function(data){
       $scope.surveyLoading = false;
       $scope.codeModal.hide();
       $scope.errorMessage = '';
       $state.go($state.current, {}, {reload: true});
     };
 
-    error = function(error_code){
+    var error = function(error_code){
       $scope.surveyLoading = false;
       $scope.errorMessage = (error_code.toString());
     };
 
     if(survey && survey.code){
-      sanitizedCode = survey.code.toString().replace(/-/, '');
+      var sanitizedCode = survey.code.toString().replace(/-/, '');
 
       if(sanitizedCode.length === 6){
         Main.confirmInternetConnection(function(){
@@ -165,16 +149,35 @@ angular.module('ptApp.controllers', ['ptConfig'])
   };
 })
 
-.controller('SurveysCtrl', function($scope, $stateParams, $state, Survey) {
+.controller('SurveysCtrl', function($scope, $stateParams, $state, Survey, Main) {
   $scope.survey = Survey.surveys[$stateParams.surveyId];
   $scope.code = $scope.survey.code.toString();
-  $scope.responseSettings = {
+  $scope.data = {
     locationConsent: true
   };
-  $scope.locationStamp = {};
+  $scope.location = {
+    status: Survey.currentResponse.locationstamp && Survey.currentResponse.locationstamp.lon ? "recorded" : null,
+    message: "",
+    coordinates: Survey.currentResponse.locationstamp,
+    consent: Survey.currentResponse.consent
+  };
+
+  var success = function(){ 
+    $scope.survey = Survey.surveys[$stateParams.surveyId];
+  };
+
+  Main.confirmInternetConnection(function(){
+    Survey.fetchSurvey($scope.code, function(){ 
+      $scope.survey = Survey.surveys[$stateParams.surveyId];
+    });
+  });
+
+  $scope.getLocation = function(){
+    Survey.getLocation($scope, Survey.currentResponse.locationstamp);
+  };
 
   $scope.startSurvey = function(){
-    Survey.queueNewResponse($stateParams.surveyId, $scope.responseSettings.locationConsent);
+    Survey.queueNewResponse($stateParams.surveyId, $scope.data.locationConsent);
     $state.transitionTo('input', {
       surveyId: $stateParams.surveyId, 
       inputId: Survey.currentResponse.inputs[Survey.currentResponse.activeIndex].id
@@ -211,13 +214,14 @@ angular.module('ptApp.controllers', ['ptConfig'])
   $scope.errorMessage = '';
 
   if($scope.input.input_type === 'location'){
+    $scope.input.answer = $scope.input.answer || {};
     $scope.location = {
-      status: $scope.input.answer && $scope.input.answer.lat ? "recorded" : "blank",
+      status: $scope.input.answer && $scope.input.answer.lat ? "recorded" : null,
       message: ""
     };
 
     $timeout(function() {
-     if($scope.input.answer && $scope.input.answer.lat){
+     if($scope.input.answer.lat){
         $scope.renderMap($scope.input.answer.lat, $scope.input.answer.lon);
       }
     });
@@ -238,55 +242,16 @@ angular.module('ptApp.controllers', ['ptConfig'])
     });
   };
 
-  $scope.renderMap = function(lat, lon){
-    var latLong = new google.maps.LatLng(lat, lon);
-     
-    var mapOptions = {
-      center: latLong,
-      disableDefaultUI: true,
-      zoom: 13,
-      mapTypeId: google.maps.MapTypeId.ROADMAP
-    };
-
-    var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
-
-    var marker = new google.maps.Marker({
-      position: latLong,
-      map: map,
-      draggable: true,
-      title: ''
-    });
-
-    google.maps.event.addListener(marker, 'dragend', function(event){
-      $scope.input.answer.lat = event.latLng.lat();
-      $scope.input.answer.lon = event.latLng.lng();
-    });
-  }
-
   $scope.getLocation = function(){
-    $scope.input.answer = $scope.input.answer || {};
-    $scope.location.status = "searching";
-
-    navigator.geolocation.getCurrentPosition(function(position){
-      $scope.input.answer.lon = position.coords.longitude;
-      $scope.input.answer.lat = position.coords.latitude;
-      $scope.$apply(function(){
-        $scope.location.status = "recorded";
-        $scope.renderMap($scope.input.answer.lat, $scope.input.answer.lon);
-
-        if(!window.Connection || navigator.connection.type == Connection.NONE){
-          $scope.location.message = $filter('translate')('LOCATION') + ": " + $scope.input.answer.lat + ", " + $scope.input.answer.lon;
-        }
-      });
-
-    });
+    Survey.getLocation($scope, $scope.input.answer, true);
   };
 
   $scope.inputValid = function(input){
     if(input.required == true){
       switch(input.input_type){
         case "location":
-          return input.answer && input.answer.lat && input.answer.lon;
+          // Allow user to advance without coordinates if location timed out
+          return input.answer && input.answer.lat && input.answer.lon || input.answer === null;
           break;
         case "select":
           return input.answer.filter(function(i) { return i == true;}).length > 0

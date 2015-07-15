@@ -23,11 +23,12 @@ angular.module('ptApp.services', ['ptConfig', 'pascalprecht.translate'])
       localStorage['user'] = JSON.stringify(this.user);
     },
 
-    confirmInternetConnection: function(successCallback){
+    confirmInternetConnection: function(successCallback, errorCallback){
       if(window.Connection && navigator.connection.type !== Connection.NONE) {
         successCallback();  
       } else {
         $rootScope.$broadcast('connectionError');
+        errorCallback ? errorCallback() : false;
       }
     }
   }
@@ -75,7 +76,10 @@ angular.module('ptApp.services', ['ptConfig', 'pascalprecht.translate'])
       $http.get(PT_CONFIG.aggregatorUrl + 'surveys/' + surveyCode)
         .success(function(data){
           if(data.status == 'success'){
+            self.surveys[data.payload.id] = data.payload;
+            localStorage['surveys'] = JSON.stringify(self.surveys);
             successCallback(data);
+            console.log(data);
           } else {
             errorCallback(data.error_code.toString());
           }
@@ -86,6 +90,84 @@ angular.module('ptApp.services', ['ptConfig', 'pascalprecht.translate'])
         });
     },
 
+    renderMap: function(locationObject){
+      var latLong = new google.maps.LatLng(locationObject.lat, locationObject.lon);
+       
+      var mapOptions = {
+        center: latLong,
+        disableDefaultUI: true,
+        zoom: 13,
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+      };
+
+      var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
+
+      var marker = new google.maps.Marker({
+        position: latLong,
+        map: map,
+        draggable: true,
+        title: ''
+      });
+
+      google.maps.event.addListener(marker, 'dragend', function(event){
+        locationObject.lat = event.latLng.lat();
+        locationObject.lon = event.latLng.lng();
+      });
+    },
+
+    getLocation: function(scope, locationObject, displayMap){
+      var self = this;
+      scope.location.status = "searching";
+
+      var success = function(position){
+        locationObject.lon = position.coords.longitude;
+        locationObject.lat = position.coords.latitude
+
+        if(!self.currentResponse.locationstamp.lon){
+          self.currentResponse.locationstamp.lon = position.coords.longitude;
+          self.currentResponse.locationstamp.lat = position.coords.latitude
+        }
+
+        scope.$apply(function(){
+          scope.location.status = "recorded";
+
+          if(displayMap){
+            self.renderMap(locationObject);
+
+            if(!window.Connection || navigator.connection.type == Connection.NONE){
+              scope.location.message = $filter('translate')('LOCATION') + ": " + locationObject.lat + ", " + locationObject.lon;
+            }
+          }
+        });
+      };
+
+      var error = function(){
+
+        var timeoutPopup = $ionicPopup.confirm({
+          title: $filter('translate')('LOCATION_NOT_FOUND'),
+          template: $filter('translate')('LOCATION_TIMEOUT'),
+          buttons: [
+            {
+              text: $filter('translate')('SKIP_LOCATION'),
+              onTap: function() { scope.location.status = null; }
+            },
+            {
+              text: $filter('translate')('RETRY'),
+              type: 'button-positive',
+              onTap: function(){ self.getLocation(scope, locationObject); }
+            }
+          ]
+        });
+      };
+
+      var options = {
+        enableHighAccuracy: true,
+        timeout: 22000,
+      };
+
+      navigator.geolocation.getCurrentPosition(success, error, options);
+    },
+
     queueNewResponse: function(surveyId, locationConsent){
       var self = this;
       self.currentResponse = {
@@ -94,6 +176,7 @@ angular.module('ptApp.services', ['ptConfig', 'pascalprecht.translate'])
         status: self.surveys[surveyId].status,
         timestamp: Date.now(),
         locationstamp: {},
+        consent: locationConsent,
         inputs: JSON.parse(JSON.stringify(self.surveys[surveyId].inputs)),
         activeIndex: 0
       };
@@ -104,7 +187,6 @@ angular.module('ptApp.services', ['ptConfig', 'pascalprecht.translate'])
           self.currentResponse.locationstamp.lat = position.coords.latitude;
         });
       }
-      console.log(self.currentResponse);
     },
 
     addResponseToUnsynced: function(response){

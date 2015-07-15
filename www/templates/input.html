@@ -32,14 +32,14 @@
       <!-- Location -->
       <div ng-if="input.input_type === 'location'">
         <button class="button button-block button-calm input-action" ng-click="getLocation()">
-          <span ng-if="location.status === 'blank'">
+          <span ng-if="location.status === null">
             <i class="icon ion-ios7-location"></i>
             {{ 'GET_LOCATION' | translate }}
           </span>
           <span ng-if="location.status === 'searching'">
             <i class="icon ion-looping"></i>
           </span>
-          <span ng-if="location.status === 'recorded' || input.answer.lat">
+          <span ng-if="location.status === 'recorded' || input.answer.lat &&  location.status !== 'searching'">
             <i class="icon ion-checkmark"></i>
             {{ 'LOCATION_RECORDED' | translate }}
           </span>
