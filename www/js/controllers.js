@@ -251,7 +251,7 @@ angular.module('ptApp.controllers', ['ptConfig'])
       switch(input.input_type){
         case "location":
           // Allow user to advance without coordinates if location timed out
-          return input.answer && input.answer.lat && input.answer.lon || input.answer === null;
+          return input.answer && input.answer.lat && input.answer.lon || input.answer.lon === null;
           break;
         case "select":
           return input.answer.filter(function(i) { return i == true;}).length > 0

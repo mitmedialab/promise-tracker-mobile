@@ -121,11 +121,11 @@ angular.module('ptApp.services', ['ptConfig', 'pascalprecht.translate'])
 
       var success = function(position){
         locationObject.lon = position.coords.longitude;
-        locationObject.lat = position.coords.latitude
+        locationObject.lat = position.coords.latitude;
 
         if(!self.currentResponse.locationstamp.lon){
           self.currentResponse.locationstamp.lon = position.coords.longitude;
-          self.currentResponse.locationstamp.lat = position.coords.latitude
+          self.currentResponse.locationstamp.lat = position.coords.latitude;
         }
 
         scope.$apply(function(){
@@ -142,6 +142,8 @@ angular.module('ptApp.services', ['ptConfig', 'pascalprecht.translate'])
       };
 
       var error = function(){
+        locationObject.lon = null;
+        locationObject.lat = null;
 
         var timeoutPopup = $ionicPopup.confirm({
           title: $filter('translate')('LOCATION_NOT_FOUND'),
