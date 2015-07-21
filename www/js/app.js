@@ -160,16 +160,16 @@ angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'pascal
     'GET_LOCATION': 'Guardar ubicación',
     'GETTING_LOCATION': 'Guardando ubicación',
     'LOCATION_RECORDED': '¡Listo!',
-    'LOCATION_NOT_FOUND': 'Ubicación no encontrado',
+    'LOCATION_NOT_FOUND': 'Ubicación no encontrada',
     'LOCATION_TIMEOUT': 'Por favor confirme que los servicios de ubicación estén activados.',
     'RETRY': 'Tratar de nuevo',
     'SKIP_LOCATION': 'Omitir ubicación',
-    'LOCATION_MISSING': 'No se guardó ninguna ubicación para esta encuesta. Tratar de nuevo?',
+    'LOCATION_MISSING': 'No se guardó ninguna ubicación para esta encuesta. ¿Tratar de nuevo?',
     'LOCATION': 'Ubicación',
     'CHOOSE_ONE': 'Seleccionar una',
     'CHOOSE_MANY': 'Seleccionar todas las que apliquen',
     'YOUR_ANSWER': 'Tu respuesta aquí...',
-    'ALL_SET': 'Listo!',
+    'ALL_SET': '¡Listo!',
     'RESPONSE_COMPLETE': 'Has finalizado la encuesta.',
     'SUBMIT_NOW': 'Enviar ahora',
     'SUBMIT_LATER': 'Enviar después',
@@ -177,7 +177,7 @@ angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'pascal
 
     //Errors, Alerts
     'ENTER_CODE': 'Por favor incerte un código de encuesta',
-    'CODE_LENGTH': 'El código de la encuesta deben ser 6 números.',
+    'CODE_LENGTH': 'El código de la encuesta debe ser de 6 números.',
     '12': 'Encuesta no encontrada. Por favor verifica el código e intenta de nuevo.',
     'DELETE_RESPONSE': "¿Estás seguro que deseas eliminar esta respuesta? Todos los datos se perderán.",
     'DELETE_CAMPAIGN': "¿Estás seguro que deseas eliminar está encuesta?",
@@ -188,7 +188,7 @@ angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'pascal
     'ALL_SYNCED': 'Todo sincronizado',
     'SYNC_NOW': 'Sincronizar ahora',
     'REQUIRED': 'Esta pregunta es requerida',
-    'OFFLINE': 'Sin conección. Por favor intenta después'
+    'OFFLINE': 'Sin conexión. Por favor intenta después'
   });
 
   $translateProvider.translations('en', {
