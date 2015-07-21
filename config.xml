@@ -11,8 +11,7 @@
   <preference name="UIWebViewBounce" value="false"/>
   <preference name="DisallowOverscroll" value="true"/>
   <preference name="StatusBarOverlaysWebView" value="false"/>
-  <preference name="StatusBarBackgroundColor" value="#333333"/>
-  <preference name="StatusBarStyle" value="BlackTranslucent"/>
+  <preference name="StatusBarBackgroundColor" value="#4e4e51"/>
   <preference name="BackupWebStorage" value="none"/>
   <preference name="KeyboardDisplayRequiresUserAction" value="false"/>
   <preference name="SplashScreen" value="screen"/>

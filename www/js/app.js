@@ -54,11 +54,6 @@ angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'pascal
       cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
     }
 
-    if(window.StatusBar) {
-      // org.apache.cordova.statusbar required
-      StatusBar.styleLightContent();
-    }
-
     if(typeof navigator.globalization !== "undefined") {
       navigator.globalization.getPreferredLanguage(
         function(language){
