@@ -14,6 +14,7 @@
                         },
                         {
                             "xml": "<feature name=\"Focus\"><param name=\"android-package\" value=\"fr._46cl.focus.Focus\" /><param name=\"onload\" value=\"true\" /></feature>",
+                            "xml": "<feature name=\"InAppBrowser\"><param name=\"android-package\" value=\"org.apache.cordova.inappbrowser.InAppBrowser\" /></feature>",
                             "count": 1
                         },
                         {
@@ -80,6 +81,7 @@
             "PACKAGE_NAME": "com.ionicframework.monitorandoacidade"
         },
         "fr._46cl.focus": {
+        "cordova-plugin-inappbrowser": {
             "PACKAGE_NAME": "com.ionicframework.monitorandoacidade"
         },
         "org.apache.cordova.camera": {
@@ -100,7 +102,6 @@
         "org.apache.cordova.globalization": {
             "PACKAGE_NAME": "com.ionicframework.monitorandoacidade"
         },
-        "org.apache.cordova.inappbrowser": {
             "PACKAGE_NAME": "com.ionicframework.monitorandoacidade"
         },
         "org.apache.cordova.network-information": {

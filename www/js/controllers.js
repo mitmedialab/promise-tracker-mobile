@@ -60,6 +60,11 @@ angular.module('ptApp.controllers', ['ptConfig'])
           type: 'button-positive',
           onTap: function(){ 
             navigator.app.loadUrl(PT_CONFIG.campaignUrl + campaignId + '/share?locale=' + $translate.use(), {openExternal : true});
+            var ref = window.open(PT_CONFIG.campaignUrl + campaignId + '/share?locale=' + $translate.use(), '_blank', 'location=yes', 'closebuttoncaption=X');
+            ref.addEventListener('exit', function(){
+              ref.close();
+              $ionicListDelegate.closeOptionButtons();
+            });
           }
         }
       ]
