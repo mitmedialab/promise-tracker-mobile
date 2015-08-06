@@ -58,7 +58,7 @@ angular.module('ptApp.controllers', ['ptConfig'])
           text: $filter('translate')('VIEW_MAP'),
           type: 'button-positive',
           onTap: function(){ 
-            var ref = window.open(PT_CONFIG.campaignUrl + campaignId + '/share?locale=' + $translate.use(), '_blank', 'location=yes', 'closebuttoncaption=X');
+            var ref = window.open(PT_CONFIG.campaignUrl + campaignId + '/share?locale=' + $filter('translate')('LOCALE'), '_blank', 'location=yes', 'closebuttoncaption=X');
             ref.addEventListener('exit', function(){
               ref.close();
               $ionicListDelegate.closeOptionButtons();
@@ -67,6 +67,9 @@ angular.module('ptApp.controllers', ['ptConfig'])
         }
       ]
     });
+    mapPopup.then(function(res){
+      mapPopup.close();
+    })
   };
 
   $scope.countSynced = function(surveyId){

@@ -90,6 +90,7 @@ angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'pascal
   $translateProvider.translations('es', {
     // Home page
     'APP_NAME': 'Promise Tracker',
+    'LOCALE': 'es',
     'MY_CAMPAIGNS': 'Mis campañas',
     'GREETING': 'Bienvenido a Promise Tracker!',
     'GET_STARTED': 'Para comenzar, descarga tu primera campaña',
@@ -163,6 +164,7 @@ angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'pascal
   $translateProvider.translations('en', {
     // Home page
     'APP_NAME': 'Promise Tracker',
+    'LOCALE': 'en',
     'MY_CAMPAIGNS': 'My campaigns',
     'GREETING': 'Welcome to Promise Tracker!',
     'GET_STARTED': 'To get started, download your first campaign',
@@ -235,6 +237,7 @@ angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'pascal
   $translateProvider.translations('pt', {
     // Home page
     'APP_NAME': 'Monitorando a Cidade',
+    'LOCALE': 'pt-BR',
     'MY_CAMPAIGNS': 'Minhas campanhas',
     'GREETING': 'Bem-vindo ao Monitorando a Cidade!',
     'APP_DESCRIPTION': 'Com este aplicativo você poderá participar de campanhas de coleta de dados criadas no módulo Web.',
