@@ -7,7 +7,7 @@
 
       <br>
       <div ng-if="location.coordinates.lon">
-        <p><i class="icon ion-checkmark-circled turquoise"></i> All set!</p>
+        <p><i class="icon ion-checkmark-circled turquoise"></i> {{ 'ALL_SET' |  translate }}</p>
       </div>
       <p></i> {{ 'RESPONSE_COMPLETE' |  translate }}</p>
       <div id="location-missing" ng-if="location.consent && !location.coordinates.lon">

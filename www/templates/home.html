@@ -70,7 +70,7 @@
   <div class="modal">
     <ion-header-bar class="bar-secondary">
       <h1 class=title>{{ 'CAMPAIGN_CODE' | translate }}</h1>
-      <span class="top-right action cancel-button" ng-click="closeCodeModal()">{{ 'CANCEL' | translate }}</span>
+      <span class="top-right action cancel-button" ng-click="closeCodeModal()"><icon class="ion-close"></icon></span>
     </ion-header-bar>
 
     <ion-content>
@@ -78,7 +78,7 @@
         <p class="center help-text">{{ 'CAMPAIGN_CODE_PROMPT' | translate }}:</p>
         <div class="list">
           <label class="item item-input enter-code-input">
-            <input type="tel" auto-focus ng-model="survey.code" ui-mask="999-999">
+            <input type="tel" ng-model="survey.code" ui-mask="999-999">
           </label>
         </div>
         <div ng-if="errorMessage.length > 0" class="padding error-message">

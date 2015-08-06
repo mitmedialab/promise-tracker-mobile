@@ -39,6 +39,7 @@ a, a:visited, .action {
 
 .popup {
   background-color: white;
+  text-align: center;
 }
 
 .no-border {
@@ -131,10 +132,6 @@ a, a:visited, .action {
   margin-top: -10px !important;
 }
 
-.cancel-button {
-  padding-top: 2px;
-}
-
 .right {
   float: right;
 }
@@ -218,7 +215,7 @@ button.icon-right.pad-left:before {
 }
 
 .bar-header {
-  background: #5a5a5e;
+  background: #4e4e51;
   padding: 12px 8px;
   height: 52px;
 }
@@ -273,7 +270,7 @@ button.icon-right.pad-left:before {
 }
 
 .survey-intro {
-  min-height: 160px;
+  min-height: 120px;
   padding-top: 20px;
 }
 
@@ -314,7 +311,7 @@ button.icon-right.pad-left:before {
 }
 
 #status div {
-  padding: 10px;
+  padding: 9px;
 }
 
 #status p {
@@ -409,14 +406,6 @@ label.select {
   margin-bottom: 10px;
 }
 
-.top-cancel-button {
-  position: absolute;
-  top: 10px;
-  right: 15px;
-  color: #808085;
-  padding: 10px 20px;
-}
-
 .prompt-card {
   min-height: 150px;
   padding: 10px 30px;
@@ -470,6 +459,7 @@ label.select {
 .nav-buttons .right, .top-right {
   position: absolute;
   right: 20px;
+  padding: 2px 10px;
 }
 
 .nav-buttons .left {

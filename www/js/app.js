@@ -45,29 +45,6 @@ angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'pascal
   }];
 })
 
-.run(function($ionicPlatform, $translate) {
-  
-  $ionicPlatform.ready(function() {
-    // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
-    // for form inputs)
-    if(window.cordova && window.cordova.plugins.Keyboard) {
-      cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
-    }
-
-    if(typeof navigator.globalization !== "undefined") {
-      navigator.globalization.getPreferredLanguage(
-        function(language){
-          $translate.use((language.value).split("-")[0]);
-        }, 
-        function(error) {
-          console.log("ERROR -> " + error);
-        }
-      );
-    }
-
-  });
-})
-
 .config(function($stateProvider, $urlRouterProvider) {
 
   // Ionic uses AngularUI Router which uses the concept of states
@@ -109,25 +86,25 @@ angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'pascal
     $urlRouterProvider.otherwise('/home');
 })
 
-.config(['$translateProvider', function ($translateProvider) {
+.config(function ($translateProvider) {
   $translateProvider.translations('es', {
     // Home page
     'APP_NAME': 'Promise Tracker',
-    'MY_CAMPAIGNS': 'Mis encuestas',
+    'MY_CAMPAIGNS': 'Mis campañas',
     'GREETING': 'Bienvenido a Promise Tracker!',
-    'GET_STARTED': 'Para comenzar, descarga tu primera encuesta',
+    'GET_STARTED': 'Para comenzar, descarga tu primera campaña',
     'CODE_TIP': 'Cada campaña tiene un código asociado a ella. Obten el código del organizador de la campaña o crea tu propia campaña en monitor.promisetracker.org.',
-    'RESPONSES_TO_DATE': "{NUM, plural, one{Has respondido una} 0{¡Comienza con tu primer respuesta!} other{Has contestado {NUM} veces}}",
+    'RESPONSES_TO_DATE': "{NUM, plural, one{Has contestado una} 0{¡Comienza con tu primer respuesta!} other{Has contestado {NUM} veces}}",
     'TESTING_ONLY': 'Copia de prueba',
-    'CAMPAIGN_CODE': 'Código de encuesta',
-    'CAMPAIGN_CODE_PROMPT': 'Ingresa tu código de encuesta abajo',
+    'CAMPAIGN_CODE': 'Código de campaña',
+    'CAMPAIGN_CODE_PROMPT': 'Ingresa tu código de campaña abajo',
     'CAMPAIGN_CODE_HELP': "Si no tienes un código habla con el organizador de la campaña",
-    'GET_CAMPAIGN': 'Obtener campaña',
-    'DOWNLOAD': 'Descarga',
+    'GET_CAMPAIGN': 'Obtener nueva campaña',
+    'DOWNLOAD': 'Descargar',
     'CANCEL': 'Cancelar',
     'CLOSE': 'Cerrar',
     'SHARE': 'Compartir',
-    'VIEW_MAP_TEXT': 'Para ver el mapa de esta encusta da clic abajo',
+    'VIEW_MAP_TEXT': 'Para ver el mapa de esta campaña da clic abajo',
     'VIEW_MAP': 'Ver mapa',
 
     // User page
@@ -138,28 +115,25 @@ angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'pascal
     'ADD_BIO': 'Agregar biografía',
     'EDIT_BIO': 'Editar',
     'SAVE': 'Guardar',
-    'RESPONSES': '{NUM, plural, one{Encuesta} other{encuestas}} completadas',
+    'RESPONSES': '{NUM, plural, one{respuesta} other{respuestas}} completadas',
 
     //Survey
     'CAMPAIGN_CODE': 'Código de campaña',
-    'NUMBER_OF_FIELDS': 'Campos totales',
-    'START_DATE': 'Fecha en la que comenzó esta encuesta',
-    'END_DATE': 'Fecha de final',
     'GET_NEW_VERSION': 'Obtener la version más reciente',
     'LOCATION_CONSENT': 'Permitir conocer mi ubicación',
     'START_RESPONSE': 'Comenzar encuesta',
     'LOCATION_CONSENT': 'Permitir que se guarde mi ubicación',
     'NEXT': 'Siguiente',
-    'BACK': 'Atras',
+    'BACK': 'Atrás',
     'TAKE_PICTURE': 'Tomar una fotografía',
-    'GET_LOCATION': 'Guardar ubicación',
-    'GETTING_LOCATION': 'Guardando ubicación',
+    'GET_LOCATION': 'Obtener ubicación',
+    'GETTING_LOCATION': 'Buscando ubicación',
     'LOCATION_RECORDED': '¡Listo!',
     'LOCATION_NOT_FOUND': 'Ubicación no encontrada',
     'LOCATION_TIMEOUT': 'Por favor confirme que los servicios de ubicación estén activados.',
     'RETRY': 'Tratar de nuevo',
     'SKIP_LOCATION': 'Omitir ubicación',
-    'LOCATION_MISSING': 'No se guardó ninguna ubicación para esta encuesta. ¿Tratar de nuevo?',
+    'LOCATION_MISSING': 'No se guardó ninguna ubicación para esta respuesta. ¿Tratar de nuevo?',
     'LOCATION': 'Ubicación',
     'CHOOSE_ONE': 'Seleccionar una',
     'CHOOSE_MANY': 'Seleccionar todas las que apliquen',
@@ -171,17 +145,17 @@ angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'pascal
     'CANCEL_AND_DELETE': 'Cancelar y borrar esta respuesta',
 
     //Errors, Alerts
-    'ENTER_CODE': 'Por favor incerte un código de encuesta',
-    'CODE_LENGTH': 'El código de la encuesta debe ser de 6 números.',
+    'ENTER_CODE': 'Por favor incerte un código de campaña',
+    'CODE_LENGTH': 'El código de la campaña debe ser de 6 números.',
     '12': 'Encuesta no encontrada. Por favor verifica el código e intenta de nuevo.',
     'DELETE_RESPONSE': "¿Estás seguro que deseas eliminar esta respuesta? Todos los datos se perderán.",
-    'DELETE_CAMPAIGN': "¿Estás seguro que deseas eliminar está encuesta?",
+    'DELETE_CAMPAIGN': "¿Estás seguro que deseas eliminar esta campaña de la lista?",
     'DELETE': 'Eliminar',
-    'UNSYNCED_RESPONSES': "Sin sincronizar {NUM, plural, other{items}}!",
+    'UNSYNCED_RESPONSES': "{NUM, plural, other{Elementos}} sin enviar!",
     'SYNCING': 'Enviando',
-    'RESPONSE_SYNCED': 'Encuesta enviada',
-    'ALL_SYNCED': 'Todo sincronizado',
-    'SYNC_NOW': 'Sincronizar ahora',
+    'RESPONSE_SYNCED': '¡Encuesta enviada!',
+    'ALL_SYNCED': 'Todo enviado',
+    'SYNC_NOW': 'Enviar',
     'REQUIRED': 'Esta pregunta es requerida',
     'OFFLINE': 'Sin conexión. Por favor intenta después'
   });
@@ -189,21 +163,21 @@ angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'pascal
   $translateProvider.translations('en', {
     // Home page
     'APP_NAME': 'Promise Tracker',
-    'MY_CAMPAIGNS': 'My surveys',
+    'MY_CAMPAIGNS': 'My campaigns',
     'GREETING': 'Welcome to Promise Tracker!',
-    'GET_STARTED': 'To get started, download your first survey',
-    'CODE_TIP': 'Every campaign has a code associated with it. Get the code from the organizers of the campaign or create your own campaign at monitor.promisetracker.org.',
+    'GET_STARTED': 'To get started, download your first campaign',
+    'CODE_TIP': 'Every campaign has a code associated with it. Get the code from the campaign organizers or create your own campaign at monitor.promisetracker.org.',
     'RESPONSES_TO_DATE': "{NUM, plural, one{You've responded once} 0{Get started on your first response!} other{You've responded {NUM} times}}",
     'TESTING_ONLY': 'Testing copy',
-    'CAMPAIGN_CODE': 'Survey code',
-    'CAMPAIGN_CODE_PROMPT': 'Enter your survey code below',
+    'CAMPAIGN_CODE': 'Campaign code',
+    'CAMPAIGN_CODE_PROMPT': 'Enter your campaign code below',
     'CAMPAIGN_CODE_HELP': "If you don't have a code, talk with the campaign organizer",
-    'GET_CAMPAIGN': 'Get campaign',
+    'GET_CAMPAIGN': 'Get new campaign',
     'DOWNLOAD': 'Download',
     'CANCEL': 'Cancel',
     'CLOSE': 'Close',
     'SHARE': 'Share',
-    'VIEW_MAP_TEXT': 'To see the map for this survey, click below',
+    'VIEW_MAP_TEXT': 'To see the map for this campaign, click below',
     'VIEW_MAP': 'View map',
 
     // User page
@@ -214,13 +188,10 @@ angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'pascal
     'ADD_BIO': 'Add bio',
     'EDIT_BIO': 'Edit',
     'SAVE': 'Save',
-    'RESPONSES': '{NUM, plural, one{survey} other{surveys}} completed',
+    'RESPONSES': '{NUM, plural, one{response} other{responses}} completed',
 
     //Survey
     'CAMPAIGN_CODE': 'Campaign code',
-    'NUMBER_OF_FIELDS': 'Total number of prompts',
-    'START_DATE': 'Date this survey was launched',
-    'END_DATE': 'End date',
     'GET_NEW_VERSION': 'Get newest version',
     'LOCATION_CONSENT': 'Allow my location to be recorded',
     'START_RESPONSE': 'Start survey',
@@ -246,22 +217,22 @@ angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'pascal
     'CANCEL_AND_DELETE': 'Cancel and delete this response',
 
     //Errors, Alerts
-    'ENTER_CODE': 'Please enter a survey code',
-    'CODE_LENGTH': 'The survey code should be a total of 6 numbers.',
-    '12': 'Survey not found. Please check code and try again.',
-    'DELETE_RESPONSE': "Are you sure you want to delete this reponse? All data will be lost.",
-    'DELETE_CAMPAIGN': "Are you sure you want to delete this survey?",
+    'ENTER_CODE': 'Please enter a campaign code',
+    'CODE_LENGTH': 'The campaign code should be a total of 6 numbers.',
+    '12': 'Campaign not found. Please check code and try again.',
+    'DELETE_RESPONSE': "Are you sure you want to delete this reponse? All data for this response will be lost.",
+    'DELETE_CAMPAIGN': "Are you sure you want to delete this campaign from your list?",
     'DELETE': 'Delete',
     'UNSYNCED_RESPONSES': "Unsynced {NUM, plural, other{items}}!",
     'SYNCING': 'Syncing',
-    'RESPONSE_SYNCED': 'Survey submitted',
+    'RESPONSE_SYNCED': 'Response sent!',
     'ALL_SYNCED': 'All synced',
     'SYNC_NOW': 'Sync now',
     'REQUIRED': 'This question is required',
     'OFFLINE': 'No network connection. Please try again later'
   });
 
-  $translateProvider.translations('pt-BR', {
+  $translateProvider.translations('pt', {
     // Home page
     'APP_NAME': 'Monitorando a Cidade',
     'MY_CAMPAIGNS': 'Minhas campanhas',
@@ -281,6 +252,7 @@ angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'pascal
     'VIEW_MAP_TEXT': 'Para ver o mapa para esta campanha, clique abaixo',
     'VIEW_MAP': 'Ver mapa',
 
+
      // User page
     'MY_PROFILE': 'Meu perfil',
     'USER_INFO': 'Dados do usuario',
@@ -293,16 +265,13 @@ angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'pascal
 
     //Survey
     'CAMPAIGN_CODE': 'Código da campanha',
-    'NUMBER_OF_FIELDS': 'Número de campos neste registro',
-    'START_DATE': 'Data de lançamento desta campanha',
-    'END_DATE': 'Data final',
     'GET_NEW_VERSION': 'Baixar nova versão',
     'LOCATION_CONSENT': 'Permitir que minha localização seja gravada',
     'START_RESPONSE': 'Preencher registro',
     'NEXT': 'Próximo',
     'BACK': 'Voltar',
     'TAKE_PICTURE': 'Tirar uma foto',
-    'GET_LOCATION': 'Clique aqui para obter localização',
+    'GET_LOCATION': 'Obter localização',
     'GETTING_LOCATION': 'Procurando localização',
     'LOCATION_RECORDED': 'Pronto!',
     'LOCATION_NOT_FOUND': 'Localização não encontrado',
@@ -330,11 +299,31 @@ angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'pascal
     'DELETE': 'Eliminar',
     'UNSYNCED_RESPONSES': "{NUM, plural, other{Registros}} sem enviar!",
     'SYNCING': 'Enviando',
-    'RESPONSE_SYNCED': 'Registro enviado',
+    'RESPONSE_SYNCED': 'Registro enviado!',
     'SYNC_NOW': 'Enviar',
     'ALL_SYNCED': 'Tudo enviado',
     'REQUIRED': 'Este campo é obrigatório',
     'OFFLINE': 'Sem internet. Por favor, verifique sua conexão e tente novamente.'
   });
+
+  var lang = navigator.language.split("-")[0];
+  if ($translateProvider.translations().hasOwnProperty(lang)){
+    $translateProvider.preferredLanguage(lang).fallbackLanguage("en");
+  } else {
+    $translateProvider.preferredLanguage("en");
+  }
+
   $translateProvider.addInterpolation('$translateMessageFormatInterpolation');
-}]);
+})
+
+.run(function($ionicPlatform, $translate) {
+
+  $ionicPlatform.ready(function() {
+    // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
+    // for form inputs)
+    if(window.cordova && window.cordova.plugins.Keyboard) {
+      cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+    }
+
+  });
+});

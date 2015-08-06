@@ -32,8 +32,6 @@ angular.module('ptApp.services', ['ptConfig', 'pascalprecht.translate'])
       }
     }
   }
-
-  $translate.use(navigator.language.split("-")[0]);
   
   if(!localStorage['installationId']){
     service.setInstallationId(PT_CONFIG.aggregatorUrl);
@@ -225,7 +223,7 @@ angular.module('ptApp.services', ['ptConfig', 'pascalprecht.translate'])
       // Search for images in the survey response
       response.inputs.forEach(function(input){
         if(input.input_type == 'image' && input.answer){
-          self.unsyncedImages.push({id: response.id, input_id: input.id, fileLocation: input.answer});
+          self.unsyncedImages.push({id: response.id, survey_id: response.survey_id, input_id: input.id, fileLocation: input.answer});
         }
       });
       self.syncImages();
@@ -301,6 +299,7 @@ angular.module('ptApp.services', ['ptConfig', 'pascalprecht.translate'])
           }
           self.refreshSyncItemCount();
           self.syncResponses();
+          $rootScope.$broadcast('viewMap', response.survey_id);
         })
 
         .error(function(data, status){
@@ -339,6 +338,7 @@ angular.module('ptApp.services', ['ptConfig', 'pascalprecht.translate'])
           $rootScope.$broadcast('updateStatus');
           self.syncImages();
           self.currentSyncPercentage = 0;
+          $rootScope.$broadcast('viewMap', image.survey_id);
         }, 
 
         function(error){   // upload failed

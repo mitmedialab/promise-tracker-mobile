@@ -2,10 +2,9 @@ angular.module('ptApp.controllers', ['ptConfig'])
 
 .controller('HomeCtrl', function($scope, $ionicModal, $http, $state, $ionicPopup, $filter, $ionicListDelegate, $translate, Survey, PT_CONFIG, Main) {
   $scope.surveys = Survey.surveys;
-  $scope.surveyCount = Object.keys($scope.surveys).length;
+  $scope.surveyCount = Object.keys(Survey.surveys).length;
   $scope.responseCount = Survey.synced.length + Survey.unsynced.length;
   $scope.errorMessage = '';
-  $scope.unsynced = Survey.unsynced.length + Survey.unsyncedImages.length;
   $scope.showNeedSyncStatus = Survey.hasUnsyncedItems();
   $scope.showSyncingStatus = Survey.isSyncing();
 
@@ -31,8 +30,8 @@ angular.module('ptApp.controllers', ['ptConfig'])
   });
 
   $scope.$on('viewMap', function(scope, surveyId){
-    if($scope.unsynced === 0 && $scope.surveys[surveyId].status != 'test'){
-      $scope.viewMap(surveyId, 'SURVEY_SYNCED');
+    if(!Survey.hasUnsyncedItems()){
+      $scope.viewMap(surveyId, 'RESPONSE_SYNCED');
     }
   });
 
@@ -59,7 +58,6 @@ angular.module('ptApp.controllers', ['ptConfig'])
           text: $filter('translate')('VIEW_MAP'),
           type: 'button-positive',
           onTap: function(){ 
-            navigator.app.loadUrl(PT_CONFIG.campaignUrl + campaignId + '/share?locale=' + $translate.use(), {openExternal : true});
             var ref = window.open(PT_CONFIG.campaignUrl + campaignId + '/share?locale=' + $translate.use(), '_blank', 'location=yes', 'closebuttoncaption=X');
             ref.addEventListener('exit', function(){
               ref.close();
@@ -105,9 +103,6 @@ angular.module('ptApp.controllers', ['ptConfig'])
   $scope.openCodeModal = function(){
     Main.confirmInternetConnection(function(){
       $scope.codeModal.show();
-      window.setTimeout(function(){
-        cordova.plugins.Focus.focus(document.querySelector("input"));
-      }, 150);
     });
   };
 
@@ -227,7 +222,7 @@ angular.module('ptApp.controllers', ['ptConfig'])
 
     $timeout(function() {
      if($scope.input.answer.lat){
-        $scope.renderMap($scope.input.answer.lat, $scope.input.answer.lon);
+        Survey.renderMap($scope.input.answer);
       }
     });
   }
