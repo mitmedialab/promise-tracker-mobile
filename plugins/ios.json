@@ -119,9 +119,6 @@
         "com.ionic.keyboard": {
             "PACKAGE_NAME": "com.ionicframework.monitorandoacidade"
         },
-        "fr._46cl.focus": {
-            "PACKAGE_NAME": "com.ionicframework.monitorandoacidade"
-        },
         "org.apache.cordova.camera": {
             "PACKAGE_NAME": "com.ionicframework.monitorandoacidade"
         },
@@ -144,6 +141,9 @@
             "PACKAGE_NAME": "com.ionicframework.monitorandoacidade"
         },
         "org.apache.cordova.statusbar": {
+            "PACKAGE_NAME": "com.ionicframework.monitorandoacidade"
+        },
+        "cordova-plugin-whitelist": {
             "PACKAGE_NAME": "com.ionicframework.monitorandoacidade"
         }
     },

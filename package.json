@@ -19,6 +19,10 @@
     "com.ionic.keyboard",
     "https://github.com/46cl/cordova-android-focus-plugin",
     "org.apache.cordova.globalization",
-    "org.apache.cordova.statusbar"
+    "org.apache.cordova.statusbar",
+    "cordova-plugin-whitelist"
+  ],
+  "cordovaPlatforms": [
+    "android"
   ]
 }

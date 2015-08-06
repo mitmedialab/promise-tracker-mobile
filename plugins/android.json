@@ -13,7 +13,6 @@
                             "count": 1
                         },
                         {
-                            "xml": "<feature name=\"Focus\"><param name=\"android-package\" value=\"fr._46cl.focus.Focus\" /><param name=\"onload\" value=\"true\" /></feature>",
                             "xml": "<feature name=\"InAppBrowser\"><param name=\"android-package\" value=\"org.apache.cordova.inappbrowser.InAppBrowser\" /></feature>",
                             "count": 1
                         },
@@ -38,15 +37,15 @@
                             "count": 1
                         },
                         {
-                            "xml": "<feature name=\"InAppBrowser\"><param name=\"android-package\" value=\"org.apache.cordova.inappbrowser.InAppBrowser\" /></feature>",
-                            "count": 1
-                        },
-                        {
                             "xml": "<feature name=\"NetworkStatus\"><param name=\"android-package\" value=\"org.apache.cordova.networkinformation.NetworkManager\" /></feature>",
                             "count": 1
                         },
                         {
                             "xml": "<feature name=\"StatusBar\"><param name=\"android-package\" value=\"org.apache.cordova.statusbar.StatusBar\" /><param name=\"onload\" value=\"true\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"Whitelist\"><param name=\"android-package\" value=\"org.apache.cordova.whitelist.WhitelistPlugin\" /><param name=\"onload\" value=\"true\" /></feature>",
                             "count": 1
                         }
                     ]
@@ -80,7 +79,6 @@
         "com.ionic.keyboard": {
             "PACKAGE_NAME": "com.ionicframework.monitorandoacidade"
         },
-        "fr._46cl.focus": {
         "cordova-plugin-inappbrowser": {
             "PACKAGE_NAME": "com.ionicframework.monitorandoacidade"
         },
@@ -102,12 +100,13 @@
         "org.apache.cordova.globalization": {
             "PACKAGE_NAME": "com.ionicframework.monitorandoacidade"
         },
-            "PACKAGE_NAME": "com.ionicframework.monitorandoacidade"
-        },
         "org.apache.cordova.network-information": {
             "PACKAGE_NAME": "com.ionicframework.monitorandoacidade"
         },
         "org.apache.cordova.statusbar": {
+            "PACKAGE_NAME": "com.ionicframework.monitorandoacidade"
+        },
+        "cordova-plugin-whitelist": {
             "PACKAGE_NAME": "com.ionicframework.monitorandoacidade"
         }
     },
