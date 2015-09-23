@@ -101,7 +101,7 @@ angular.module('ptApp.controllers', ['ptConfig'])
     Main.confirmInternetConnection(function(){
       $scope.codeModal.show();
       window.setTimeout(function(){
-        cordova.plugins.Focus.focus(document.querySelector("input"));
+        cordova.plugins.Keyboard.show();
       }, 150);
     });
   };
