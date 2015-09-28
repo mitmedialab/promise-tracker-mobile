@@ -20,7 +20,8 @@
     "https://github.com/46cl/cordova-android-focus-plugin",
     "org.apache.cordova.globalization",
     "org.apache.cordova.statusbar",
-    "cordova-plugin-whitelist"
+    "cordova-plugin-whitelist",
+    "cordova-plugin-ble-central"
   ],
   "cordovaPlatforms": [
     "android"

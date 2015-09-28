@@ -60,6 +60,12 @@
                             "xml": "<preference name=\"StatusBarStyle\" value=\"lightcontent\" />",
                             "count": 1
                         }
+                    ],
+                    "/widget": [
+                        {
+                            "xml": "<feature name=\"BLE\"><param name=\"ios-package\" onload=\"true\" value=\"BLECentralPlugin\" /></feature>",
+                            "count": 1
+                        }
                     ]
                 }
             },
@@ -98,6 +104,12 @@
                     "SystemConfiguration.framework": [
                         {
                             "xml": "true",
+                            "count": 1
+                        }
+                    ],
+                    "CoreBluetooth.framework": [
+                        {
+                            "xml": false,
                             "count": 1
                         }
                     ]
@@ -144,6 +156,9 @@
             "PACKAGE_NAME": "com.ionicframework.monitorandoacidade"
         },
         "cordova-plugin-whitelist": {
+            "PACKAGE_NAME": "com.ionicframework.monitorandoacidade"
+        },
+        "cordova-plugin-ble-central": {
             "PACKAGE_NAME": "com.ionicframework.monitorandoacidade"
         }
     },

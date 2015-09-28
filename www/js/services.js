@@ -205,8 +205,8 @@ angular.module('ptApp.services', ['ptConfig', 'pascalprecht.translate'])
       }
     },
 
-    refreshSyncItemCount: function(){
-      this.currentSyncItemTotal = this.unsyncedImages.length + this.unsynced.length;
+    getUnsyncedCount: function(){
+      return this.unsyncedImages.length + this.unsynced.length;
     },
 
     getSyncMessage: function(){
@@ -275,12 +275,11 @@ angular.module('ptApp.services', ['ptConfig', 'pascalprecht.translate'])
       return formattedResponse;
     },
 
-    syncResponse: function(response){
+    syncResponse: function(response, $scope){
       var self = this;
       var formattedResponse = self.formatResponse(response);
       self.addResponseToUnsynced(response);
-      self.syncing =  true;
-      $rootScope.$broadcast('updateStatus');
+      $scope.data.isSyncing =  true;
       $http.post(
         PT_CONFIG.aggregatorUrl + 'responses', 
         { response: JSON.stringify(formattedResponse) }
@@ -293,23 +292,20 @@ angular.module('ptApp.services', ['ptConfig', 'pascalprecht.translate'])
             self.addImageToUnsynced(response);
           }
           if(self.unsynced.length + self.unsyncedImages.length == 0) {
-            self.syncing = false;
-            $rootScope.$broadcast('updateStatus');
+            $scope.data.isSyncing =  false;
             $rootScope.$broadcast('viewMap', response.survey_id);
           }
-          self.refreshSyncItemCount();
-          self.syncResponses();
-          $rootScope.$broadcast('viewMap', response.survey_id);
+          $scope.data.needsSync = self.getUnsyncedCount() > 0;
+          self.syncResponses($scope);
         })
 
         .error(function(data, status){
-          Main.interceptResponse(data, status);
-          self.syncing = false;
-          $rootScope.$broadcast('updateStatus');
+          // Main.interceptResponse(data, status);
+          $scope.data.isSyncing = false;
         });
     },
 
-    syncImage: function(image){
+    syncImage: function(image, $scope){
       var self = this;
       self.syncing = true;
       $rootScope.$broadcast('updateStatus');
@@ -349,14 +345,14 @@ angular.module('ptApp.services', ['ptConfig', 'pascalprecht.translate'])
         }, options);
     },
 
-    syncResponses: function(){
+    syncResponses: function($scope){
       var self = this;
       if(self.unsynced.length>0){
-        self.syncResponse(self.unsynced[0]);
+        self.syncResponse(self.unsynced[0], $scope);
       }
     },
 
-    syncImages: function(){
+    syncImages: function($scope){
       var self = this;
       if(self.unsyncedImages.length>0){
         self.syncImage(self.unsyncedImages[0]);

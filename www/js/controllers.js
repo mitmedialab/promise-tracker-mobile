@@ -5,8 +5,10 @@ angular.module('ptApp.controllers', ['ptConfig'])
   $scope.surveyCount = Object.keys(Survey.surveys).length;
   $scope.responseCount = Survey.synced.length + Survey.unsynced.length;
   $scope.errorMessage = '';
-  $scope.showNeedSyncStatus = Survey.hasUnsyncedItems();
-  $scope.showSyncingStatus = Survey.isSyncing();
+  $scope.data = {
+    isSyncing: false,
+    needsSync: Survey.hasUnsyncedItems()
+  };
 
   $scope.$on('connectionError', function(){
     var alertPopup = $ionicPopup.alert({
@@ -144,11 +146,10 @@ angular.module('ptApp.controllers', ['ptConfig'])
   };
 
   $scope.syncSurveys = function(){
-    Main.confirmInternetConnection(function(){
-      Survey.refreshSyncItemCount();
-      Survey.syncResponses();
-      Survey.syncImages();
-    }); 
+    // Main.confirmInternetConnection(function(){
+      Survey.syncResponses($scope);
+      Survey.syncImages($scope);
+    // }); 
   };
 })
 

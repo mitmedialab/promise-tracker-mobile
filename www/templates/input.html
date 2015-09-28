@@ -66,6 +66,11 @@
         <input type="date" ng-model="input.answer">
       </label>
 
+      <!-- Time -->
+      <label ng-if="input.input_type === 'time'" class="item item-input">
+        <input type="time" ng-model="input.answer">
+      </label>
+
       <!-- Select one -->
       <div ng-if="input.input_type === 'select1'" class="list answer-list">
         <label class="select">{{ 'CHOOSE_ONE' | translate}}:</label>
