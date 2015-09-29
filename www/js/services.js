@@ -384,7 +384,7 @@ angular.module('ptApp.services', ['ptConfig', 'pascalprecht.translate'])
         }
       });
     }
-  };
+  }
 
   return service;
 })

@@ -45,20 +45,20 @@ angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'pascal
   }];
 })
 
-.run(function($ionicPlatform, $translate) {
-  
+
+.run(function($ionicPlatform, $translate, $http, PT_CONFIG) {
+
   $ionicPlatform.ready(function() {
-    // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
-    // for form inputs)
+    // Hide the accessory bar by default
     if(window.cordova && window.cordova.plugins.Keyboard) {
       cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
     }
 
     if(window.StatusBar) {
-      // org.apache.cordova.statusbar required
       StatusBar.styleLightContent();
     }
 
+    // Set language
     if(typeof navigator.globalization !== "undefined") {
       navigator.globalization.getPreferredLanguage(
         function(language){
@@ -70,6 +70,92 @@ angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'pascal
       );
     }
 
+
+    // Configure background sensor process
+    localStorage['syncedReadings'] = localStorage['syncedReadings'] || '[]';
+    var unsyncedReadings = unsyncedReadings || [];
+
+    cordova.plugins.backgroundMode.setDefaults({
+      title:  "Promise Tracker",
+      ticker: "Sensor reading",
+      text:   "Sensor at work"
+    });
+
+    var getLocation = function(locationObject){
+
+      var success = function(position){
+        locationObject.lon = position.coords.longitude;
+        locationObject.lat = position.coords.latitude;
+      };
+
+      var error = function(){
+        console.log("Location not found");
+      }
+    
+      var options = {
+        enableHighAccuracy: true,
+        timeout: 22000,
+      };
+
+      navigator.geolocation.getCurrentPosition(success, error, options);
+    };
+
+    var read = function() {
+      var reading = {
+        timestamp: new Date,
+        // survey_id: "",
+        locationstamp: {
+          lat: null,
+          lon: null
+        },
+        // sensorId: "",
+        sensorValue: Math.random()
+      };
+
+      getLocation(reading.locationstamp);
+      unsyncedReadings.push(reading);
+
+      // Log reading
+      console.log(reading);
+      console.log("Number of readings: " + unsyncedReadings.length)
+    };
+
+    var upload = function(){
+      console.log("Uploading readings");
+
+      $http.post(
+        PT_CONFIG.aggregatorUrl + 'readings',
+        JSON.stringify(unsyncedReadings)
+      ).success(function(data){
+        if(data['status'] == 'success'){
+          // Store to history
+          syncedReadings.concat(unsyncedReadings);
+          unsyncedReadings = [];
+
+          console.log(data)
+        }
+
+      })
+
+      .error(function(data){
+      });
+    }
+
+    setInterval(function(){
+      if(unsyncedReadings.length < 10){
+        read();
+      } else {
+        upload();
+      }
+    }, 8000);
+
+    // Enable background mode
+    cordova.plugins.backgroundMode.enable();
+
+    cordova.plugins.backgroundMode.onactivate = function () {
+      read();
+    };
+>>>>>>> Stashed changes
   });
 })
 
