@@ -87,5 +87,14 @@
         },
         "is_top_level": true,
         "variables": {}
+    },
+    "cordova-plugin-ble": {
+        "source": {
+            "type": "git",
+            "url": "https://github.com/evothings/cordova-ble",
+            "subdir": "."
+        },
+        "is_top_level": true,
+        "variables": {}
     }
 }

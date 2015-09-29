@@ -21,7 +21,11 @@
     "org.apache.cordova.globalization",
     "org.apache.cordova.statusbar",
     "cordova-plugin-whitelist",
-    "cordova-plugin-ble-central"
+    "cordova-plugin-ble-central",
+    {
+      "locator": "https://github.com/evothings/cordova-ble",
+      "id": "cordova-plugin-ble"
+    }
   ],
   "cordovaPlatforms": [
     "android"

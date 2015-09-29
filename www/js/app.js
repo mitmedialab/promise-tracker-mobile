@@ -1,4 +1,4 @@
-angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'pascalprecht.translate', 'ptConfig', 'ui.mask'], function($httpProvider, PT_CONFIG){
+angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'ptApp.directives', 'pascalprecht.translate', 'ptConfig', 'ui.mask'], function($httpProvider, PT_CONFIG){
     $httpProvider.defaults.headers.common['Authorization'] = PT_CONFIG.accessKey;
     $httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
 

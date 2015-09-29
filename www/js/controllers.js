@@ -7,7 +7,9 @@ angular.module('ptApp.controllers', ['ptConfig'])
   $scope.errorMessage = '';
   $scope.data = {
     isSyncing: false,
-    needsSync: Survey.hasUnsyncedItems()
+    needsSync: Survey.hasUnsyncedItems(),
+    devices: [],
+    scanning: false
   };
 
   $scope.$on('connectionError', function(){
@@ -46,6 +48,57 @@ angular.module('ptApp.controllers', ['ptConfig'])
       focusFirstInput: true
     }
   );
+
+  $ionicModal.fromTemplateUrl(
+    'pair-device.html', 
+    function(modal){ $scope.pairModal = modal; }, 
+    {
+      scope: $scope,
+      animation: 'slide-in-up',
+      focusFirstInput: true
+    }
+  );
+
+  $scope.openPairModal = function(){
+    $scope.pairModal.show();
+  };
+
+  $scope.closePairModal = function(){
+    $scope.pairModal.hide();
+  };
+
+  $scope.scanBluetooth = function(){
+    console.log("start ble");
+    $scope.data.devices = [];
+
+    ble.enable(
+      function() {
+        console.log("Bluetooth is enabled");
+        ble.scan(
+          [], 
+          8, 
+          function(device) {
+            console.log(JSON.stringify(device));
+            $scope.$apply(function(){
+              $scope.data.devices.push(device)
+            });
+          }
+        );
+      }, function(){console.log("fail");}
+    );
+  };
+
+  $scope.pairDevice = function(device){
+    ble.connect(device["id"],
+      function(peripheral){
+        debugger;
+        alert('Device ' + device["id"] + ' connnected');
+        },
+      function(){
+        alert('Couldn\'t connect to device ' + device["id"]);
+      }
+    );
+  };
 
   $scope.viewMap = function(surveyId, titleText){
     var campaignId = Survey.getCampaignId(surveyId);

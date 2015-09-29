@@ -6,6 +6,9 @@
     <div class="padding unpad-top">
       <button class="button button-block button-calm" ng-click="openCodeModal()"><icon class="ion-plus-circled"></icon> {{ 'GET_CAMPAIGN' | translate}}</button>
     </div>
+    <div class="padding unpad-top">
+      <button class="button button-block button-calm" ng-click="openPairModal()"><icon class="ion-plus-circled"></icon> Pair BLE</button>
+    </div>
     <ion-list id="surveys-list">
       <ion-item ng-repeat="survey in surveys" item="survey" can-swipe="true">
         <a class="button button-clear right" href="#/surveys/{{survey.id}}/start">
@@ -94,6 +97,39 @@
       <div class="padding subtle small center unpad-top">
         <p class="get-started">{{ 'CODE_TIP' | translate }}</p>
       </div>
+    </ion-content>
+  </div>
+</script>
+
+<!-- Pair bluetooth modal -->
+<script id="pair-device.html" type="text/ng-template">
+  <div class="modal">
+    <ion-header-bar class="bar-secondary">
+      <h1 class=title>Pair a sensor</h1>
+      <span class="top-right action cancel-button" ng-click="closePairModal()"><icon class="ion-close"></icon></span>
+    </ion-header-bar>
+
+    <ion-content>
+      <div class="padding">
+        <h3>Scan bluetooth devices to find your sensor</h3>
+        
+        <button class="button button-block button-calm" ng-click="scanBluetooth()">
+          <span ng-if="data.scanning"><icon class="ion-loading-c"></icon>
+          <p ng-if="!data.scanning">Scan devices</p>
+        </button>
+      </div>
+
+      <ion-list id="devices-list">
+        <ion-item ng-repeat="device in data.devices" item="device" can-swipe="false">
+          <div ng-click="pairDevice(device)">
+            <a class="button button-clear right">
+              Pair
+            </a>
+            <h4 class="survey-title">{{device.name}}</h4>
+            <h6>{{device.id}}</h6>
+          </div>
+        </ion-item>
+      </ion-list>
     </ion-content>
   </div>
 </script>

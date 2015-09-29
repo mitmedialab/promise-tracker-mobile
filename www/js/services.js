@@ -34,7 +34,7 @@ angular.module('ptApp.services', ['ptConfig', 'pascalprecht.translate'])
   }
   
   if(!localStorage['installationId']){
-    service.setInstallationId(PT_CONFIG.aggregatorUrl);
+    // service.setInstallationId(PT_CONFIG.aggregatorUrl);
   }
 
   return service;
