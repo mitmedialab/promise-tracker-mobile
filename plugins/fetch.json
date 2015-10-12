@@ -80,19 +80,19 @@
         "is_top_level": true,
         "variables": {}
     },
-    "cordova-plugin-ble-central": {
-        "source": {
-            "type": "registry",
-            "id": "cordova-plugin-ble-central"
-        },
-        "is_top_level": true,
-        "variables": {}
-    },
     "cordova-plugin-ble": {
         "source": {
             "type": "git",
             "url": "https://github.com/evothings/cordova-ble",
             "subdir": "."
+        },
+        "is_top_level": true,
+        "variables": {}
+    },
+    "com.megster.cordova.rfduino": {
+        "source": {
+            "type": "registry",
+            "id": "com.megster.cordova.rfduino"
         },
         "is_top_level": true,
         "variables": {}

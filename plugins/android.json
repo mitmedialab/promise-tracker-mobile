@@ -13,6 +13,10 @@
                             "count": 1
                         },
                         {
+                            "xml": "<feature name=\"BLE\"><param name=\"android-package\" value=\"com.evothings.BLE\" /></feature>",
+                            "count": 1
+                        },
+                        {
                             "xml": "<feature name=\"InAppBrowser\"><param name=\"android-package\" value=\"org.apache.cordova.inappbrowser.InAppBrowser\" /></feature>",
                             "count": 1
                         },
@@ -47,15 +51,11 @@
                         {
                             "xml": "<feature name=\"StatusBar\"><param name=\"android-package\" value=\"org.apache.cordova.statusbar.StatusBar\" /><param name=\"onload\" value=\"true\" /></feature>",
                             "count": 1
-                        },
-                        {
-                            "xml": "<feature name=\"BLE\"><param name=\"android-package\" value=\"com.evothings.BLE\" /></feature>",
-                            "count": 1
                         }
                     ],
                     "/widget": [
                         {
-                            "xml": "<feature name=\"BLE\"><param name=\"android-package\" value=\"com.megster.cordova.ble.central.BLECentralPlugin\" /></feature>",
+                            "xml": "<feature name=\"RFduino\"><param name=\"android-package\" value=\"com.megster.cordova.rfduino.RFduinoPlugin\" /></feature>",
                             "count": 1
                         }
                     ]
@@ -71,6 +71,10 @@
                         {
                             "xml": "<uses-permission android:name=\"android.permission.BLUETOOTH_ADMIN\" />",
                             "count": 2
+                        },
+                        {
+                            "xml": "<uses-sdk android:minSdkVersion=\"18\" android:targetSdkVersion=\"19\" />",
+                            "count": 1
                         }
                     ],
                     "/*": [
@@ -99,7 +103,10 @@
         "com.ionic.keyboard": {
             "PACKAGE_NAME": "com.ionicframework.monitorandoacidade"
         },
-        "cordova-plugin-ble-central": {
+        "com.megster.cordova.rfduino": {
+            "PACKAGE_NAME": "com.ionicframework.monitorandoacidade"
+        },
+        "cordova-plugin-ble": {
             "PACKAGE_NAME": "com.ionicframework.monitorandoacidade"
         },
         "cordova-plugin-inappbrowser": {
@@ -130,9 +137,6 @@
             "PACKAGE_NAME": "com.ionicframework.monitorandoacidade"
         },
         "org.apache.cordova.statusbar": {
-            "PACKAGE_NAME": "com.ionicframework.monitorandoacidade"
-        },
-        "cordova-plugin-ble": {
             "PACKAGE_NAME": "com.ionicframework.monitorandoacidade"
         }
     },

@@ -40,6 +40,82 @@ angular.module('ptApp.services', ['ptConfig', 'pascalprecht.translate'])
   return service;
 })
 
+.factory('Sensor', function(){
+  localStorage['pairedDevice'] = localStorage['pairedDevice'] || '{}';
+  localStorage['syncedReadings'] = localStorage['syncedReadings'] || [];
+
+  var service = {
+    pairedDevice: JSON.parse(localStorage['pairedDevice']),
+    unsyncedReadings: [],
+    syncedReadings: JSON.parse(localStorage['syncedReadings']),
+
+
+    onRecieveData: function(device, $scope){
+      var self = this;
+
+      rfduino.onData(
+        function(data){
+          reading = new Uint8Array(data)[0];
+          console.log("Data received from duino: " + reading);
+          self.unsyncedReadings.push(reading);
+
+          self.pairedDevice = device;
+          localStorage['pairedDevice'] = JSON.stringify(device);
+          
+          $scope.$apply(function(){
+            $scope.data.pairedDevice.latestReading = reading;
+          });
+          
+          if(self.unsyncedReadings.length > 10){
+            self.uploadReadings();
+          }
+        },
+        function(){console.log("Data receipt fail");}
+      );
+    },
+
+    requestData: function(interval){ // TODO: Implement different write codes for sensors
+      var buffer = new ArrayBuffer(3);
+      var interval = interval || 1000; // Default to 1 secs
+      
+      setInterval(function(){
+        rfduino.write(
+          buffer, 
+          function(){console.log("Pinging duino")}, 
+          function(){console.log("Failed to write to duino")}
+        );
+      }, interval);
+    },
+
+    pairDevice: function(device, $scope){
+      var self = this;
+
+      rfduino.connect(device["uuid"],
+        function(peripheral){
+          self.pairedDevice = peripheral;
+          console.log('Device ' + device["uuid"] + ' connnected');   
+          
+          $scope.data.pairedDevice = device;
+          console.log("Paired device =" + $scope.data.pairedDevice)
+          self.onRecieveData(device, $scope);
+          self.requestData();
+          $scope.closePairModal();
+        },
+        function(){
+          alert('Couldn\'t connect to device ' + device["id"]);
+        }
+      );
+    },
+
+    uploadReadings: function(){
+      
+    }
+
+  };
+
+  return service;
+})
+
 .factory('Survey', function($rootScope, $http, $ionicPopup, $state, $filter, $location, PT_CONFIG, Main){
   localStorage['surveys'] = localStorage['surveys'] || '{}';
   localStorage['unsynced'] = localStorage['unsynced'] || '[]';

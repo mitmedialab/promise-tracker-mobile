@@ -1,6 +1,6 @@
 angular.module('ptApp.controllers', ['ptConfig'])
 
-.controller('HomeCtrl', function($scope, $ionicModal, $http, $state, $ionicPopup, $filter, $ionicListDelegate, $translate, Survey, PT_CONFIG, Main) {
+.controller('HomeCtrl', function($scope, $ionicModal, $http, $state, $ionicPopup, $filter, $ionicListDelegate, $translate, PT_CONFIG, Main, Survey, Sensor) {
   $scope.surveys = Survey.surveys;
   $scope.surveyCount = Object.keys(Survey.surveys).length;
   $scope.responseCount = Survey.synced.length + Survey.unsynced.length;
@@ -9,6 +9,7 @@ angular.module('ptApp.controllers', ['ptConfig'])
     isSyncing: false,
     needsSync: Survey.hasUnsyncedItems(),
     devices: [],
+    pairedDevice: Survey.pairedDevice,
     scanning: false
   };
 
@@ -48,57 +49,6 @@ angular.module('ptApp.controllers', ['ptConfig'])
       focusFirstInput: true
     }
   );
-
-  $ionicModal.fromTemplateUrl(
-    'pair-device.html', 
-    function(modal){ $scope.pairModal = modal; }, 
-    {
-      scope: $scope,
-      animation: 'slide-in-up',
-      focusFirstInput: true
-    }
-  );
-
-  $scope.openPairModal = function(){
-    $scope.pairModal.show();
-  };
-
-  $scope.closePairModal = function(){
-    $scope.pairModal.hide();
-  };
-
-  $scope.scanBluetooth = function(){
-    console.log("start ble");
-    $scope.data.devices = [];
-
-    ble.enable(
-      function() {
-        console.log("Bluetooth is enabled");
-        ble.scan(
-          [], 
-          8, 
-          function(device) {
-            console.log(JSON.stringify(device));
-            $scope.$apply(function(){
-              $scope.data.devices.push(device)
-            });
-          }
-        );
-      }, function(){console.log("fail");}
-    );
-  };
-
-  $scope.pairDevice = function(device){
-    ble.connect(device["id"],
-      function(peripheral){
-        debugger;
-        alert('Device ' + device["id"] + ' connnected');
-        },
-      function(){
-        alert('Couldn\'t connect to device ' + device["id"]);
-      }
-    );
-  };
 
   $scope.viewMap = function(surveyId, titleText){
     var campaignId = Survey.getCampaignId(surveyId);
@@ -203,6 +153,51 @@ angular.module('ptApp.controllers', ['ptConfig'])
       Survey.syncResponses($scope);
       Survey.syncImages($scope);
     // }); 
+  };
+})
+
+.controller('SensorsCtrl', function($scope, $stateParams, $state, $location, $ionicModal, Survey, Main, Sensor) {
+  $scope.pairedDevice = Sensor.pairedDevice;
+  $scope.data = {
+    devices: [],
+    pairedDevice: Sensor.pairedDevice
+  };
+
+  $ionicModal.fromTemplateUrl(
+    'pair-device.html', 
+    function(modal){ $scope.pairModal = modal; }, 
+    {
+      scope: $scope,
+      animation: 'slide-in-up',
+      focusFirstInput: true
+    }
+  );
+
+  $scope.openPairModal = function(){
+    $scope.pairModal.show();
+  };
+
+  $scope.closePairModal = function(){
+    $scope.pairModal.hide();
+  };
+
+  $scope.scanBLE = function(){
+    $scope.data.pairedDevice = Sensor.pariedDevice;
+
+    rfduino.discover(
+      8, 
+      function(device) {
+        console.log(JSON.stringify(device));
+        $scope.$apply(function(){
+          $scope.data.devices.push(device)
+        });
+        console.log($scope.data.devices);
+      }, function(){console.log("fail");}
+    );
+  };
+
+  $scope.pairDevice = function(device){
+    Sensor.pairDevice(device, $scope);
   };
 })
 

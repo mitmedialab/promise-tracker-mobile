@@ -58,6 +58,12 @@ angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'ptApp.
       templateUrl: 'templates/home.html',
       controller: 'HomeCtrl'
     })
+
+    .state('sensors', {
+      url: '/sensors',
+      templateUrl: 'templates/sensors.html',
+      controller: 'SensorsCtrl'
+    })
   
     .state('survey-start', {
       url: '/surveys/:surveyId/start',
