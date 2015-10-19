@@ -6,8 +6,8 @@
     <ion-list id="devices-list">
       <ion-item ng-repeat="device in data.devices" item="device" can-swipe="false" ng-click="pairDevice(device)">
         <a class="button button-clear right">
-          <!-- <ion-spinner ng-if="data.isPairing"></ion-spinner> -->
-          <!-- <span ng-if="!data.isPairing">Pair</span> -->
+          <ion-spinner ng-if="data.isPairing">Pairing...</ion-spinner>
+          <span ng-if="!data.isPairing">Pair</span>
         </a>
         <h4 class="survey-title">{{device.name}}</h4>
         <h6>{{device.uuid}}</h6>

@@ -41,15 +41,15 @@ angular.module('ptApp.controllers', ['ptConfig'])
     $state.go($state.current, {}, {reload: true});
   });
 
-  $scope.$on('viewMap', function(scope, surveyId){
-    if(!Survey.hasUnsyncedItems()){
-      $scope.viewMap(surveyId, 'RESPONSE_SYNCED');
-    }
-  });
+  // $scope.$on('viewMap', function(scope, surveyId){
+  //   if(!Survey.hasUnsyncedItems()){
+  //     $scope.viewMap(surveyId, 'RESPONSE_SYNCED');
+  //   }
+  // });
 
-  $scope.$on('notificationClick', function(){
-    debugger
-    $state.go('surveys/:surveyId/survey-start', {surveyId: surveyId});
+  $scope.$on('$cordovaLocalNotification:clicked', function(notification){
+    console.log(notification);
+    $state.go('surveys/:surveyId/start', {surveyId: Sensor.pairedDevice.surveyId});
   });
 
   $ionicModal.fromTemplateUrl(
@@ -177,7 +177,7 @@ angular.module('ptApp.controllers', ['ptConfig'])
   $scope.data = {
     devices: [],
     pairedDevice: Sensor.pairedDevice,
-    // isPairing: false
+    isPairing: false
   };
 
   $ionicModal.fromTemplateUrl(
@@ -218,7 +218,7 @@ angular.module('ptApp.controllers', ['ptConfig'])
   }();
 
   $scope.pairDevice = function(device){
-    // $scope.data.isPairing = true;
+    $scope.data.isPairing = true;
     Sensor.pairDevice(device, $scope, $stateParams.surveyId);
   };
 

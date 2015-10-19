@@ -11,25 +11,24 @@
         <div class="button button-clear right" ng-show="{{survey.status == 'test'}}" ng-click="fetchSurvey(survey)">
           <icon class="ion-loop right"></icon>
         </div>
-        <a class="survey-info" ng-click="pairSensor(survey.id)">
-          <h4 class="survey-title">{{survey.title}}</h4>
-          <h6 class="test-warning" ng-show="{{survey.status === 'test'}}"><icon class="ion-wrench"></icon> {{ 'TESTING_ONLY' | translate}}</h4>
+        <div class="survey-info">
+          <a href="#/surveys/{{survey.id}}/start">
+            <h4 class="survey-title">{{survey.title}}</h4>
 
-          <span class="sub-line" ng-show="{{survey.status !== 'test' && survey.sensorType == 'none'}}">{{ 'RESPONSES_TO_DATE' | translate : "{NUM: countSynced(survey.id)}" : "messageformat" }}</span>
+            <span class="sub-line" ng-show="{{survey.status !== 'test' && survey.sensorType == 'none'}}">{{ 'RESPONSES_TO_DATE' | translate : "{NUM: countSynced(survey.id)}" : "messageformat" }}</span>
 
-          <p class="sub-line" ng-show="{{survey.sensorType !== 'none'}}"><icon class="ion-radio-waves"></icon> Sensor campaign</p>
-          <p class="sub-line">
-            <span ng-show="{{!data.pairedDevice.surveyId || data.pairedDevice.surveyId != survey.id}}">
-              <button class="button button-calm-outline">Pair sensor</button>
-            </span>
-
-            <span ng-show="{{data.pairedDevice.surveyId && data.pairedDevice.surveyId == survey.id}}">
-              Paired sensor: {{data.pairedDevice.uuid}}<br>
-              Latest reading: <strong>{{data.pairedDevice.latestReading}}</strong> dBA
-              <button class="button button-calm-outline">Unpair sensor</button>
-            </span>
-          </p>
-        </a>
+            <p class="sub-line" ng-show="{{survey.sensorType !== 'none'}}"><icon class="ion-radio-waves"></icon> Sensor campaign</p>
+            <p class="sub-line">
+              <span ng-show="{{data.pairedDevice.surveyId && data.pairedDevice.surveyId == survey.id}}">
+                Paired sensor: {{data.pairedDevice.uuid}}<br>
+                Latest reading: <strong>{{data.pairedDevice.latestReading}}</strong> dBA
+              </span>
+            </p>
+          </a>
+          <span ng-show="{{!data.pairedDevice.surveyId || data.pairedDevice.surveyId != survey.id}}">
+            <button class="button button-calm-outline" ng-click="pairSensor(survey.id)">Pair sensor</button>
+          </span>
+        </div>
 
         <!-- Swipe options -->
         <ion-option-button class="button button-calm" ng-click="viewMap(survey.id)">
@@ -47,7 +46,7 @@
       <p class="get-started">{{ 'GET_STARTED' | translate }}</p>
     </div>
   </ion-content>
-  <div class="bar home bar-footer">
+  <!-- <div class="bar home bar-footer">
     <div id="status">
       <div ng-show="data.isSyncing">
         <p>
@@ -75,7 +74,7 @@
         <button class="button button-icon ion-radio-waves"></button>
       </a>
     </div>
-  </div>
+  </div> -->
 </ion-view>
 
 <!-- Enter code modal -->

@@ -136,7 +136,8 @@ angular.module('ptApp.services', ['ptConfig', 'pascalprecht.translate'])
           message: "Sensor over threshold",
           title: "Promise Tracker",
           autoCancel: true,
-          sound: null
+          sound: null,
+          data: {surveyId: surveyId}
       }).then(function () {
           console.log("The notification has been set");
       });

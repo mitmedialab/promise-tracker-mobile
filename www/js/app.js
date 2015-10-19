@@ -71,7 +71,7 @@ angular.module('ptApp', ['ionic', 'ngCordova', 'ptApp.controllers', 'ptApp.servi
       controller: 'SensorsCtrl'
     })
   
-    .state('survey-start', {
+    .state('surveys/:surveyId/start', {
       url: '/surveys/:surveyId/start',
       templateUrl: 'templates/survey-start.html',
       controller: 'SurveysCtrl'   
@@ -331,7 +331,7 @@ angular.module('ptApp', ['ionic', 'ngCordova', 'ptApp.controllers', 'ptApp.servi
   $translateProvider.addInterpolation('$translateMessageFormatInterpolation');
 })
 
-.run(function($ionicPlatform, $translate) {
+.run(function($ionicPlatform, $translate, $rootScope, $timeout) {
 
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -341,10 +341,16 @@ angular.module('ptApp', ['ionic', 'ngCordova', 'ptApp.controllers', 'ptApp.servi
     }
 
     // Event handling for Local Notifications
-    window.plugin.notification.local.onclick = function(id, state, json) {
-      $rootScope.$broadcast('notificationClick', id, state, json);
-      debugger
-    }; 
+    window.plugin.notification.local.on('click', function (id, state, data) {
+      var notification = {
+        id: id,
+        state: state,
+        data: data
+      };
 
+      $timeout(function() {
+        $rootScope.$broadcast("$cordovaLocalNotification:clicked", notification);
+      });
+    });
   });
 });
