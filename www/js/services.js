@@ -13,7 +13,7 @@ angular.module('ptApp.services', ['ptConfig', 'pascalprecht.translate'])
     },
 
     setInstallationId: function(aggregatorUrl){
-      $http.get(aggregatorUrl + 'getId')
+      $http.get(aggregatorUrl + 'register')
       .success(function(response){
         localStorage['installationId'] = response['payload']['installation_id'];
       });
