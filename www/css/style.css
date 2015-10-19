@@ -93,6 +93,11 @@ a, a:visited, .action {
   border: none;
 }
 
+.button-calm-outline {
+  background-color: white !important;
+  border: 1px solid #66c6ba;
+}
+
 .button-pink {
   background-color: #ea7669 !important;
   color: white;

@@ -34,40 +34,65 @@ angular.module('ptApp.services', ['ptConfig', 'pascalprecht.translate'])
   }
   
   if(!localStorage['installationId']){
-    // service.setInstallationId(PT_CONFIG.aggregatorUrl);
+    service.setInstallationId(PT_CONFIG.aggregatorUrl);
   }
 
   return service;
 })
 
-.factory('Sensor', function(){
+.factory('Sensor', function($http, $rootScope, PT_CONFIG){
   localStorage['pairedDevice'] = localStorage['pairedDevice'] || '{}';
-  localStorage['syncedReadings'] = localStorage['syncedReadings'] || [];
+  localStorage['syncedReadings'] = localStorage['syncedReadings'] || '[]';
 
   var service = {
-    pairedDevice: JSON.parse(localStorage['pairedDevice']),
+    pairedDevice: null,
     unsyncedReadings: [],
+    sensorValues: [],
     syncedReadings: JSON.parse(localStorage['syncedReadings']),
 
+    getLocation: function(reading){
+      var self = this;
+
+      var success = function(position){
+        reading.locationstamp.lon = position.coords.longitude;
+        reading.locationstamp.lat = position.coords.latitude;
+        self.unsyncedReadings.push(reading);
+      };
+
+      var error = function(){
+        console.log("location fail");
+        reading.locationstamp.lon = null;
+        reading.locationstamp.lat = null;
+      };
+
+      var options = {
+        enableHighAccuracy: true,
+        timeout: 22000,
+      };
+
+      navigator.geolocation.getCurrentPosition(success, error, options);
+    },
 
     onRecieveData: function(device, $scope){
       var self = this;
 
       rfduino.onData(
         function(data){
-          reading = new Uint8Array(data)[0];
-          console.log("Data received from duino: " + reading);
-          self.unsyncedReadings.push(reading);
-
-          self.pairedDevice = device;
-          localStorage['pairedDevice'] = JSON.stringify(device);
+          value = new Uint8Array(data)[0];
+          self.sensorValues.push(value);
+          console.log("Data received from duino: " + value);
+          console.log(self.sensorValues);
           
           $scope.$apply(function(){
-            $scope.data.pairedDevice.latestReading = reading;
+            $scope.data.pairedDevice.latestReading = value;
           });
+
+          if(self.sensorValues.length > 4){
+            self.formatReading(device);
+          }
           
-          if(self.unsyncedReadings.length > 10){
-            self.uploadReadings();
+          if(self.unsyncedReadings.length > 4){
+            self.syncReadings();
           }
         },
         function(){console.log("Data receipt fail");}
@@ -75,42 +100,95 @@ angular.module('ptApp.services', ['ptConfig', 'pascalprecht.translate'])
     },
 
     requestData: function(interval){ // TODO: Implement different write codes for sensors
+      var self = this;
       var buffer = new ArrayBuffer(3);
-      var interval = interval || 1000; // Default to 1 secs
+      var interval = interval || 10000; // Default to 1 secs
+
+      var success = function(){console.log("Pinging duino")};
+      var failure = function(){
+        console.log("Failed to write to duino");
+        self.pairedDevice = null;
+        clearInterval(sensorReadingInterval);
+        $rootScope.$broadcast('sensorConnectionLost');
+      };
+
       
-      setInterval(function(){
+      var sensorReadingInterval = setInterval(function(){
         rfduino.write(
           buffer, 
-          function(){console.log("Pinging duino")}, 
-          function(){console.log("Failed to write to duino")}
+          success, 
+          failure
         );
       }, interval);
     },
 
-    pairDevice: function(device, $scope){
+    pairDevice: function(device, $scope, surveyId){
       var self = this;
 
       rfduino.connect(device["uuid"],
-        function(peripheral){
-          self.pairedDevice = peripheral;
-          console.log('Device ' + device["uuid"] + ' connnected');   
+        function(){
+          device.surveyId = surveyId;
+          self.pairedDevice = device;
+          console.log('Device ' + device["uuid"] + ' connnected');
           
           $scope.data.pairedDevice = device;
-          console.log("Paired device =" + $scope.data.pairedDevice)
           self.onRecieveData(device, $scope);
           self.requestData();
-          $scope.closePairModal();
+          $scope.goHome();
         },
         function(){
-          alert('Couldn\'t connect to device ' + device["id"]);
         }
       );
     },
 
-    uploadReadings: function(){
-      
-    }
+    formatReading: function(device){
+      var reading = {
+        survey_id: device.surveyId,
+        user_installation_id: localStorage['installationId'],
+        sensor_id: device.uuid,
+        timestamp: Date.now(),
+        locationstamp: {},
+        values: this.sensorValues
+      };
 
+      this.getLocation(reading);
+      console.log(reading);
+      this.sensorValues = [];
+    },
+
+    syncReadings: function(survey){
+      var self = this;
+
+      $http.post(
+        PT_CONFIG.aggregatorUrl + 'readings',
+        JSON.stringify({ readings: self.unsyncedReadings })
+      )
+        .success(function(data){
+          if(data['status'] == 'success'){
+            // response.id = data.payload.id;
+            // self.removeResponseFromUnsynced(response);
+            // self.addResponseToSynced(formattedResponse);
+            // self.addImageToUnsynced(response);
+          }
+        })
+
+        .error(function(data, status){
+        });
+    },
+
+    verifyBLEConnection: function(){
+      var self = this;
+
+      rfduino.isConnected(
+        function(data){ debugger;}, 
+        function(){
+          console.log("not connected");
+          alert("Sensor connection lost")
+          self.pairedDevice = null;
+          debugger;
+        }
+      );
+    },
   };
 
   return service;

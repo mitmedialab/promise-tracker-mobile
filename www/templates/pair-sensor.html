@@ -1,0 +1,34 @@
+<ion-view title="Promise Tracker">
+  <ion-content class="has-header has-home-footer" overflow-scroll="true">
+    <div class="section-title home-header">
+      <icon class="ion-radio-waves"></icon> Available sensors
+    </div>
+    <ion-list id="devices-list">
+      <ion-item ng-repeat="device in data.devices" item="device" can-swipe="false" ng-click="pairDevice(device)">
+        <a class="button button-clear right">
+          <!-- <ion-spinner ng-if="data.isPairing"></ion-spinner> -->
+          <!-- <span ng-if="!data.isPairing">Pair</span> -->
+        </a>
+        <h4 class="survey-title">{{device.name}}</h4>
+        <h6>{{device.uuid}}</h6>
+      </ion-item>
+    </ion-list>
+
+    <div class="padding center">
+      <button class="button button-calm-outline" ng-click="scanBLE()">
+        Rescan
+      </button>
+    </div>
+  </ion-content>
+  <div class="bar bar-menu nav-menu">
+    <a href="#/user">
+      <button class="button button-icon ion-person"></button>
+    </a>
+    <a href="#/home">
+      <button class="button button-icon ion-clipboard"></button>
+    </a>
+    <a href="#/sensors" class="selected">
+      <button class="button button-icon ion-radio-waves"></button>
+    </a>
+  </div>
+</ion-view>

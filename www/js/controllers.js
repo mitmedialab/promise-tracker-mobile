@@ -9,13 +9,20 @@ angular.module('ptApp.controllers', ['ptConfig'])
     isSyncing: false,
     needsSync: Survey.hasUnsyncedItems(),
     devices: [],
-    pairedDevice: Survey.pairedDevice,
+    pairedDevice: Sensor.pairedDevice,
     scanning: false
   };
 
   $scope.$on('connectionError', function(){
     var alertPopup = $ionicPopup.alert({
       template: $filter('translate')('OFFLINE')
+    });
+  });
+
+  $scope.$on('sensorConnectionLost', function(){
+    $state.go($state.current, {}, {reload: true});
+    var alertPopup = $ionicPopup.alert({
+      template: "Sensor connection lost"
     });
   });
 
@@ -154,13 +161,18 @@ angular.module('ptApp.controllers', ['ptConfig'])
       Survey.syncImages($scope);
     // }); 
   };
+
+  $scope.pairSensor = function(surveyId){
+    $state.go('sensors/pair/:surveyId', {surveyId: surveyId});
+  }
 })
 
 .controller('SensorsCtrl', function($scope, $stateParams, $state, $location, $ionicModal, Survey, Main, Sensor) {
   $scope.pairedDevice = Sensor.pairedDevice;
   $scope.data = {
     devices: [],
-    pairedDevice: Sensor.pairedDevice
+    pairedDevice: Sensor.pairedDevice,
+    // isPairing: false
   };
 
   $ionicModal.fromTemplateUrl(
@@ -173,32 +185,38 @@ angular.module('ptApp.controllers', ['ptConfig'])
     }
   );
 
-  $scope.openPairModal = function(){
+  $scope.openPairModal = function(survey){
+    $scope.surveyToPair = survey;
     $scope.pairModal.show();
+    $scope.scanBLE();
   };
 
   $scope.closePairModal = function(){
     $scope.pairModal.hide();
   };
 
+  $scope.goHome = function(){
+    $state.go('home');
+  };
+
   $scope.scanBLE = function(){
-    $scope.data.pairedDevice = Sensor.pariedDevice;
+    $scope.data.pairedDevice = Sensor.pairedDevice;
 
     rfduino.discover(
       8, 
       function(device) {
-        console.log(JSON.stringify(device));
         $scope.$apply(function(){
           $scope.data.devices.push(device)
         });
-        console.log($scope.data.devices);
-      }, function(){console.log("fail");}
+      }, function(){console.log("fail to scan");}
     );
-  };
+  }();
 
   $scope.pairDevice = function(device){
-    Sensor.pairDevice(device, $scope);
+    // $scope.data.isPairing = true;
+    Sensor.pairDevice(device, $scope, $stateParams.surveyId);
   };
+
 })
 
 .controller('SurveysCtrl', function($scope, $stateParams, $state, Survey, Main) {
@@ -237,7 +255,7 @@ angular.module('ptApp.controllers', ['ptConfig'])
   };
 
   $scope.submitResponse = function(){
-    Survey.syncResponse(Survey.currentResponse);
+    Survey.syncResponse(Survey.currentResponse, $scope);
     $state.go('home');
   };
 

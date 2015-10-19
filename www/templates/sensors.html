@@ -3,11 +3,7 @@
     <div class="section-title home-header">
       <icon class="ion-radio-waves"></icon> My Sensors
     </div>
-    <div class="padding unpad-top">
-      <button class="button button-block button-calm" ng-click="openPairModal()"><icon class="ion-plus-circled"></icon> Pair new sensor</button>
-    </div>
-
-    <ion-list>
+    <ion-list ng-show="data.pairedDevice">
       <ion-item>
         <div class="padding prompt-card center" ng-if="data.pairedDevice.name">
           <h4 class="survey-title">{{data.pairedDevice.name}}</h4>
@@ -18,6 +14,9 @@
         </div>
       </ion-item>
     </ion-list>
+    <div class="padding center" ng-show="!data.pairedDevice">
+      <p>No paired sensors</p>    
+    </div>
 
     <!-- Intro text for new users -->
     <div class="padding center subtle" ng-show="surveyCount == 0" id="intro-text">
@@ -69,7 +68,7 @@
         <h5>Scan bluetooth devices to find your sensor</h5>
 
         <button class="button button-block button-calm" ng-click="scanBLE()">
-          Scan
+          Rescan
         </button>
       </div>
 
