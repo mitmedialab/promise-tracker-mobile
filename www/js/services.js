@@ -86,6 +86,7 @@ angular.module('ptApp.services', ['ptConfig', 'pascalprecht.translate'])
           
           $scope.$apply(function(){
             $scope.data.pairedDevice.latestReading = value;
+            console.log($scope.data.pairedDevice.latestReading);
           });
 
           if(value > survey.threshold){
@@ -179,17 +180,17 @@ angular.module('ptApp.services', ['ptConfig', 'pascalprecht.translate'])
 
     syncReadings: function(survey){
       var self = this;
+      console.log(self.unsyncedReadings);
+      self.syncingReadings = self.unsyncedReadings;
+      self.unsyncedReadings = [];
 
       $http.post(
         PT_CONFIG.aggregatorUrl + 'readings',
-        JSON.stringify({ readings: self.unsyncedReadings })
+        JSON.stringify({ readings: self.syncingReadings })
       )
         .success(function(data){
           if(data['status'] == 'success'){
-            // response.id = data.payload.id;
-            // self.removeResponseFromUnsynced(response);
-            // self.addResponseToSynced(formattedResponse);
-            // self.addImageToUnsynced(response);
+            self.syncingReadings = [];
           }
         })
 
@@ -436,7 +437,7 @@ angular.module('ptApp.services', ['ptConfig', 'pascalprecht.translate'])
       response.inputs.forEach(function(input){
         var answer = { id: input.id, value: input.answer, input_type: input.input_type };
 
-        if(input.input_type == 'select'){
+        if(input.input_type == 'select' && answer.value){
           answer.value = input.answer.map(function(value, index){
             if(value){
               return input.options[index];
