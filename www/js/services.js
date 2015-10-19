@@ -40,7 +40,7 @@ angular.module('ptApp.services', ['ptConfig', 'pascalprecht.translate'])
   return service;
 })
 
-.factory('Sensor', function($http, $rootScope, PT_CONFIG){
+.factory('Sensor', function($http, $rootScope, $cordovaLocalNotification, PT_CONFIG, Survey){
   localStorage['pairedDevice'] = localStorage['pairedDevice'] || '{}';
   localStorage['syncedReadings'] = localStorage['syncedReadings'] || '[]';
 
@@ -75,6 +75,7 @@ angular.module('ptApp.services', ['ptConfig', 'pascalprecht.translate'])
 
     onRecieveData: function(device, $scope){
       var self = this;
+      var survey = Survey.surveys[device.surveyId];
 
       rfduino.onData(
         function(data){
@@ -86,6 +87,10 @@ angular.module('ptApp.services', ['ptConfig', 'pascalprecht.translate'])
           $scope.$apply(function(){
             $scope.data.pairedDevice.latestReading = value;
           });
+
+          if(value > survey.threshold){
+            self.triggerNotification(survey.id);
+          }
 
           if(self.sensorValues.length > 4){
             self.formatReading(device);
@@ -120,6 +125,21 @@ angular.module('ptApp.services', ['ptConfig', 'pascalprecht.translate'])
           failure
         );
       }, interval);
+    },
+
+    triggerNotification: function(surveyId){
+      var alarmTime = new Date();
+      alarmTime.setSeconds(alarmTime.getSeconds() + 1);
+      $cordovaLocalNotification.add({
+          id: "1234",
+          date: alarmTime,
+          message: "Sensor over threshold",
+          title: "Promise Tracker",
+          autoCancel: true,
+          sound: null
+      }).then(function () {
+          console.log("The notification has been set");
+      });
     },
 
     pairDevice: function(device, $scope, surveyId){

@@ -47,6 +47,11 @@ angular.module('ptApp.controllers', ['ptConfig'])
     }
   });
 
+  $scope.$on('notificationClick', function(){
+    debugger
+    $state.go('surveys/:surveyId/survey-start', {surveyId: surveyId});
+  });
+
   $ionicModal.fromTemplateUrl(
     'enter-code.html', 
     function(modal){ $scope.codeModal = modal; }, 

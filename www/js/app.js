@@ -1,4 +1,4 @@
-angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'ptApp.directives', 'pascalprecht.translate', 'ptConfig', 'ui.mask'], function($httpProvider, PT_CONFIG){
+angular.module('ptApp', ['ionic', 'ngCordova', 'ptApp.controllers', 'ptApp.services', 'ptApp.directives', 'pascalprecht.translate', 'ptConfig', 'ui.mask'], function($httpProvider, PT_CONFIG){
     $httpProvider.defaults.headers.common['Authorization'] = PT_CONFIG.accessKey;
     $httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
 
@@ -339,6 +339,12 @@ angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'ptApp.
     if(window.cordova && window.cordova.plugins.Keyboard) {
       cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
     }
+
+    // Event handling for Local Notifications
+    window.plugin.notification.local.onclick = function(id, state, json) {
+      $rootScope.$broadcast('notificationClick', id, state, json);
+      debugger
+    }; 
 
   });
 });

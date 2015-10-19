@@ -8,9 +8,6 @@
     </div>
     <ion-list id="surveys-list">
       <ion-item ng-repeat="survey in surveys" item="survey" can-swipe="true">
-<!--         <a class="button button-clear right" href="#/surveys/{{survey.id}}/start">
-          <icon class="ion-chevron-right right"></icon>
-        </a> -->
         <div class="button button-clear right" ng-show="{{survey.status == 'test'}}" ng-click="fetchSurvey(survey)">
           <icon class="ion-loop right"></icon>
         </div>
@@ -29,6 +26,7 @@
             <span ng-show="{{data.pairedDevice.surveyId && data.pairedDevice.surveyId == survey.id}}">
               Paired sensor: {{data.pairedDevice.uuid}}<br>
               Latest reading: <strong>{{data.pairedDevice.latestReading}}</strong> dBA
+              <button class="button button-calm-outline">Unpair sensor</button>
             </span>
           </p>
         </a>
