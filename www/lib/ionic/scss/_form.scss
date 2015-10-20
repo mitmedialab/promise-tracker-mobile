@@ -49,11 +49,11 @@ textarea {
   @include align-items(center);
   position: relative;
   overflow: hidden;
-  padding: 6px 0 5px 8px;
+  padding: 6px 0 5px 16px;
 
   input {
     @include border-radius(0);
-    @include flex(1, 0, 220px);
+    @include flex(1, 220px);
     @include appearance(none);
     margin: 0;
     padding-right: 24px;
@@ -78,6 +78,10 @@ textarea {
   .icon {
     min-width: 14px;
   }
+}
+// prevent flex-shrink on WP
+.platform-windowsphone .item-input input{
+  flex-shrink: 1;
 }
 
 .item-input-inset {
@@ -110,14 +114,12 @@ textarea {
 }
 
 .input-label {
-  @include flex(1, 0, 100px);
   display: table;
-  padding: 7px 10px 7px 3px;
+  padding: 7px 10px 7px 0px;
   max-width: 200px;
   width: 35%;
   color: $input-label-color;
-  font-weight: bold;
-  font-size: $font-size-base;
+  font-size: 16px;
 }
 
 .placeholder-icon {
@@ -137,22 +139,41 @@ textarea {
 
   .input-label, .icon {
     display: inline-block;
-    padding: 4px 0;
+    padding: 4px 0 0 0px;
     vertical-align: middle;
   }
 }
 
 .item-stacked-label input,
-.item-stacked-label textarea
-{
+.item-stacked-label textarea {
   @include border-radius(2px);
-  padding: 4px 8px 3px;
+  padding: 4px 8px 3px 0;
   border: none;
   background-color: $input-bg;
 }
 .item-stacked-label input {
   overflow: hidden;
   height: $line-height-computed + $font-size-base + 12px;
+}
+
+.item-floating-label {
+  display: block;
+  background-color: transparent;
+  box-shadow: none;
+
+  .input-label {
+    position: relative;
+    padding: 5px 0 0 0;
+    opacity: 0;
+    top: 10px;
+    @include transition(opacity .15s ease-in, top .2s linear);
+
+    &.has-input {
+      opacity: 1;
+      top: 0;
+      @include transition(opacity .15s ease-in, top .2s linear);
+    }
+  }
 }
 
 
@@ -177,6 +198,7 @@ input[type="tel"],
 input[type="color"] {
   display: block;
   padding-top: 2px;
+  padding-left: 0;
   height: $line-height-computed + $font-size-base;
   color: $input-color;
   vertical-align: middle;
@@ -195,9 +217,16 @@ input[type="color"] {
   }
 }
 
-input,
+.item-input {
+  input,
+  textarea {
+    width: 100%;
+  }
+}
+
 textarea {
-  width: 100%;
+  padding-left: 0;
+  @include placeholder($input-color-placeholder, -3px);
 }
 
 // Reset height since textareas have rows
@@ -232,14 +261,16 @@ input[type="checkbox"] {
 }
 
 // Reset width of input images, buttons, radios, checkboxes
-input[type="file"],
-input[type="image"],
-input[type="submit"],
-input[type="reset"],
-input[type="button"],
-input[type="radio"],
-input[type="checkbox"] {
-  width: auto; // Override of generic input selector
+.item-input {
+  input[type="file"],
+  input[type="image"],
+  input[type="submit"],
+  input[type="reset"],
+  input[type="button"],
+  input[type="radio"],
+  input[type="checkbox"] {
+    width: auto; // Override of generic input selector
+  }
 }
 
 // Set the height of file to match text inputs
@@ -251,7 +282,7 @@ input[type="file"] {
 .previous-input-focus,
 .cloned-text-input + input,
 .cloned-text-input + textarea {
-  position: absolute;
+  position: absolute !important;
   left: -9999px;
   width: 200px;
 }

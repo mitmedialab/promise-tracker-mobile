@@ -45,21 +45,22 @@ angular.module('ptApp', ['ionic', 'ngCordova', 'ptApp.controllers', 'ptApp.servi
   }];
 })
 
-.config(function($stateProvider, $urlRouterProvider) {
+.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
 
-  // Ionic uses AngularUI Router which uses the concept of states
-  // Learn more here: https://github.com/angular-ui/ui-router
-  // Set up the various states which the app can be in.
+   $ionicConfigProvider.views.maxCache(0);
+
   // Each state's controller can be found in controllers.js
   $stateProvider
 
     .state('home', {
+      cache: "false",
       url: '/home',
       templateUrl: 'templates/home.html',
       controller: 'HomeCtrl'
     })
 
     .state('sensors', {
+      cache: "false",
       url: '/sensors',
       templateUrl: 'templates/sensors.html',
       controller: 'SensorsCtrl'

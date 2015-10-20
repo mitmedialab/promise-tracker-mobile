@@ -13,7 +13,7 @@
   left: 0;
   z-index: $z-index-bar;
 
-  box-sizing: border-box;
+  @include box-sizing(border-box);
   padding: $bar-padding-portrait;
 
   width: 100%;
@@ -68,30 +68,57 @@
 
   &.bar-light {
     @include bar-style($bar-light-bg, $bar-light-border, $bar-light-text);
+    &.bar-footer{
+      background-image: linear-gradient(180deg, $bar-light-border, $bar-light-border 50%, transparent 50%);
+    }
   }
   &.bar-stable {
     @include bar-style($bar-stable-bg, $bar-stable-border, $bar-stable-text);
+    &.bar-footer{
+      background-image: linear-gradient(180deg, $bar-stable-border, $bar-stable-border 50%, transparent 50%);
+    }
   }
   &.bar-positive {
     @include bar-style($bar-positive-bg, $bar-positive-border, $bar-positive-text);
+    &.bar-footer{
+      background-image: linear-gradient(180deg, $bar-positive-border, $bar-positive-border 50%, transparent 50%);
+    }
   }
   &.bar-calm {
     @include bar-style($bar-calm-bg, $bar-calm-border, $bar-calm-text);
+    &.bar-footer{
+      background-image: linear-gradient(180deg, $bar-calm-border, $bar-calm-border 50%, transparent 50%);
+    }
   }
   &.bar-assertive {
     @include bar-style($bar-assertive-bg, $bar-assertive-border, $bar-assertive-text);
+    &.bar-footer{
+      background-image: linear-gradient(180deg, $bar-assertive-border, $bar-assertive-border 50%, transparent 50%);
+    }
   }
   &.bar-balanced {
     @include bar-style($bar-balanced-bg, $bar-balanced-border, $bar-balanced-text);
+    &.bar-footer{
+      background-image: linear-gradient(180deg, $bar-balanced-border, $bar-positive-border 50%, transparent 50%);
+    }
   }
   &.bar-energized {
     @include bar-style($bar-energized-bg, $bar-energized-border, $bar-energized-text);
+    &.bar-footer{
+      background-image: linear-gradient(180deg, $bar-energized-border, $bar-energized-border 50%, transparent 50%);
+    }
   }
   &.bar-royal {
     @include bar-style($bar-royal-bg, $bar-royal-border, $bar-royal-text);
+    &.bar-footer{
+      background-image: linear-gradient(180deg, $bar-royal-border, $bar-royal-border 50%, transparent 50%);
+    }
   }
   &.bar-dark {
     @include bar-style($bar-dark-bg, $bar-dark-border, $bar-dark-text);
+    &.bar-footer{
+      background-image: linear-gradient(180deg, $bar-dark-border, $bar-dark-border 50%, transparent 50%);
+    }
   }
 
   // Title inside of a bar is centered
@@ -116,6 +143,7 @@
     white-space: nowrap;
 
     font-size: $bar-title-font-size;
+    font-weight: $headings-font-weight;
 
     line-height: $bar-height;
 
@@ -177,9 +205,17 @@
       }
     }
 
+    &.back-button {
+      display: block;
+      margin-right: 5px;
+      padding: 0;
+      white-space: nowrap;
+      font-weight: 400;
+    }
+
     &.back-button.active,
     &.back-button.activated {
-      opacity: 1;
+      opacity: 0.2;
     }
   }
 
@@ -196,10 +232,22 @@
 
   // Android 4.4 messes with the display property
   .buttons,
-  .buttons.left-buttons,
-  .buttons.right-buttons {
+  .buttons.primary-buttons,
+  .buttons.secondary-buttons {
     display: inherit;
   }
+  .buttons span {
+    display: inline-block;
+  }
+  .buttons-left span {
+    margin-right: 5px;
+    display: inherit;
+  }
+  .buttons-right span {
+    margin-left: 5px;
+    display: inherit;
+  }
+
   // Place the last button in a bar on the right of the bar
   .title + .button:last-child,
   > .button + .button:last-child,
@@ -210,6 +258,26 @@
     top: 5px;
     right: 5px;
     bottom: 5px;
+  }
+
+}
+
+.platform-android {
+
+  .nav-bar-has-subheader .bar {
+    background-image: none;
+  }
+
+  .bar {
+
+    .back-button .icon:before {
+      font-size: 24px;
+    }
+
+    .title {
+      font-size: 19px;
+      line-height: $bar-height;
+    }
   }
 
 }
@@ -275,6 +343,14 @@
   top: 0;
   border-top-width: 0;
   border-bottom-width: 1px;
+  &.has-tabs-top{
+    border-bottom-width: 0px;
+    background-image: none;
+  }
+}
+.tabs-top .bar-header{
+  border-bottom-width: 0px;
+  background-image: none;
 }
 
 // Footer at bottom
@@ -283,6 +359,8 @@
   border-top-width: 1px;
   border-bottom-width: 0;
   background-position: top;
+
+  height: $bar-footer-height;
 
   &.item-input-inset {
     position: absolute;
@@ -297,8 +375,30 @@
 .bar-subheader {
   top: $bar-height;
   display: block;
+
+  height: $bar-subheader-height;
 }
 .bar-subfooter {
-  bottom: $bar-height;
+  bottom: $bar-footer-height;
   display: block;
+
+  height: $bar-subfooter-height;
 }
+
+.nav-bar-block {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: $z-index-bar;
+}
+
+.bar .back-button.hide,
+.bar .buttons .hide {
+  display: none;
+}
+
+.nav-bar-tabs-top .bar {
+  background-image: none;
+}
+

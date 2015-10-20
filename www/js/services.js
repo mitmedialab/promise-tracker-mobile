@@ -40,7 +40,7 @@ angular.module('ptApp.services', ['ptConfig', 'pascalprecht.translate'])
   return service;
 })
 
-.factory('Sensor', function($http, $rootScope, $cordovaLocalNotification, PT_CONFIG, Survey){
+.factory('Sensor', function($http, $rootScope, $cordovaLocalNotification, $timeout, PT_CONFIG, Survey){
   localStorage['pairedDevice'] = localStorage['pairedDevice'] || '{}';
   localStorage['syncedReadings'] = localStorage['syncedReadings'] || '[]';
 
@@ -83,10 +83,10 @@ angular.module('ptApp.services', ['ptConfig', 'pascalprecht.translate'])
           self.sensorValues.push(value);
           console.log("Data received from duino: " + value);
           console.log(self.sensorValues);
-          
-          $scope.$apply(function(){
+
+          $timeout(function() {
             $scope.data.pairedDevice.latestReading = value;
-            console.log($scope.data.pairedDevice.latestReading);
+            console.log("latest Reading: " + $scope.data.pairedDevice.latestReading);
           });
 
           if(value > survey.threshold){
