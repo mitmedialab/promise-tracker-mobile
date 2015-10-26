@@ -11,6 +11,7 @@
     <link href="css/style.css" rel="stylesheet">
 
     <!-- ionic/angularjs js -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjh-scjtIp8uOinKaHREAG2GOy4nhGxMs"></script>
     <script src="lib/ionic/js/ionic.bundle.js"></script>
     
     <!-- ptApp app's js -->
@@ -26,7 +27,6 @@
     <script src="lib/messageformat/locale/es.js"></script>
     <script src="lib/angular-translate-interpolation-messageformat/angular-translate-interpolation-messageformat.js"></script>
     <script src="lib/angular-ui-utils/ui-utils.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjh-scjtIp8uOinKaHREAG2GOy4nhGxMs"></script>
 
     <!-- cordova script (this will be a 404 during development) -->
     <script src="js/ng-cordova.min.js"></script>
@@ -34,7 +34,7 @@
   </head>
 
   <body ng-app="ptApp">
-    <div class="bar bar-header bar-grey">
+    <div class="bar bar-grey">
       <a href="#/home" class="branding">
         <img src="images/PT-logo.png">
         <h1 class="title">{{ 'APP_NAME' | translate }}</h1>

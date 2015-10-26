@@ -18,13 +18,14 @@
             <span class="sub-line" ng-show="{{survey.status !== 'test' && survey.sensorType == 'none'}}">{{ 'RESPONSES_TO_DATE' | translate : "{NUM: countSynced(survey.id)}" : "messageformat" }}</span>
 
             <p class="sub-line" ng-show="{{survey.sensorType !== 'none'}}"><icon class="ion-radio-waves"></icon> Sensor campaign</p>
-            <p class="sub-line">
-              <span ng-show="{{data.pairedDevice.surveyId && data.pairedDevice.surveyId == survey.id}}">
-                Paired sensor: {{data.pairedDevice.uuid}}<br>
-                Latest reading: <strong>{{data.pairedDevice.latestReading}}</strong> dBA
-              </span>
+            <p class="sub-line pad-top" ng-show="{{data.pairedDevice.surveyId && data.pairedDevice.surveyId == survey.id}}">
+              Paired sensor: {{data.pairedDevice.uuid}}<br>
+              Sound level: <strong>{{data.pairedDevice.latestReading}}</strong>
             </p>
           </a>
+          <div class="pad-top" ng-show="{{data.pairedDevice.surveyId && data.pairedDevice.surveyId == survey.id}}" ng-click="unpairSensor()">
+            <icon class="ion-ios-close-outline"> Unpair sensor</button>
+          </div>
           <span ng-show="{{!data.pairedDevice.surveyId || data.pairedDevice.surveyId != survey.id}}">
             <button class="button button-calm-outline" ng-click="pairSensor(survey.id)">Pair sensor</button>
           </span>
@@ -50,7 +51,7 @@
     <div id="status">
       <div ng-show="data.isSyncing">
         <p>
-          <icon class="ion-looping"></icon> {{ 'SYNCING' | translate }}
+          <ion-spinner></ion-spinner> {{ 'SYNCING' | translate }}
         </p>
       </div>
       <div ng-show="!data.isSyncing && data.needsSync" class="alert">

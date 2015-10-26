@@ -341,6 +341,11 @@ angular.module('ptApp', ['ionic', 'ngCordova', 'ptApp.controllers', 'ptApp.servi
       cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
     }
 
+    if (window.StatusBar) {
+      StatusBar.styleDefault();
+    }
+
+
     // Event handling for Local Notifications
     window.plugin.notification.local.on('click', function (id, state, data) {
       var notification = {

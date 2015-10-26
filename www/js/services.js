@@ -40,7 +40,7 @@ angular.module('ptApp.services', ['ptConfig', 'pascalprecht.translate'])
   return service;
 })
 
-.factory('Sensor', function($http, $rootScope, $cordovaLocalNotification, $timeout, PT_CONFIG, Survey){
+.factory('Sensor', function($http, $rootScope, $cordovaLocalNotification, $timeout, $state, PT_CONFIG, Survey){
   localStorage['pairedDevice'] = localStorage['pairedDevice'] || '{}';
   localStorage['syncedReadings'] = localStorage['syncedReadings'] || '[]';
 
@@ -63,6 +63,7 @@ angular.module('ptApp.services', ['ptConfig', 'pascalprecht.translate'])
         console.log("location fail");
         reading.locationstamp.lon = null;
         reading.locationstamp.lat = null;
+        self.unsyncedReadings.push(reading);
       };
 
       var options = {
@@ -73,6 +74,20 @@ angular.module('ptApp.services', ['ptConfig', 'pascalprecht.translate'])
       navigator.geolocation.getCurrentPosition(success, error, options);
     },
 
+    isAboveThreshold: function(threshold){
+      var length = this.sensorValues.length;
+
+      if(this.sensorValues[length-1] > threshold && this.sensorValues[length-2] > threshold){
+        return true;
+      } else {
+        return false;
+      }
+    },
+
+    hasExisitingNotification: function(){
+
+    },
+
     onRecieveData: function(device, $scope){
       var self = this;
       var survey = Survey.surveys[device.surveyId];
@@ -80,16 +95,14 @@ angular.module('ptApp.services', ['ptConfig', 'pascalprecht.translate'])
       rfduino.onData(
         function(data){
           value = new Uint8Array(data)[0];
-          self.sensorValues.push(value);
-          console.log("Data received from duino: " + value);
-          console.log(self.sensorValues);
+          // self.sensorValues.push(value);
 
           $timeout(function() {
             $scope.data.pairedDevice.latestReading = value;
             console.log("latest Reading: " + $scope.data.pairedDevice.latestReading);
           });
 
-          if(value > survey.threshold){
+          if(self.isAboveThreshold(survey.threshold)){
             self.triggerNotification(survey.id);
           }
 
@@ -108,18 +121,18 @@ angular.module('ptApp.services', ['ptConfig', 'pascalprecht.translate'])
     requestData: function(interval){ // TODO: Implement different write codes for sensors
       var self = this;
       var buffer = new ArrayBuffer(3);
-      var interval = interval || 10000; // Default to 1 secs
+      var interval = interval || 6000; // Default to 1 secs
 
       var success = function(){console.log("Pinging duino")};
       var failure = function(){
         console.log("Failed to write to duino");
         self.pairedDevice = null;
-        clearInterval(sensorReadingInterval);
+        clearInterval(self.sensorReadingInterval);
         $rootScope.$broadcast('sensorConnectionLost');
       };
 
       
-      var sensorReadingInterval = setInterval(function(){
+      self.sensorReadingInterval = setInterval(function(){
         rfduino.write(
           buffer, 
           success, 
@@ -146,21 +159,34 @@ angular.module('ptApp.services', ['ptConfig', 'pascalprecht.translate'])
 
     pairDevice: function(device, $scope, surveyId){
       var self = this;
+      device.isPairing = true;
 
-      rfduino.connect(device["uuid"],
-        function(){
-          device.surveyId = surveyId;
-          self.pairedDevice = device;
-          console.log('Device ' + device["uuid"] + ' connnected');
-          
-          $scope.data.pairedDevice = device;
-          self.onRecieveData(device, $scope);
-          self.requestData();
-          $scope.goHome();
-        },
-        function(){
-        }
-      );
+      var success = function(){
+        device.isPairing = false;
+        device.surveyId = surveyId;
+        self.pairedDevice = device;
+        console.log('Device ' + device["uuid"] + ' connnected');
+        
+        $scope.data.pairedDevice = device;
+        self.onRecieveData(device, $scope);
+        self.requestData(200);
+        $scope.goHome();
+      };
+
+      var failure = function(){
+        device.isPairing = false;
+      };
+
+      rfduino.connect(device["uuid"], success, failure);
+    },
+
+    unpairDevice: function(success, failure){
+      var self = this;
+      rfduino.disconnect(function(){
+        clearInterval(self.sensorReadingInterval);
+        self.pairedDevice = null;
+        success();
+      }, failure);
     },
 
     formatReading: function(device){
@@ -202,12 +228,11 @@ angular.module('ptApp.services', ['ptConfig', 'pascalprecht.translate'])
       var self = this;
 
       rfduino.isConnected(
-        function(data){ debugger;}, 
+        function(){}, 
         function(){
           console.log("not connected");
           alert("Sensor connection lost")
           self.pairedDevice = null;
-          debugger;
         }
       );
     },
@@ -216,7 +241,7 @@ angular.module('ptApp.services', ['ptConfig', 'pascalprecht.translate'])
   return service;
 })
 
-.factory('Survey', function($rootScope, $http, $ionicPopup, $state, $filter, $location, PT_CONFIG, Main){
+.factory('Survey', function($rootScope, $http, $ionicPopup, $state, $filter, $location, $timeout, PT_CONFIG, Main){
   localStorage['surveys'] = localStorage['surveys'] || '{}';
   localStorage['unsynced'] = localStorage['unsynced'] || '[]';
   localStorage['unsyncedImages'] = localStorage['unsyncedImages'] || '[]';
@@ -302,7 +327,7 @@ angular.module('ptApp.services', ['ptConfig', 'pascalprecht.translate'])
           self.currentResponse.locationstamp.lat = position.coords.latitude;
         }
 
-        scope.$apply(function(){
+        $timeout(function(){
           scope.location.status = "recorded";
 
           if(displayMap){
@@ -455,7 +480,12 @@ angular.module('ptApp.services', ['ptConfig', 'pascalprecht.translate'])
       var self = this;
       var formattedResponse = self.formatResponse(response);
       self.addResponseToUnsynced(response);
-      $scope.data.isSyncing =  true;
+
+      self.syncing = true;
+      console.log("uploading");
+
+      $timeout(function(){
+
       $http.post(
         PT_CONFIG.aggregatorUrl + 'responses', 
         { response: JSON.stringify(formattedResponse) }
@@ -466,19 +496,23 @@ angular.module('ptApp.services', ['ptConfig', 'pascalprecht.translate'])
             self.removeResponseFromUnsynced(response);
             self.addResponseToSynced(formattedResponse);
             self.addImageToUnsynced(response);
+            console.log("uploaded");
           }
           if(self.unsynced.length + self.unsyncedImages.length == 0) {
-            $scope.data.isSyncing =  false;
-            $rootScope.$broadcast('viewMap', response.survey_id);
+            console.log("no more to upload");
+            self.syncing = false;
+          } else {
+            self.syncResponses($scope);
+            console.log("uploading another");
           }
-          $scope.data.needsSync = self.getUnsyncedCount() > 0;
-          self.syncResponses($scope);
         })
 
         .error(function(data, status){
-          // Main.interceptResponse(data, status);
-          $scope.data.isSyncing = false;
+          console.log("upload fail");
+          self.syncing = false;
         });
+
+      }, 2000);
     },
 
     syncImage: function(image, $scope){

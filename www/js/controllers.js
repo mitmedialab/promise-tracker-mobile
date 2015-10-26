@@ -1,6 +1,7 @@
 angular.module('ptApp.controllers', ['ptConfig'])
 
-.controller('HomeCtrl', function($scope, $ionicModal, $http, $state, $ionicPopup, $filter, $ionicListDelegate, $translate, PT_CONFIG, Main, Survey, Sensor) {
+.controller('HomeCtrl', function($scope, $ionicModal, $http, $state, $ionicPopup, $filter, $ionicListDelegate, $translate, $timeout, PT_CONFIG, Main, Survey, Sensor) {
+  $scope.service = Survey;
   $scope.surveys = Survey.surveys;
   $scope.surveyCount = Object.keys(Survey.surveys).length;
   $scope.responseCount = Survey.synced.length + Survey.unsynced.length;
@@ -12,6 +13,7 @@ angular.module('ptApp.controllers', ['ptConfig'])
     pairedDevice: Sensor.pairedDevice,
     scanning: false
   };
+  console.log($scope.service);
 
   $scope.$on('connectionError', function(){
     var alertPopup = $ionicPopup.alert({
@@ -26,20 +28,11 @@ angular.module('ptApp.controllers', ['ptConfig'])
     });
   });
 
-  $scope.$on('updateStatus', function(){
-    var updateSyncStatus = function(){
-      $scope.showNeedSyncStatus = Survey.hasUnsyncedItems();
-      $scope.showSyncingStatus = Survey.isSyncing();
-      $scope.syncMessage = Survey.getSyncMessage();
-    }
-
-    if(!$scope.$$phase){
-      $scope.$apply(updateSyncStatus);
-    } else {
-      updateSyncStatus();
-    }
-    $state.go($state.current, {}, {reload: true});
-  });
+  $scope.$watch('service.syncing', function(newVal){
+    console.log("service is syncing: " + newVal);
+    $scope.data.isSyncing = newVal;
+    $scope.data.needsSync = Survey.hasUnsyncedItems();
+  })
 
   // $scope.$on('viewMap', function(scope, surveyId){
   //   if(!Survey.hasUnsyncedItems()){
@@ -169,7 +162,19 @@ angular.module('ptApp.controllers', ['ptConfig'])
 
   $scope.pairSensor = function(surveyId){
     $state.go('sensors/pair/:surveyId', {surveyId: surveyId});
-  }
+  };
+
+  $scope.unpairSensor = function(){
+    var success = function(){
+      $state.go($state.current, {}, {reload: true});
+    };
+
+    var failure = function(){
+      alert("Failed to disconnect");
+    };
+
+    Sensor.unpairDevice(success, failure);
+  };
 })
 
 .controller('SensorsCtrl', function($scope, $stateParams, $state, $location, $ionicModal, Survey, Main, Sensor) {
@@ -218,7 +223,7 @@ angular.module('ptApp.controllers', ['ptConfig'])
   }();
 
   $scope.pairDevice = function(device){
-    $scope.data.isPairing = true;
+    device.isPairing = true;
     Sensor.pairDevice(device, $scope, $stateParams.surveyId);
   };
 
@@ -241,11 +246,14 @@ angular.module('ptApp.controllers', ['ptConfig'])
     $scope.survey = Survey.surveys[$stateParams.surveyId];
   };
 
-  Main.confirmInternetConnection(function(){
-    Survey.fetchSurvey($scope.code, function(){ 
-      $scope.survey = Survey.surveys[$stateParams.surveyId];
+  // If survey in test mode, fetch newest version
+  if($scope.survey !== 'test'){
+    Main.confirmInternetConnection(function(){
+      Survey.fetchSurvey($scope.code, function(){ 
+        $scope.survey = Survey.surveys[$stateParams.surveyId];
+      });
     });
-  });
+  }
 
   $scope.getLocation = function(){
     Survey.getLocation($scope, Survey.currentResponse.locationstamp);
@@ -260,8 +268,8 @@ angular.module('ptApp.controllers', ['ptConfig'])
   };
 
   $scope.submitResponse = function(){
-    Survey.syncResponse(Survey.currentResponse, $scope);
-    $state.go('home');
+    Survey.syncResponse(Survey.currentResponse);
+    $state.go('home', {}, {reload: true});
   };
 
   $scope.saveResponse = function(){
