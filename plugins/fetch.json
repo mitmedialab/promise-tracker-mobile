@@ -4,7 +4,7 @@
             "type": "registry",
             "id": "org.apache.cordova.device"
         },
-        "is_top_level": true,
+        "is_top_level": false,
         "variables": {}
     },
     "com.ionic.keyboard": {
@@ -49,14 +49,6 @@
             "id": "org.apache.cordova.inappbrowser"
         }
     },
-    "org.apache.cordova.statusbar": {
-        "source": {
-            "type": "registry",
-            "id": "org.apache.cordova.statusbar"
-        },
-        "is_top_level": true,
-        "variables": {}
-    },
     "cordova-plugin-inappbrowser": {
         "source": {
             "type": "git",
@@ -93,6 +85,14 @@
         "source": {
             "type": "registry",
             "id": "com.megster.cordova.rfduino"
+        },
+        "is_top_level": true,
+        "variables": {}
+    },
+    "org.apache.cordova.statusbar": {
+        "source": {
+            "type": "registry",
+            "id": "org.apache.cordova.statusbar"
         },
         "is_top_level": true,
         "variables": {}

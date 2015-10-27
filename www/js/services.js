@@ -95,7 +95,7 @@ angular.module('ptApp.services', ['ptConfig', 'pascalprecht.translate'])
       rfduino.onData(
         function(data){
           value = new Uint8Array(data)[0];
-          // self.sensorValues.push(value);
+          self.sensorValues.push(value);
 
           $timeout(function() {
             $scope.data.pairedDevice.latestReading = value;
@@ -498,7 +498,7 @@ angular.module('ptApp.services', ['ptConfig', 'pascalprecht.translate'])
             self.addImageToUnsynced(response);
             console.log("uploaded");
           }
-          if(self.unsynced.length + self.unsyncedImages.length == 0) {
+          if(self.hasUnsyncedItems() == 0) {
             console.log("no more to upload");
             self.syncing = false;
           } else {
@@ -515,10 +515,10 @@ angular.module('ptApp.services', ['ptConfig', 'pascalprecht.translate'])
       }, 2000);
     },
 
-    syncImage: function(image, $scope){
+    syncImage: function(image){
       var self = this;
       self.syncing = true;
-      $rootScope.$broadcast('updateStatus');
+
       // TODO: need to find if the image really exists
       // upload the image with cordova file-transfer
       var options = new FileUploadOptions();
@@ -527,45 +527,43 @@ angular.module('ptApp.services', ['ptConfig', 'pascalprecht.translate'])
       options.mimeType = "image/jpeg";
       options.params = image;
       options.headers = { 'Authorization': PT_CONFIG.accessKey };
+
       var fileTransfer = new FileTransfer();
-      fileTransfer.onprogress = function(result){
-           var percent =  result.loaded / result.total * 100;
-           percent = Math.round(percent);
-           self.currentSyncPercentage = percent;
-           $rootScope.$broadcast('updateStatus');
-      };
+      // fileTransfer.onprogress = function(result){
+      //    var percent =  result.loaded / result.total * 100;
+      //    percent = Math.round(percent);
+      //    self.currentSyncPercentage = percent;
+      // };
       fileTransfer.upload(image.fileLocation, encodeURI(PT_CONFIG.aggregatorUrl + 'upload_image'),
 
         function(result){   // upload succeed
           if(typeof result.response != 'undefined'){
             self.removeImageFromUnsynced(image);
           }
-          self.syncing = false;
-          $rootScope.$broadcast('updateStatus');
           self.syncImages();
-          self.currentSyncPercentage = 0;
-          $rootScope.$broadcast('viewMap', image.survey_id);
         }, 
 
         function(error){   // upload failed
           // TODO: notify user of image upload failure
-          self.currentSyncPercentage = 0;
-          self.syncing =false;
-          $rootScope.$broadcast('updateStatus');
+          self.syncing = false;
         }, options);
     },
 
-    syncResponses: function($scope){
+    syncResponses: function(){
       var self = this;
       if(self.unsynced.length>0){
         self.syncResponse(self.unsynced[0], $scope);
       }
     },
 
-    syncImages: function($scope){
+    syncImages: function(){
       var self = this;
-      if(self.unsyncedImages.length>0){
+
+      if(self.unsyncedImages.length > 0){
         self.syncImage(self.unsyncedImages[0]);
+      } else {
+        self.syncing = false;
+        console.log(self.isSyncing());
       }
     },
 

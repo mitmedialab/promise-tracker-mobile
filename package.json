@@ -25,7 +25,8 @@
       "locator": "https://github.com/evothings/cordova-ble",
       "id": "cordova-plugin-ble"
     },
-    "com.megster.cordova.rfduino"
+    "com.megster.cordova.rfduino",
+    "de.appplant.cordova.plugin.local-notification"
   ],
   "cordovaPlatforms": [
     "android"
