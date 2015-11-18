@@ -289,12 +289,13 @@ angular.module('ptApp.controllers', ['ptConfig'])
   }
 })
 
-.controller('InputsCtrl', function($scope, $stateParams, $state, Survey, $ionicPopup, $filter, $timeout, Main){
+.controller('InputsCtrl', function($scope, $stateParams, $state, Survey, $ionicPopup, $filter, $timeout, $cordovaMedia, Main){
   $scope.survey = Survey.surveys[$stateParams.surveyId];
   $scope.index = Survey.currentResponse.activeIndex;
   $scope.input = Survey.currentResponse.inputs[Survey.currentResponse.activeIndex];
   $scope.input.input_type === 'select' ? $scope.input.answer = $scope.input.answer || [] : false;
   $scope.errorMessage = '';
+  $scope.data = {};
 
   if($scope.input.input_type === 'location'){
     $scope.input.answer = $scope.input.answer || {};
@@ -327,6 +328,25 @@ angular.module('ptApp.controllers', ['ptConfig'])
 
   $scope.getLocation = function(){
     Survey.getLocation($scope, $scope.input.answer, true);
+  };
+
+  $scope.recordAudio = function(){
+    var success = function(mediaFiles){
+      console.log("success");
+      console.log(mediaFiles);
+      $scope.input.answer = mediaFiles[0].fullPath;
+    };
+
+    var failure = function(){
+      console.log("failure");
+      $scope.data.isRecording = false;
+    };
+
+    navigator.device.capture.captureAudio(
+      success, 
+      failure, 
+      {limit:0, duration: 10}
+    );
   };
 
   $scope.inputValid = function(input){

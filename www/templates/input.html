@@ -29,6 +29,22 @@
         <img class="image-preview" ng-src="{{input.answer}}"/>
       </div>
 
+      <!-- Audio -->
+      <div ng-if="input.input_type === 'audio'">
+        <button class="button button-block button-calm input-action" ng-click="recordAudio()">
+          <span ng-if="!input.answer">
+            Record Audio
+          </span>
+          <span ng-if="data.isRecording">
+            <ion-spinner></ion-spinner>
+          </span>
+          <span ng-if="input.answer">
+            <i class="icon ion-checkmark"></i>
+            Got it!
+          </span>
+        </button>
+      </div>
+
       <!-- Location -->
       <div ng-if="input.input_type === 'location'">
         <button class="button button-block button-calm input-action" ng-click="getLocation()">

@@ -169,7 +169,7 @@ angular.module('ptApp.services', ['ptConfig', 'pascalprecht.translate'])
         
         $scope.data.pairedDevice = device;
         self.onRecieveData(device, $scope);
-        self.requestData(200);
+        self.requestData(300);
         $scope.goHome();
       };
 
@@ -423,8 +423,8 @@ angular.module('ptApp.services', ['ptConfig', 'pascalprecht.translate'])
       var self = this;
       // Search for images in the survey response
       response.inputs.forEach(function(input){
-        if(input.input_type == 'image' && input.answer){
-          self.unsyncedImages.push({id: response.id, survey_id: response.survey_id, input_id: input.id, fileLocation: input.answer});
+        if((input.input_type == 'image' || input.input_type == 'audio') && input.answer){
+          self.unsyncedImages.push({id: response.id, survey_id: response.survey_id, input_id: input.id, input_type: input.input_type, fileLocation: input.answer});
         }
       });
       self.syncImages();
@@ -476,15 +476,13 @@ angular.module('ptApp.services', ['ptConfig', 'pascalprecht.translate'])
       return formattedResponse;
     },
 
-    syncResponse: function(response, $scope){
+    syncResponse: function(response){
       var self = this;
       var formattedResponse = self.formatResponse(response);
       self.addResponseToUnsynced(response);
 
       self.syncing = true;
       console.log("uploading");
-
-      $timeout(function(){
 
       $http.post(
         PT_CONFIG.aggregatorUrl + 'responses', 
@@ -511,8 +509,6 @@ angular.module('ptApp.services', ['ptConfig', 'pascalprecht.translate'])
           console.log("upload fail");
           self.syncing = false;
         });
-
-      }, 2000);
     },
 
     syncImage: function(image){
@@ -524,9 +520,14 @@ angular.module('ptApp.services', ['ptConfig', 'pascalprecht.translate'])
       var options = new FileUploadOptions();
       options.fileKey = "file";
       options.fileName = image.fileLocation.substr(image.fileLocation.lastIndexOf('/') + 1);
-      options.mimeType = "image/jpeg";
       options.params = image;
       options.headers = { 'Authorization': PT_CONFIG.accessKey };
+
+      if(image.input_type == 'image'){
+        options.mimeType = "image/jpeg";
+      } else if (image.input_type == 'audio'){
+        options.mimeType = "audio/mp4";
+      }
 
       var fileTransfer = new FileTransfer();
       // fileTransfer.onprogress = function(result){
@@ -546,13 +547,14 @@ angular.module('ptApp.services', ['ptConfig', 'pascalprecht.translate'])
         function(error){   // upload failed
           // TODO: notify user of image upload failure
           self.syncing = false;
+          console.log("uploadFailed");
         }, options);
     },
 
     syncResponses: function(){
       var self = this;
       if(self.unsynced.length>0){
-        self.syncResponse(self.unsynced[0], $scope);
+        self.syncResponse(self.unsynced[0]);
       }
     },
 
@@ -562,8 +564,10 @@ angular.module('ptApp.services', ['ptConfig', 'pascalprecht.translate'])
       if(self.unsyncedImages.length > 0){
         self.syncImage(self.unsyncedImages[0]);
       } else {
-        self.syncing = false;
-        console.log(self.isSyncing());
+        $timeout(function(){
+          self.syncing = false;
+          console.log(self.isSyncing());
+        })
       }
     },
 
