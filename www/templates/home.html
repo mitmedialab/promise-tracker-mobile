@@ -39,18 +39,18 @@
   </ion-content>
   <div class="bar home bar-footer">
     <div id="status">
-      <div ng-show="showSyncingStatus">
+      <div ng-show="data.isSyncing">
         <p>
-          <icon class="ion-looping"></icon> {{ 'SYNCING' | translate }}
+          <ion-spinner></ion-spinner> {{ 'SYNCING' | translate }}
         </p>
       </div>
-      <div ng-show="!showSyncingStatus && showNeedSyncStatus" class="alert">
+      <div ng-show="!data.isSyncing && data.needsSync" class="alert">
         <p>
           {{ 'UNSYNCED_RESPONSES' | translate : "{NUM: countSynced(survey.id)}" : "messageformat" }}
           <button class="button button-bare sync-button" ng-click="syncSurveys()">{{ 'SYNC_NOW' | translate }}<icon class="ion-loop"></icon></button>
         </p>
       </div>
-      <div ng-show="!showSyncingStatus && responseCount > 0" class="all-synced">
+      <div ng-show="!data.isSyncing && responseCount > 0" class="all-synced">
         <i class="icon ion-checkmark"></i> {{ 'ALL_SYNCED' | translate }}
       </div>
     </div>

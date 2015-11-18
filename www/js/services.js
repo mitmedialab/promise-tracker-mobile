@@ -56,10 +56,6 @@ angular.module('ptApp.services', ['ptConfig', 'pascalprecht.translate'])
     currentSyncPercentage: 0,
     syncing: false,
 
-    isSyncing: function(){
-      return this.syncing;
-    },
-
     hasUnsyncedItems: function(){
       return this.unsynced.length + this.unsyncedImages.length > 0;
     },
@@ -279,8 +275,9 @@ angular.module('ptApp.services', ['ptConfig', 'pascalprecht.translate'])
       var self = this;
       var formattedResponse = self.formatResponse(response);
       self.addResponseToUnsynced(response);
-      self.syncing =  true;
-      $rootScope.$broadcast('updateStatus');
+
+      self.syncing = true;
+
       $http.post(
         PT_CONFIG.aggregatorUrl + 'responses', 
         { response: JSON.stringify(formattedResponse) }
@@ -292,20 +289,16 @@ angular.module('ptApp.services', ['ptConfig', 'pascalprecht.translate'])
             self.addResponseToSynced(formattedResponse);
             self.addImageToUnsynced(response);
           }
-          if(self.unsynced.length + self.unsyncedImages.length == 0) {
+          if(self.hasUnsyncedItems()) {
+            self.syncResponses();
+          } else {
             self.syncing = false;
-            $rootScope.$broadcast('updateStatus');
-            $rootScope.$broadcast('viewMap', response.survey_id);
           }
-          self.refreshSyncItemCount();
-          self.syncResponses();
-          $rootScope.$broadcast('viewMap', response.survey_id);
         })
 
         .error(function(data, status){
-          Main.interceptResponse(data, status);
+          console.log("upload fail");
           self.syncing = false;
-          $rootScope.$broadcast('updateStatus');
         });
     },
 
@@ -351,7 +344,7 @@ angular.module('ptApp.services', ['ptConfig', 'pascalprecht.translate'])
 
     syncResponses: function(){
       var self = this;
-      if(self.unsynced.length>0){
+      if(self.hasUnsyncedItems()){
         self.syncResponse(self.unsynced[0]);
       }
     },

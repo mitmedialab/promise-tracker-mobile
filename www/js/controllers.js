@@ -1,12 +1,15 @@
 angular.module('ptApp.controllers', ['ptConfig'])
 
 .controller('HomeCtrl', function($scope, $ionicModal, $http, $state, $ionicPopup, $filter, $ionicListDelegate, $translate, Survey, PT_CONFIG, Main) {
+  $scope.service = Survey;
   $scope.surveys = Survey.surveys;
   $scope.surveyCount = Object.keys(Survey.surveys).length;
   $scope.responseCount = Survey.synced.length + Survey.unsynced.length;
   $scope.errorMessage = '';
-  $scope.showNeedSyncStatus = Survey.hasUnsyncedItems();
-  $scope.showSyncingStatus = Survey.isSyncing();
+  $scope.data = {
+    isSyncing: false,
+    needsSync: Survey.hasUnsyncedItems()
+  };
 
   $scope.$on('connectionError', function(){
     var alertPopup = $ionicPopup.alert({
@@ -14,20 +17,10 @@ angular.module('ptApp.controllers', ['ptConfig'])
     });
   });
 
-  $scope.$on('updateStatus', function(){
-    var updateSyncStatus = function(){
-      $scope.showNeedSyncStatus = Survey.hasUnsyncedItems();
-      $scope.showSyncingStatus = Survey.isSyncing();
-      $scope.syncMessage = Survey.getSyncMessage();
-    }
-
-    if(!$scope.$$phase){
-      $scope.$apply(updateSyncStatus);
-    } else {
-      updateSyncStatus();
-    }
-    $state.go($state.current, {}, {reload: true});
-  });
+   $scope.$watch('service.syncing', function(newVal){
+    $scope.data.isSyncing = newVal;
+    $scope.data.needsSync = Survey.hasUnsyncedItems();
+  })
 
   $scope.$on('viewMap', function(scope, surveyId){
     if(!Survey.hasUnsyncedItems()){
