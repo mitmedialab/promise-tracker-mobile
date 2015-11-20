@@ -110,6 +110,16 @@ a, a:visited, .action {
   color: #5a5a5e;
 }
 
+.white  .spinner-android {
+  stroke: whitesmoke !important;
+  fill: whitesmoke !important;
+}
+
+.stop2 {
+  stop-color: #fff;
+  stop-opacity: 1;
+}
+
 .section-title {
   margin-bottom: 0;
   font-size: 22px;
@@ -130,6 +140,10 @@ a, a:visited, .action {
 
 .input-action {
   margin-top: -10px !important;
+}
+
+.shift-down {
+  margin-bottom: -14px;
 }
 
 .right {

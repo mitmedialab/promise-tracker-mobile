@@ -40,14 +40,14 @@
   <div class="bar home bar-footer">
     <div id="status">
       <div ng-show="data.isSyncing">
-        <p>
-          <ion-spinner></ion-spinner> {{ 'SYNCING' | translate }}
+        <p class="unpad-top">
+          <ion-spinner icon="ios"></ion-spinner>
         </p>
       </div>
       <div ng-show="!data.isSyncing && data.needsSync" class="alert">
         <p>
           {{ 'UNSYNCED_RESPONSES' | translate : "{NUM: countSynced(survey.id)}" : "messageformat" }}
-          <button class="button button-bare sync-button" ng-click="syncSurveys()">{{ 'SYNC_NOW' | translate }}<icon class="ion-loop"></icon></button>
+          <button class="button button-bare sync-button" ng-click="syncSurveys()">{{ 'SYNC_NOW' | translate }} <icon class="ion-loop"></icon></button>
         </p>
       </div>
       <div ng-show="!data.isSyncing && responseCount > 0" class="all-synced">
@@ -68,8 +68,8 @@
 <!-- Enter code modal -->
 <script id="enter-code.html" type="text/ng-template">
   <div class="modal">
-    <ion-header-bar class="bar-secondary">
-      <h1 class=title>{{ 'CAMPAIGN_CODE' | translate }}</h1>
+    <ion-header-bar align-title="center">
+      <h1 class="title">{{ 'CAMPAIGN_CODE' | translate }}</h1>
       <span class="top-right action cancel-button" ng-click="closeCodeModal()"><icon class="ion-close"></icon></span>
     </ion-header-bar>
 
@@ -86,7 +86,9 @@
         </div>
         <div class="padding unpad-top">
           <button type="submit" class="button button-block button-calm">
-            <icon ng-if="surveyLoading" class="ion-loading-c"></icon>
+            <div ng-if="surveyLoading" class="shift-down white">
+              <ion-spinner class="android"></ion-spinner>
+            </div>
             <span ng-if="!surveyLoading">{{ 'DOWNLOAD' | translate }}</span>
           </button>
         </div>

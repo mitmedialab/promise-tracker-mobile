@@ -45,12 +45,11 @@ angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'pascal
   }];
 })
 
-.config(function($stateProvider, $urlRouterProvider) {
+.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
 
-  // Ionic uses AngularUI Router which uses the concept of states
-  // Learn more here: https://github.com/angular-ui/ui-router
-  // Set up the various states which the app can be in.
-  // Each state's controller can be found in controllers.js
+  //Turn off view caching
+  $ionicConfigProvider.views.maxCache(0);
+
   $stateProvider
 
     .state('home', {
@@ -129,7 +128,7 @@ angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'pascal
     'TAKE_PICTURE': 'Tomar una fotografía',
     'GET_LOCATION': 'Obtener ubicación',
     'GETTING_LOCATION': 'Buscando ubicación',
-    'LOCATION_RECORDED': '¡Listo!',
+    'GOT_IT': '¡Listo!',
     'LOCATION_NOT_FOUND': 'Ubicación no encontrada',
     'LOCATION_TIMEOUT': 'Por favor confirme que los servicios de ubicación estén activados.',
     'RETRY': 'Tratar de nuevo',
@@ -148,7 +147,9 @@ angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'pascal
     //Errors, Alerts
     'ENTER_CODE': 'Por favor incerte un código de campaña',
     'CODE_LENGTH': 'El código de la campaña debe ser de 6 números.',
-    '12': 'Encuesta no encontrada. Por favor verifica el código e intenta de nuevo.',
+    'ERROR_HEADER': '¡Que pena!',
+    'ERROR_12': 'Encuesta no encontrada. Por favor verifica el código e intenta de nuevo.',
+    'ERROR_14': 'Esta campaña ya cerró y no puede aceptar más datos. Tu respuesta no fue mandado.',
     'DELETE_RESPONSE': "¿Estás seguro que deseas eliminar esta respuesta? Todos los datos se perderán.",
     'DELETE_CAMPAIGN': "¿Estás seguro que deseas eliminar esta campaña de la lista?",
     'DELETE': 'Eliminar',
@@ -202,7 +203,7 @@ angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'pascal
     'TAKE_PICTURE': 'Take a picture',
     'GET_LOCATION': 'Get location',
     'GETTING_LOCATION': 'Getting location',
-    'LOCATION_RECORDED': 'Got it!',
+    'GOT_IT': 'Got it!',
     'LOCATION_NOT_FOUND': 'Location not found',
     'LOCATION_TIMEOUT': "Please ensure location services are enabled in your phone's settings.",
     'RETRY': 'Retry',
@@ -221,7 +222,9 @@ angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'pascal
     //Errors, Alerts
     'ENTER_CODE': 'Please enter a campaign code',
     'CODE_LENGTH': 'The campaign code should be a total of 6 numbers.',
-    '12': 'Campaign not found. Please check code and try again.',
+    'ERROR_HEADER': 'Uh oh!',
+    'ERROR_12': 'Campaign not found. Please check code and try again.',
+    'ERROR_14': 'This campaign has been closed and is no longer accepting data. Your response was not sent.',
     'DELETE_RESPONSE': "Are you sure you want to delete this reponse? All data for this response will be lost.",
     'DELETE_CAMPAIGN': "Are you sure you want to delete this campaign from your list?",
     'DELETE': 'Delete',
@@ -229,7 +232,7 @@ angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'pascal
     'SYNCING': 'Syncing',
     'RESPONSE_SYNCED': 'Response sent!',
     'ALL_SYNCED': 'All synced',
-    'SYNC_NOW': 'Sync now',
+    'SYNC_NOW': 'Sync',
     'REQUIRED': 'This question is required',
     'OFFLINE': 'No network connection. Please try again later'
   });
@@ -255,7 +258,6 @@ angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'pascal
     'VIEW_MAP_TEXT': 'Para ver o mapa para esta campanha, clique abaixo',
     'VIEW_MAP': 'Ver mapa',
 
-
      // User page
     'MY_PROFILE': 'Meu perfil',
     'USER_INFO': 'Dados do usuario',
@@ -276,7 +278,7 @@ angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'pascal
     'TAKE_PICTURE': 'Tirar uma foto',
     'GET_LOCATION': 'Obter localização',
     'GETTING_LOCATION': 'Procurando localização',
-    'LOCATION_RECORDED': 'Pronto!',
+    'GOT_IT': 'Pronto!',
     'LOCATION_NOT_FOUND': 'Localização não encontrado',
     'LOCATION_TIMEOUT': 'Por favor confirme nas configurações do celular que a localização esteja ativada.',
     'RETRY': 'Tentar novamente',
@@ -296,7 +298,9 @@ angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'pascal
     //Errors, Alerts
     'ENTER_CODE': 'Por favor, digite um código de campanha',
     'CODE_LENGTH': 'O código da campanha deve ser 6 números',
-    '12': 'Esta campanha não existe. Por favor, verifique o código e tente novamente.',
+    'ERROR_HEADER': 'Que pena!',
+    'ERROR_12': 'Esta campanha não existe. Por favor, verifique o código e tente novamente.',
+    'ERROR_14': 'Essa campanha ja foi fechada e não aceita mais dados. Sua resposta não foi enviado.',
     'DELETE_RESPONSE': 'Tem certeza que quer eliminar este registro?',
     'DELETE_CAMPAIGN': 'Tem certeza que quer eliminar esta campanha?',
     'DELETE': 'Eliminar',

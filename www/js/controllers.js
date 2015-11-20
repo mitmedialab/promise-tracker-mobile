@@ -17,6 +17,13 @@ angular.module('ptApp.controllers', ['ptConfig'])
     });
   });
 
+  $scope.$on('notifyError', function(event, code){
+    var alertPopup = $ionicPopup.alert({
+      title: $filter('translate')('ERROR_HEADER'),
+      template: $filter('translate')('ERROR_' + code)
+    });
+  })
+
    $scope.$watch('service.syncing', function(newVal){
     $scope.data.isSyncing = newVal;
     $scope.data.needsSync = Survey.hasUnsyncedItems();
@@ -117,7 +124,7 @@ angular.module('ptApp.controllers', ['ptConfig'])
 
     var error = function(error_code){
       $scope.surveyLoading = false;
-      $scope.errorMessage = (error_code.toString());
+      $scope.errorMessage = (error_code);
     };
 
     if(survey && survey.code){
@@ -138,7 +145,6 @@ angular.module('ptApp.controllers', ['ptConfig'])
 
   $scope.syncSurveys = function(){
     Main.confirmInternetConnection(function(){
-      Survey.refreshSyncItemCount();
       Survey.syncResponses();
       Survey.syncImages();
     }); 
