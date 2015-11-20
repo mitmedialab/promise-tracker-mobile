@@ -23,7 +23,7 @@
           </span>
           <span ng-if="input.answer">
             <i class="icon ion-checkmark"></i>
-            Pronto!
+            {{ 'GOT_IT' | translate }}
           </span>  
         </button>
         <img class="image-preview" ng-src="{{input.answer}}"/>
@@ -36,12 +36,12 @@
             <i class="icon ion-ios7-location"></i>
             {{ 'GET_LOCATION' | translate }}
           </span>
-          <span ng-if="location.status === 'searching'">
-            <i class="icon ion-looping"></i>
-          </span>
+          <div class="shift-down white" ng-if="location.status === 'searching'">
+            <ion-spinner icon="android"></ion-spinner>
+          </div>
           <span ng-if="location.status === 'recorded' || input.answer.lat &&  location.status !== 'searching'">
             <i class="icon ion-checkmark"></i>
-            {{ 'LOCATION_RECORDED' | translate }}
+            {{ 'GOT_IT' | translate }}
           </span>
         </button>
         <p class="sub-line center"> 
@@ -67,17 +67,11 @@
       </label>
 
       <!-- Select one -->
-      <div ng-if="input.input_type === 'select1'" class="list answer-list">
+      <div ng-if="input.input_type === 'select1'" class="list">
         <label class="select">{{ 'CHOOSE_ONE' | translate}}:</label>
         <ul class="wrap">
           <li ng-repeat="option in input.options">
-            <label class="item item-radio">
-              <input type="radio" name="input.id" value="{{option}}" ng-model="input.answer" checked="input.answer == option">
-              <div class="item-content">
-                {{option}}
-              </div>
-              <i class="radio-icon ion-checkmark"></i>
-            </label>
+            <ion-radio ng-model="input.answer" ng-value="option">{{option}}</ion-radio>
           </li>
         </ul>
       </div>
@@ -86,15 +80,13 @@
       <div ng-if="input.input_type === 'select'" class="list">
         <label class="select">{{ 'CHOOSE_MANY' | translate}}:</label>
         <ul class="wrap">
-          <li class="item item-checkbox" ng-repeat="option in input.options">
-            <label class="checkbox">
-              <input type="checkbox" ng-model="input.answer[$index]" checked="input.answer[$index]">
-            </label>
-            {{option}}
+          <li ng-repeat="option in input.options">
+            <ion-checkbox ng-model="input.answer[$index]" ng-value="option">{{option}}</ion-radio>
           </li>
         </ul>    
       </div>
     </div>
+
   </ion-content>
 
   <div class="bar bar-footer survey-footer">
