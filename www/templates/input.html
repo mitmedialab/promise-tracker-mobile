@@ -18,15 +18,25 @@
       <!-- Image -->
       <div ng-if="input.input_type === 'image'">
         <button class="button button-block button-calm input-action" ng-click="getImage()">
-          <span ng-if="!input.answer">
+          <span ng-if="input.answer.length == 0">
             <i class="icon ion-ios7-camera"></i> {{ 'TAKE_PICTURE' | translate }}
           </span>
-          <span ng-if="input.answer">
+          <span ng-if="input.answer.length > 0">
             <i class="icon ion-checkmark"></i>
             {{ 'GOT_IT' | translate }}
           </span>  
         </button>
-        <img class="image-preview" ng-src="{{input.answer}}"/>
+        <div class="image-gallery" ng-if="input.answer.length > 0">
+          <div class="image-container" ng-repeat="image in input.answer"> 
+            <img class="image-preview" ng-src="{{image}}"/>
+            <div class="delete-image" ng-click="removeImage(image)">
+              <icon class="ion-close"></icon>
+            </div>
+          </div>
+          <button class="button button-calm button-round" ng-if="input.answer.length < 4" ng-click="getImage()">
+            <icon class="ion-plus"></icon>
+          </button>
+        </div>
       </div>
 
       <!-- Location -->

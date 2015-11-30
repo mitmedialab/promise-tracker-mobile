@@ -405,6 +405,33 @@ button.icon-right.pad-left:before {
 
 /*Input display*/
 
+.image-gallery {
+  text-align: center;
+}
+
+.image-container {
+  position: relative;
+  width: 45%;
+  margin: 4px;
+  display: inline-block;
+}
+
+.delete-image {
+  position: absolute;
+  top: 10px;
+  right: 0;
+  padding: 15px 20px;
+  background: rgba(255, 255, 255, .6);
+  font-size: 1.4em;
+  color: #4e4e51;
+}
+
+.button-round {
+  border-radius: 50%;
+  margin: 8px auto;
+  display: block;
+}
+
 .has-survey-footer {
   bottom: 95px;
 }

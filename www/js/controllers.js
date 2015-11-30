@@ -116,10 +116,11 @@ angular.module('ptApp.controllers', ['ptConfig'])
 
   $scope.fetchSurvey = function(survey){
     var success = function(data){
-      $scope.surveyLoading = false;
-      $scope.codeModal.hide();
-      $scope.errorMessage = '';
-      $state.go($state.current, {}, {reload: true});
+      $timeout(function(){
+        $scope.surveyLoading = false;
+        $scope.codeModal.hide();
+        $scope.errorMessage = '';
+      });
     };
 
     var error = function(error_code){
@@ -164,11 +165,12 @@ angular.module('ptApp.controllers', ['ptConfig'])
     consent: Survey.currentResponse.consent
   };
 
-  var success = function(){ 
-    $scope.survey = Survey.surveys[$stateParams.surveyId];
-  };
 
   Main.confirmInternetConnection(function(){
+      var success = function(){ 
+        $scope.survey = Survey.surveys[$stateParams.surveyId];
+      };
+
     Survey.fetchSurvey($scope.code, function(){ 
       $scope.survey = Survey.surveys[$stateParams.surveyId];
     });
@@ -214,6 +216,7 @@ angular.module('ptApp.controllers', ['ptConfig'])
   $scope.input = Survey.currentResponse.inputs[Survey.currentResponse.activeIndex];
   $scope.input.input_type === 'select' ? $scope.input.answer = $scope.input.answer || [] : false;
   $scope.errorMessage = '';
+  $scope.input.input_type === 'image' ? $scope.input.answer = $scope.input.answer || [] : false;
 
   if($scope.input.input_type === 'location'){
     $scope.input.answer = $scope.input.answer || {};
@@ -231,16 +234,41 @@ angular.module('ptApp.controllers', ['ptConfig'])
 
   $scope.getImage = function(){
     var onSuccess = function(imageURI){
-      $scope.input.answer = imageURI;
-      $state.go($state.current, {}, {reload: true});
+      $timeout(function(){
+        $scope.input.answer.push(imageURI);
+      });
     };
     var onError = function(){};
 
     navigator.camera.getPicture(onSuccess, onError, {
       limit: 1,
-      quality: 50,
+      quality: 30,
       destinationType: Camera.DestinationType.FILE_URI,
       correctOrientation: true
+    });
+  };
+
+  $scope.removeImage = function(imageURL){
+    var confirmPopup = $ionicPopup.confirm({
+      template: $filter('translate')('DELETE_PICTURE'),
+      buttons: [
+        {
+          text: $filter('translate')('CANCEL')
+        },
+        {
+          text: $filter('translate')('DELETE'),
+          type: 'button-pink',
+          onTap: function(){
+            $scope.input.answer.forEach(function(image, index){
+              if(image == imageURL){
+                $timeout(function(){
+                  $scope.input.answer.splice(index, 1);
+                });
+              }
+            });
+          }
+        }
+      ]
     });
   };
 

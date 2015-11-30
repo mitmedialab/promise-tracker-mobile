@@ -52,12 +52,17 @@ angular.module('ptApp.services', ['ptConfig', 'pascalprecht.translate'])
     synced: JSON.parse(localStorage['synced']),
     unsyncedImages: JSON.parse(localStorage['unsyncedImages']),
     currentResponse: {},
-    currentSyncItemTotal: 0,
-    currentSyncPercentage: 0,
     syncing: false,
+    hasUnsyncedSurveys: function(){
+      return this.unsynced.length > 0;
+    },
+
+    hasUnsyncedImages: function(){
+      return this.unsyncedImages.length > 0
+    },
 
     hasUnsyncedItems: function(){
-      return this.unsynced.length + this.unsyncedImages.length > 0;
+      return this.hasUnsyncedSurveys() || this.hasUnsyncedImages();
     },
 
     getCampaignId: function(surveyId){
@@ -74,7 +79,7 @@ angular.module('ptApp.services', ['ptConfig', 'pascalprecht.translate'])
             localStorage['surveys'] = JSON.stringify(self.surveys);
             successCallback(data);
             console.log(data);
-          } else {
+          } else if(errorCallback) {
             errorCallback('ERROR_' + data.error_code.toString());
           }
         })
@@ -218,8 +223,10 @@ angular.module('ptApp.services', ['ptConfig', 'pascalprecht.translate'])
       var self = this;
       // Search for images in the survey response
       response.inputs.forEach(function(input){
-        if(input.input_type == 'image' && input.answer){
-          self.unsyncedImages.push({id: response.id, survey_id: response.survey_id, input_id: input.id, fileLocation: input.answer});
+        if(input.input_type == 'image' && input.answer.length > 0){
+          input.answer.forEach(function(image){
+            self.unsyncedImages.push({id: response.id, survey_id: response.survey_id, input_id: input.id, fileLocation: image});
+          })
         }
       });
       self.syncImages();
@@ -231,6 +238,13 @@ angular.module('ptApp.services', ['ptConfig', 'pascalprecht.translate'])
       if(index > -1){
         this.unsyncedImages.splice(index, 1);
         localStorage['unsyncedImages'] = JSON.stringify(this.unsyncedImages);
+
+        if(self.hasUnsyncedItems()){
+          self.syncResponses();
+        } else {
+          self.syncing = false;
+          $rootScope.$broadcast('viewMap', image.survey_id);
+        }
       }
     },
 
@@ -326,11 +340,6 @@ angular.module('ptApp.services', ['ptConfig', 'pascalprecht.translate'])
           if(typeof result.response != 'undefined'){
             self.removeImageFromUnsynced(image);
           }
-          self.syncing = false;
-          self.syncImages();
-          if(!self.hasUnsyncedItems()){
-            $rootScope.$broadcast('viewMap', image.survey_id);
-          }
         }, 
 
         function(error){   // upload failed
@@ -341,8 +350,10 @@ angular.module('ptApp.services', ['ptConfig', 'pascalprecht.translate'])
 
     syncResponses: function(){
       var self = this;
-      if(self.hasUnsyncedItems()){
+      if(self.hasUnsyncedSurveys()){
         self.syncResponse(self.unsynced[0]);
+      } else if(self.hasUnsyncedImages()){
+        self.syncImages();
       }
     },
 
