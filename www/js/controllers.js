@@ -22,12 +22,12 @@ angular.module('ptApp.controllers', ['ptConfig'])
       title: $filter('translate')('ERROR_HEADER'),
       template: $filter('translate')('ERROR_' + code)
     });
-  })
+  });
 
-   $scope.$watch('service.syncing', function(newVal){
+  $scope.$watch('service.syncing', function(newVal){
     $scope.data.isSyncing = newVal;
     $scope.data.needsSync = Survey.hasUnsyncedItems();
-  })
+  });
 
   $scope.$on('viewMap', function(scope, surveyId){
     if(!Survey.hasUnsyncedItems()){
@@ -106,6 +106,7 @@ angular.module('ptApp.controllers', ['ptConfig'])
   $scope.openCodeModal = function(){
     Main.confirmInternetConnection(function(){
       $scope.codeModal.show();
+      StatusBar.hide();
     });
   };
 
