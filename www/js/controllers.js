@@ -178,7 +178,7 @@ angular.module('ptApp.controllers', ['ptConfig'])
   });
 
   $scope.getLocation = function(){
-    Survey.getLocation($scope, Survey.currentResponse.locationstamp);
+    Survey.getLocation(Survey.currentResponse.locationstamp, false);
   };
 
   $scope.startSurvey = function(){
@@ -212,26 +212,49 @@ angular.module('ptApp.controllers', ['ptConfig'])
 })
 
 .controller('InputsCtrl', function($scope, $stateParams, $state, Survey, $ionicPopup, $filter, $timeout, Main){
+  $scope.service = Survey;
   $scope.survey = Survey.surveys[$stateParams.surveyId];
   $scope.index = Survey.currentResponse.activeIndex;
   $scope.input = Survey.currentResponse.inputs[Survey.currentResponse.activeIndex];
-  $scope.input.input_type === 'select' ? $scope.input.answer = $scope.input.answer || [] : false;
-  $scope.errorMessage = '';
-  $scope.input.input_type === 'image' ? $scope.input.answer = $scope.input.answer || [] : false;
-
-  if($scope.input.input_type === 'location'){
-    $scope.input.answer = $scope.input.answer || {};
-    $scope.location = {
-      status: $scope.input.answer && $scope.input.answer.lat ? "recorded" : null,
-      message: ""
-    };
-
-    $timeout(function() {
-     if($scope.input.answer.lat){
-        Survey.renderMap($scope.input.answer);
-      }
-    });
+  $scope.data = {
+    findingLocation: $scope.service.findingLocation
   }
+
+  $scope.$watch('service.findingLocation', function(newVal){
+    $scope.data.findingLocation = newVal;
+  });
+
+  switch($scope.input.input_type){
+    case 'select':
+    case 'image':
+      $scope.input.answer = $scope.input.answer || [];
+      break;
+    case 'location':
+      $scope.input.answer = $scope.input.answer || {};
+
+      $timeout(function() {
+       if($scope.input.answer.lat){
+          Survey.renderMap($scope.input.answer);
+        }
+      });
+  };
+
+  $scope.$on('locationTimeout', function(){
+    var timeoutPopup = $ionicPopup.confirm({
+      title: $filter('translate')('LOCATION_NOT_FOUND'),
+      template: $filter('translate')('LOCATION_TIMEOUT'),
+      buttons: [
+        {
+          text: $filter('translate')('SKIP_LOCATION')
+        },
+        {
+          text: $filter('translate')('RETRY'),
+          type: 'button-positive',
+          onTap: function(){ self.getLocation(locationObject, true); }
+        }
+      ]
+    });
+  });
 
   $scope.getImage = function(){
     var onSuccess = function(imageURI){
@@ -274,7 +297,7 @@ angular.module('ptApp.controllers', ['ptConfig'])
   };
 
   $scope.getLocation = function(){
-    Survey.getLocation($scope, $scope.input.answer, true);
+    Survey.getLocation($scope.input.answer, true);
   };
 
   $scope.inputValid = function(input){

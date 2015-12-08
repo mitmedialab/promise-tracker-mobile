@@ -42,14 +42,14 @@
       <!-- Location -->
       <div ng-if="input.input_type === 'location'">
         <button class="button button-block button-calm input-action" ng-click="getLocation()">
-          <span ng-if="location.status === null">
+          <span ng-if="!data.findingLocation && !input.answer.lat">
             <i class="icon ion-ios7-location"></i>
             {{ 'GET_LOCATION' | translate }}
           </span>
-          <div class="shift-down white" ng-if="location.status === 'searching'">
+          <div class="shift-down white" ng-if="data.findingLocation">
             <ion-spinner icon="android"></ion-spinner>
           </div>
-          <span ng-if="location.status === 'recorded' || input.answer.lat &&  location.status !== 'searching'">
+          <span ng-if="!data.findingLocation && input.answer.lat">
             <i class="icon ion-checkmark"></i>
             {{ 'GOT_IT' | translate }}
           </span>

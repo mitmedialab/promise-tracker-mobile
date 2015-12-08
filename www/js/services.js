@@ -40,7 +40,7 @@ angular.module('ptApp.services', ['ptConfig', 'pascalprecht.translate'])
   return service;
 })
 
-.factory('Survey', function($rootScope, $http, $ionicPopup, $state, $filter, $location, PT_CONFIG, Main){
+.factory('Survey', function($rootScope, $http, $ionicPopup, $state, $filter, $location, $timeout, PT_CONFIG, Main){
   localStorage['surveys'] = localStorage['surveys'] || '{}';
   localStorage['unsynced'] = localStorage['unsynced'] || '[]';
   localStorage['unsyncedImages'] = localStorage['unsyncedImages'] || '[]';
@@ -53,6 +53,8 @@ angular.module('ptApp.services', ['ptConfig', 'pascalprecht.translate'])
     unsyncedImages: JSON.parse(localStorage['unsyncedImages']),
     currentResponse: {},
     syncing: false,
+    findingLocation: false,
+
     hasUnsyncedSurveys: function(){
       return this.unsynced.length > 0;
     },
@@ -114,9 +116,9 @@ angular.module('ptApp.services', ['ptConfig', 'pascalprecht.translate'])
       });
     },
 
-    getLocation: function(scope, locationObject, displayMap){
+    getLocation: function(locationObject, displayMap){
       var self = this;
-      scope.location.status = "searching";
+      self.findingLocation = true;
 
       var success = function(position){
         locationObject.lon = position.coords.longitude;
@@ -127,38 +129,25 @@ angular.module('ptApp.services', ['ptConfig', 'pascalprecht.translate'])
           self.currentResponse.locationstamp.lat = position.coords.latitude;
         }
 
-        scope.$apply(function(){
-          scope.location.status = "recorded";
-
-          if(displayMap){
-            self.renderMap(locationObject);
-
-            if(!window.Connection || navigator.connection.type == Connection.NONE){
-              scope.location.message = $filter('translate')('LOCATION') + ": " + locationObject.lat + ", " + locationObject.lon;
-            }
-          }
+        $timeout(function(){
+          self.findingLocation = false;
         });
+
+        if(displayMap){
+          self.renderMap(locationObject);
+
+          if(!window.Connection || navigator.connection.type == Connection.NONE){
+            scope.location.message = $filter('translate')('LOCATION') + ": " + locationObject.lat + ", " + locationObject.lon;
+          }
+        }
       };
 
       var error = function(){
         locationObject.lon = null;
         locationObject.lat = null;
+        self.findingLocation = false;
 
-        var timeoutPopup = $ionicPopup.confirm({
-          title: $filter('translate')('LOCATION_NOT_FOUND'),
-          template: $filter('translate')('LOCATION_TIMEOUT'),
-          buttons: [
-            {
-              text: $filter('translate')('SKIP_LOCATION'),
-              onTap: function() { scope.location.status = null; }
-            },
-            {
-              text: $filter('translate')('RETRY'),
-              type: 'button-positive',
-              onTap: function(){ self.getLocation(scope, locationObject); }
-            }
-          ]
-        });
+        $rootScope.$broadcast('locationTimeout', {location: locationObject});
       };
 
       var options = {
