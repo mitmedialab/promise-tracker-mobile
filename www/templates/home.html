@@ -86,10 +86,10 @@
         </div>
         <div class="padding unpad-top">
           <button type="submit" class="button button-block button-calm">
-            <div ng-if="surveyLoading" class="shift-down white">
+            <div ng-if="data.surveyLoading" class="shift-down white">
               <ion-spinner class="android"></ion-spinner>
             </div>
-            <span ng-if="!surveyLoading">{{ 'DOWNLOAD' | translate }}</span>
+            <span ng-if="!data.surveyLoading">{{ 'DOWNLOAD' | translate }}</span>
           </button>
         </div>
       </form>

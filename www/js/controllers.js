@@ -8,7 +8,8 @@ angular.module('ptApp.controllers', ['ptConfig'])
   $scope.errorMessage = '';
   $scope.data = {
     isSyncing: false,
-    needsSync: Survey.hasUnsyncedItems()
+    needsSync: Survey.hasUnsyncedItems(),
+    surveyLoading: false
   };
 
   $scope.$on('connectionError', function(){
@@ -117,15 +118,14 @@ angular.module('ptApp.controllers', ['ptConfig'])
 
   $scope.fetchSurvey = function(survey){
     var success = function(data){
-      $timeout(function(){
-        $scope.surveyLoading = false;
-        $scope.codeModal.hide();
-        $scope.errorMessage = '';
-      });
+      $scope.data.surveyLoading = false;
+      $scope.errorMessage = '';
+      $scope.codeModal.hide();
+      $state.go($state.current, {}, {reload: true});
     };
 
     var error = function(error_code){
-      $scope.surveyLoading = false;
+      $scope.data.surveyLoading = false;
       $scope.errorMessage = (error_code);
     };
 
@@ -134,7 +134,7 @@ angular.module('ptApp.controllers', ['ptConfig'])
 
       if(sanitizedCode.length === 6){
         Main.confirmInternetConnection(function(){
-          $scope.surveyLoading = true;
+          $scope.data.surveyLoading = true;
           Survey.fetchSurvey(sanitizedCode, success, error);
         });
       } else {
