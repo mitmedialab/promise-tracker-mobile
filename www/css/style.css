@@ -46,10 +46,6 @@ a, a:visited, .action {
   border: 0px solid transparent;
 }
 
-.bar-grey {
-  background: #333;
-}
-
 .nav-menu {
   height: 60px !important;
   background: #353535;
@@ -178,6 +174,14 @@ a, a:visited, .action {
   padding: 10px 30px;
 }
 
+.pad-sides {
+  padding: 0 10px;
+}
+
+.platform-ios .modal .bar-header {
+  height: 60px !important;
+}
+
 .margin-top {
   margin-top: 10px;
 }
@@ -205,11 +209,14 @@ button.icon-right.pad-left:before {
 .survey-header, .home-header {
   padding: 5px 0 15px 0;
   text-align: center;
-  margin: 10px 0;
 }
 
 .home-header {
-  padding: 15px;
+  padding: 20px 10px 10px 10px;
+}
+
+.platform-ios .home-header {
+  padding-top: 10px;
 }
 
 .has-footer {
@@ -219,24 +226,21 @@ button.icon-right.pad-left:before {
 /*Index page*/
 
 .branding img {
-  height: 28px;
+  height: 26px;
   width: auto;
-  margin-left: 20px;
-}
-
-.branding .title {
-  padding-top: 4px;
+  position: absolute;
+  left: 20px;
+  top: 8px;
 }
 
 .bar-header {
   background: #4e4e51;
-  padding: 12px 8px;
-  height: 52px;
+  height: 44px !important;
 }
 
-.title {
+.branding .title {
   color: white;
-  font-weight: normal;
+  font-weight: normal !important;
 }
 
 /*Home page*/
@@ -244,10 +248,6 @@ button.icon-right.pad-left:before {
 .submission-status {
   width: 100%;
   font-size: 16px;
-}
-
-.has-header {
-  top: 52px;
 }
 
 .has-home-footer {
@@ -357,6 +357,10 @@ button.icon-right.pad-left:before {
 
 .item-options .ion-share {
   font-size: 1.3em;
+}
+
+.modal .title {
+  color: white;
 }
 
 /*Survey start page*/
