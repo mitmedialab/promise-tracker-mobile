@@ -3,7 +3,7 @@
     <div class="section-title home-header">
       <icon class="ion-clipboard"></icon> {{ 'MY_CAMPAIGNS' | translate }}
     </div>
-    <div class="padding unpad-top">
+    <div class="pad-sides unpad-top">
       <button class="button button-block button-calm" ng-click="openCodeModal()"><icon class="ion-plus-circled"></icon> {{ 'GET_CAMPAIGN' | translate}}</button>
     </div>
     <ion-list id="surveys-list">
@@ -18,7 +18,7 @@
           <h4 class="survey-title">{{survey.title}}</h4>
           <h6 class="test-warning" ng-show="{{survey.status === 'test'}}"><icon class="ion-wrench"></icon> {{ 'TESTING_ONLY' | translate}}</h4>
 
-          <span class="sub-line" ng-show="{{survey.status !== 'test'}}">{{ 'RESPONSES_TO_DATE' | translate : "{NUM: countSynced(survey.id)}" : "messageformat" }}</span>
+          <span class="sub-line" ng-show="{{survey.status !== 'test'}}">{{ 'RESPONSES_TO_DATE' | translate : {NUM: countResponses(survey.id)} : "messageformat" }}</span>
         </a>
 
         <!-- Swipe options -->
@@ -46,7 +46,7 @@
       </div>
       <div ng-show="!data.isSyncing && data.needsSync" class="alert">
         <p>
-          {{ 'UNSYNCED_RESPONSES' | translate : "{NUM: countSynced(survey.id)}" : "messageformat" }}
+          {{ 'UNSYNCED_RESPONSES' | translate : {NUM: countResponses(survey.id)} : "messageformat" }}
           <button class="button button-bare sync-button" ng-click="syncSurveys()">{{ 'SYNC_NOW' | translate }} <icon class="ion-loop"></icon></button>
         </p>
       </div>

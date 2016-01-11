@@ -73,7 +73,7 @@ angular.module('ptApp.controllers', ['ptConfig'])
     })
   };
 
-  $scope.countSynced = function(surveyId){
+  $scope.countResponses = function(surveyId){
     var completed = Survey.synced.concat(Survey.unsynced).filter(function(response){
       return response.survey_id == surveyId && response.status != 'test';
     });
