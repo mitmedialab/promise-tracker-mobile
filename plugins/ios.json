@@ -116,9 +116,6 @@
         }
     },
     "installed_plugins": {
-        "com.ionic.keyboard": {
-            "PACKAGE_NAME": "com.ionicframework.monitorandoacidade"
-        },
         "cordova-plugin-inappbrowser": {
             "PACKAGE_NAME": "com.ionicframework.monitorandoacidade"
         },
@@ -147,6 +144,9 @@
             "PACKAGE_NAME": "com.ionicframework.monitorandoacidade"
         },
         "org.apache.cordova.statusbar": {
+            "PACKAGE_NAME": "com.ionicframework.monitorandoacidade"
+        },
+        "ionic-plugin-keyboard": {
             "PACKAGE_NAME": "com.ionicframework.monitorandoacidade"
         }
     },

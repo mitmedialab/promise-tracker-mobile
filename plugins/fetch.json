@@ -7,12 +7,6 @@
         "is_top_level": true,
         "variables": {}
     },
-    "com.ionic.keyboard": {
-        "source": {
-            "type": "registry",
-            "id": "com.ionic.keyboard"
-        }
-    },
     "org.apache.cordova.camera": {
         "source": {
             "type": "registry",
@@ -76,6 +70,14 @@
         "source": {
             "type": "registry",
             "id": "cordova-plugin-whitelist"
+        },
+        "is_top_level": true,
+        "variables": {}
+    },
+    "ionic-plugin-keyboard": {
+        "source": {
+            "type": "registry",
+            "id": "ionic-plugin-keyboard"
         },
         "is_top_level": true,
         "variables": {}

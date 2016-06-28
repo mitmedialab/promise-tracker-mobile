@@ -2,6 +2,6 @@
   "name": "PromiseTracker",
   "private": "true",
   "devDependencies": {
-    "ionic": "driftyco/ionic-bower#1.1.1"
+    "ionic": "driftyco/ionic-bower#1.3.1"
   }
 }
