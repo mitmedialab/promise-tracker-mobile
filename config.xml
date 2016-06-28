@@ -6,7 +6,7 @@
   <access origin="*" subdomains="true"/>
   <access origin="https://maps.googleapis.com/*"/>
   <access origin="https://aggregate.promisetracker.org/*"/>
-  <preference name="fullscreen" value="true"/>
+  <preference name="fullscreen" value="false"/>
   <preference name="webviewbounce" value="false"/>
   <preference name="UIWebViewBounce" value="false"/>
   <preference name="DisallowOverscroll" value="true"/>
