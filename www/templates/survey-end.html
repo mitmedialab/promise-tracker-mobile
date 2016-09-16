@@ -12,14 +12,14 @@
       <p></i> {{ 'RESPONSE_COMPLETE' |  translate }}</p>
       <div id="location-missing" ng-if="location.consent && !location.coordinates.lon">
         {{ 'LOCATION_MISSING' |  translate }}<br>
-        <button class="button button-calm margin-top small" ng-click="getLocation()">
-          <span ng-if="location.status === null">
+        <button class="button button-calm margin-top" ng-click="getLocation()">
+          <span ng-if="!data.findingLocation">
             <i class="icon ion-ios7-location"></i>
             {{ 'GET_LOCATION' | translate }}
           </span>
-          <span ng-if="location.status === 'searching'">
-            <i class="icon ion-looping"></i>
-          </span>
+          <div class="shift-down white" ng-if="data.findingLocation">
+            <ion-spinner icon="android"></ion-spinner>
+          </div>
         </button>
       </div>
       <br><br>

@@ -154,11 +154,14 @@ angular.module('ptApp.controllers', ['ptConfig'])
 })
 
 .controller('SurveysCtrl', function($scope, $stateParams, $state, Survey, Main) {
+  $scope.service = Survey;
   $scope.survey = Survey.surveys[$stateParams.surveyId];
   $scope.code = $scope.survey.code.toString();
   $scope.data = {
-    locationConsent: true
+    locationConsent: true,
+    findingLocation: $scope.service.findingLocation
   };
+
   $scope.location = {
     status: Survey.currentResponse.locationstamp && Survey.currentResponse.locationstamp.lon ? "recorded" : null,
     message: "",
@@ -166,6 +169,9 @@ angular.module('ptApp.controllers', ['ptConfig'])
     consent: Survey.currentResponse.consent
   };
 
+  $scope.$watch('service.findingLocation', function(newVal){
+    $scope.data.findingLocation = newVal;
+  });
 
   Main.confirmInternetConnection(function(){
       var success = function(){ 
