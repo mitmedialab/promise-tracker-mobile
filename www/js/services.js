@@ -23,11 +23,11 @@ angular.module('ptApp.services', ['ptConfig', 'pascalprecht.translate'])
       localStorage['user'] = JSON.stringify(this.user);
     },
 
-    confirmInternetConnection: function(successCallback, errorCallback){
+    confirmInternetConnection: function(successCallback, errorCallback, showPopup){
       if(window.Connection && navigator.connection.type !== Connection.NONE) {
         successCallback();  
       } else {
-        $rootScope.$broadcast('connectionError');
+        showPopup ? $rootScope.$broadcast('connectionError') : false;
         errorCallback ? errorCallback() : false;
       }
     }

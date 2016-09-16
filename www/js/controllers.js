@@ -108,7 +108,7 @@ angular.module('ptApp.controllers', ['ptConfig'])
     Main.confirmInternetConnection(function(){
       $scope.codeModal.show();
       StatusBar.hide();
-    });
+    }, null, true);
   };
 
   $scope.closeCodeModal = function(){
@@ -174,14 +174,10 @@ angular.module('ptApp.controllers', ['ptConfig'])
   });
 
   Main.confirmInternetConnection(function(){
-      var success = function(){ 
-        $scope.survey = Survey.surveys[$stateParams.surveyId];
-      };
-
     Survey.fetchSurvey($scope.code, function(){ 
       $scope.survey = Survey.surveys[$stateParams.surveyId];
     });
-  });
+  }, null, false);
 
   $scope.getLocation = function(){
     Survey.getLocation(Survey.currentResponse.locationstamp, false);
