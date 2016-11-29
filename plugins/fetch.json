@@ -68,6 +68,22 @@
         "is_top_level": true,
         "variables": {}
     },
+    "cordova-plugin-statusbar": {
+        "source": {
+            "type": "registry",
+            "id": "cordova-plugin-statusbar"
+        },
+        "is_top_level": true,
+        "variables": {}
+    },
+    "cordova-plugin-compat": {
+        "source": {
+            "type": "registry",
+            "id": "cordova-plugin-compat"
+        },
+        "is_top_level": false,
+        "variables": {}
+    },
     "cordova-plugin-camera": {
         "source": {
             "type": "registry",
@@ -76,12 +92,10 @@
         "is_top_level": true,
         "variables": {}
     },
-    "cordova-plugin-statusbar": {
+    "com.ionic.keyboard": {
         "source": {
             "type": "registry",
-            "id": "cordova-plugin-statusbar"
-        },
-        "is_top_level": true,
-        "variables": {}
+            "id": "com.ionic.keyboard"
+        }
     }
 }

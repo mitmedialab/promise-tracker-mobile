@@ -1,5 +1,5 @@
 #import "IonicKeyboard.h"
-// #import "UIWebViewExtension.h"
+#import "UIWebViewExtension.h"
 #import <Cordova/CDVAvailability.h>
 
 @implementation IonicKeyboard
@@ -9,38 +9,29 @@
 //@synthesize styleDark = _styleDark;
 
 - (void)pluginInitialize {
+  
+    NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
+    __weak IonicKeyboard* weakSelf = self;
 
-    Class wkClass = NSClassFromString([@[@"UI", @"Web", @"Browser", @"View"] componentsJoinedByString:@""]);
-    wkMethod = class_getInstanceMethod(wkClass, @selector(inputAccessoryView));
-    wkOriginalImp = method_getImplementation(wkMethod);
-    Class uiClass = NSClassFromString([@[@"WK", @"Content", @"View"] componentsJoinedByString:@""]);
-    uiMethod = class_getInstanceMethod(uiClass, @selector(inputAccessoryView));
-    uiOriginalImp = method_getImplementation(uiMethod);
-    nilImp = imp_implementationWithBlock(^(id _s) {
-        return nil;
-    });
-    
     //set defaults
-    self.hideKeyboardAccessoryBar = YES;
+    self.hideKeyboardAccessoryBar = NO;
     self.disableScroll = NO;
     //self.styleDark = NO;
     
-    NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
-    __weak IonicKeyboard* weakSelf = self;
     _keyboardShowObserver = [nc addObserverForName:UIKeyboardWillShowNotification
                                object:nil
                                queue:[NSOperationQueue mainQueue]
                                usingBlock:^(NSNotification* notification) {
-
+                                   
                                    CGRect keyboardFrame = [notification.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
                                    keyboardFrame = [self.viewController.view convertRect:keyboardFrame fromView:nil];
-
+                                   
                                    [weakSelf.commandDelegate evalJs:[NSString stringWithFormat:@"cordova.plugins.Keyboard.isVisible = true; cordova.fireWindowEvent('native.keyboardshow', { 'keyboardHeight': %@ }); ", [@(keyboardFrame.size.height) stringValue]]];
 
                                    //deprecated
                                    [weakSelf.commandDelegate evalJs:[NSString stringWithFormat:@"cordova.fireWindowEvent('native.showkeyboard', { 'keyboardHeight': %@ }); ", [@(keyboardFrame.size.height) stringValue]]];
                                }];
-
+    
     _keyboardHideObserver = [nc addObserverForName:UIKeyboardWillHideNotification
                                object:nil
                                queue:[NSOperationQueue mainQueue]
@@ -51,7 +42,6 @@
                                    [weakSelf.commandDelegate evalJs:@"cordova.fireWindowEvent('native.hidekeyboard'); "];
                                }];
 }
-
 - (BOOL)disableScroll {
     return _disableScroll;
 }
@@ -72,8 +62,6 @@
     _disableScroll = disableScroll;
 }
 
-//keyboard swizzling inspired by:
-//https://github.com/cjpearson/cordova-plugin-keyboard/
 
 - (BOOL)hideKeyboardAccessoryBar {
     return _hideKeyboardAccessoryBar;
@@ -83,15 +71,13 @@
     if (hideKeyboardAccessoryBar == _hideKeyboardAccessoryBar) {
         return;
     }
-
     if (hideKeyboardAccessoryBar) {
-        method_setImplementation(wkMethod, nilImp);
-        method_setImplementation(uiMethod, nilImp);
-    } else {
-        method_setImplementation(wkMethod, wkOriginalImp);
-        method_setImplementation(uiMethod, uiOriginalImp);
+        self.webView.hackishlyHidesInputAccessoryView = YES;
     }
-    
+    else {
+        self.webView.hackishlyHidesInputAccessoryView = NO;
+    }
+
     _hideKeyboardAccessoryBar = hideKeyboardAccessoryBar;
 }
 
@@ -138,19 +124,17 @@
       return;
     }
     id value = [command.arguments objectAtIndex:0];
-    if (value != [NSNull null]) {
-      self.disableScroll = [value boolValue];
-    }
+    
+    self.disableScroll = [value boolValue];
 }
 
 - (void) hideKeyboardAccessoryBar:(CDVInvokedUrlCommand*)command {
     if (!command.arguments || ![command.arguments count]){
-        return;
+      return;
     }
     id value = [command.arguments objectAtIndex:0];
-    if (value != [NSNull null]) {
-        self.hideKeyboardAccessoryBar = [value boolValue];
-    }
+    
+    self.hideKeyboardAccessoryBar = [value boolValue];
 }
 
 - (void) close:(CDVInvokedUrlCommand*)command {
@@ -167,7 +151,7 @@
       return;
     }
     id value = [command.arguments objectAtIndex:0];
-
+    
     self.styleDark = [value boolValue];
 }
 */

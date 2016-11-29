@@ -9,10 +9,6 @@
                 "parents": {
                     "/*": [
                         {
-                            "xml": "<feature name=\"Keyboard\"><param name=\"ios-package\" onload=\"true\" value=\"IonicKeyboard\" /></feature>",
-                            "count": 1
-                        },
-                        {
                             "xml": "<feature name=\"InAppBrowser\"><param name=\"ios-package\" value=\"CDVInAppBrowser\" /></feature>",
                             "count": 1
                         },
@@ -58,6 +54,10 @@
                         },
                         {
                             "xml": "<preference name=\"StatusBarStyle\" value=\"lightcontent\" />",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"Keyboard\"><param name=\"ios-package\" onload=\"true\" value=\"IonicKeyboard\" /></feature>",
                             "count": 1
                         }
                     ]
@@ -119,9 +119,6 @@
         "cordova-plugin-inappbrowser": {
             "PACKAGE_NAME": "com.ionicframework.monitorandoacidade"
         },
-        "cordova-plugin-whitelist": {
-            "PACKAGE_NAME": "com.ionicframework.monitorandoacidade"
-        },
         "org.apache.cordova.device": {
             "PACKAGE_NAME": "com.ionicframework.monitorandoacidade"
         },
@@ -140,10 +137,10 @@
         "org.apache.cordova.network-information": {
             "PACKAGE_NAME": "com.ionicframework.monitorandoacidade"
         },
-        "ionic-plugin-keyboard": {
+        "cordova-plugin-statusbar": {
             "PACKAGE_NAME": "com.ionicframework.monitorandoacidade"
         },
-        "cordova-plugin-statusbar": {
+        "com.ionic.keyboard": {
             "PACKAGE_NAME": "com.ionicframework.monitorandoacidade"
         }
     },

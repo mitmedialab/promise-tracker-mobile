@@ -3,7 +3,7 @@ Keyboard
 
 The `cordova.plugins.Keyboard` object provides functions to make interacting with the keyboard easier, and fires events to indicate that the keyboard will hide/show.
 
-    cordova plugin add ionic-plugin-keyboard
+    cordova plugin add com.ionic.keyboard
 
 Methods
 -------
@@ -26,9 +26,6 @@ These events are fired on the window.
 - native.keyboardshow
   * A number `keyboardHeight` is given on the event object, which is the pixel height of the keyboard.
 - native.keyboardhide
-
-
-# API reference
 
 Keyboard.hideKeyboardAccessoryBar
 =================
@@ -54,15 +51,13 @@ Close the keyboard if it is open.
 Supported Platforms
 -------------------
 
-- iOS, Android, Blackberry 10, Windows
+- iOS, Android, Blackberry 10
 
 
 Keyboard.disableScroll
 =================
 
-Prevent the native UIScrollView from moving when an input is focused.  The telltale sign that this is happening is the top of your app scrolls out of view (if using Ionic, your header bar will disappear).
-
-This does *not* prevent any DOM elements from being able to scroll.  That needs to happen from CSS and JavaScript, not this plugin. 
+Disable native scrolling, useful if you are using JavaScript to scroll
 
     cordova.plugins.Keyboard.disableScroll(true);
     cordova.plugins.Keyboard.disableScroll(false);
@@ -70,23 +65,23 @@ This does *not* prevent any DOM elements from being able to scroll.  That needs 
 Supported Platforms
 -------------------
 
-- iOS, Windows
+- iOS
 
 Keyboard.show
 =================
 
-Force keyboard to be shown. This typically helps if autofocus on a text element does not pop up the keyboard automatically
+Force keyboard to be shown on Android. This typically helps if autofocus on a text element does not pop up the keyboard automatically
 
     cordova.plugins.Keyboard.show();
 
 Supported Platforms
 
-- Android, Blackberry 10, Windows
+- Android, Blackberry 10
 
 native.keyboardshow
 =================
 
-This event fires when the keyboard will be shown or when the keyboard frame resizes (when switching between keyboards for example)
+This event fires when the keyboard will be shown
 
     window.addEventListener('native.keyboardshow', keyboardShowHandler);
 
@@ -103,7 +98,7 @@ keyboardHeight: the height of the keyboard in pixels
 Supported Platforms
 -------------------
 
-- iOS, Android, Blackberry 10, Windows
+- iOS, Android, Blackberry 10
 
 
 native.keyboardhide
@@ -125,4 +120,4 @@ None
 Supported Platforms
 -------------------
 
-- iOS, Android, Blackberry 10, Windows
+- iOS, Android, Blackberry 10
