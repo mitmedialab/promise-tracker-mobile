@@ -26,7 +26,6 @@ angular.module('ptApp.controllers', ['ptConfig'])
   });
 
   $scope.$watch('service.syncing', function(newVal){
-    console.log("controller read = " + newVal);
     $scope.data.isSyncing = newVal;
     $scope.data.needsSync = Survey.hasUnsyncedItems();
   });
@@ -154,7 +153,7 @@ angular.module('ptApp.controllers', ['ptConfig'])
     Main.confirmInternetConnection(function(){
       Survey.syncResponses();
       Survey.syncImages();
-    }); 
+    }, null, true); 
   };
 })
 
