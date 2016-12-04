@@ -4,7 +4,7 @@ angular.module('ptApp.controllers', ['ptConfig'])
   $scope.service = Survey;
   $scope.surveys = Survey.surveys;
   $scope.surveyCount = Object.keys(Survey.surveys).length;
-  $scope.responseCount = Survey.synced.length + Survey.unsynced.length;
+  $scope.responseCount = Survey.syncedResponses.length + Survey.unsyncedResponses.length;
   $scope.errorMessage = '';
   $scope.data = {
     isSyncing: false,
@@ -26,8 +26,13 @@ angular.module('ptApp.controllers', ['ptConfig'])
   });
 
   $scope.$watch('service.syncing', function(newVal){
+    console.log("controller read = " + newVal);
     $scope.data.isSyncing = newVal;
     $scope.data.needsSync = Survey.hasUnsyncedItems();
+  });
+
+  $scope.$on('updateSyncing', function(event, code){
+    $state.go($state.current, {}, {reload: true});
   });
 
   $scope.$on('viewMap', function(scope, surveyId){
@@ -74,7 +79,7 @@ angular.module('ptApp.controllers', ['ptConfig'])
   };
 
   $scope.countResponses = function(surveyId){
-    var completed = Survey.synced.concat(Survey.unsynced).filter(function(response){
+    var completed = Survey.syncedResponses.concat(Survey.unsyncedResponses).filter(function(response){
       return response.survey_id == surveyId && response.status != 'test';
     });
     return completed.length;
@@ -173,11 +178,13 @@ angular.module('ptApp.controllers', ['ptConfig'])
     $scope.data.findingLocation = newVal;
   });
 
-  Main.confirmInternetConnection(function(){
-    Survey.fetchSurvey($scope.code, function(){ 
-      $scope.survey = Survey.surveys[$stateParams.surveyId];
-    });
-  }, null, false);
+  if($scope.survey.status == "test"){
+    Main.confirmInternetConnection(function(){
+      Survey.fetchSurvey($scope.code, function(){ 
+        $scope.survey = Survey.surveys[$stateParams.surveyId];
+      });
+    }, null, false);
+  };
 
   $scope.getLocation = function(){
     Survey.getLocation(Survey.currentResponse.locationstamp, false);
@@ -192,6 +199,7 @@ angular.module('ptApp.controllers', ['ptConfig'])
   };
 
   $scope.submitResponse = function(){
+    Survey.addResponseToUnsynced(Survey.currentResponse);
     Survey.syncResponse(Survey.currentResponse);
     $state.go('home');
   };
@@ -252,7 +260,7 @@ angular.module('ptApp.controllers', ['ptConfig'])
         {
           text: $filter('translate')('RETRY'),
           type: 'button-positive',
-          onTap: function(){ self.getLocation(locationObject, true); }
+          onTap: function(){ Survey.getLocation($scope.input.answer, true); }
         }
       ]
     });
@@ -268,7 +276,7 @@ angular.module('ptApp.controllers', ['ptConfig'])
 
     navigator.camera.getPicture(onSuccess, onError, {
       limit: 1,
-      quality: 30,
+      quality: 20,
       destinationType: Camera.DestinationType.FILE_URI,
       correctOrientation: true
     });
@@ -356,7 +364,7 @@ angular.module('ptApp.controllers', ['ptConfig'])
 
 .controller('UsersCtrl', function($scope, $stateParams, $state, $location, $ionicModal, Survey, Main) {
   $scope.surveys = Object.keys(Survey.surveys);
-  $scope.responses = Survey.synced.filter(function(response){return response.status != 'test'});
+  $scope.responses = Survey.syncedResponses.filter(function(response){return response.status != 'test'});
   $scope.user = Main.user;
 
   $ionicModal.fromTemplateUrl(

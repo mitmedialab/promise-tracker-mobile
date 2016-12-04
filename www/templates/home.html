@@ -6,6 +6,8 @@
     <div class="pad-sides unpad-top">
       <button class="button button-block button-calm" ng-click="openCodeModal()"><icon class="ion-plus-circled"></icon> {{ 'GET_CAMPAIGN' | translate}}</button>
     </div>
+
+<!--     Survey list -->
     <ion-list id="surveys-list">
       <ion-item ng-repeat="survey in surveys" item="survey" can-swipe="true">
         <a class="button button-clear right" href="#/surveys/{{survey.id}}/start">
@@ -37,6 +39,8 @@
       <p class="get-started">{{ 'GET_STARTED' | translate }}</p>
     </div>
   </ion-content>
+
+  <!-- Data status bar -->
   <div class="bar home bar-footer">
     <div id="status">
       <div ng-show="data.isSyncing">

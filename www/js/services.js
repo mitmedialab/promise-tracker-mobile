@@ -42,21 +42,23 @@ angular.module('ptApp.services', ['ptConfig', 'pascalprecht.translate'])
 
 .factory('Survey', function($rootScope, $http, $ionicPopup, $state, $filter, $location, $timeout, PT_CONFIG, Main){
   localStorage['surveys'] = localStorage['surveys'] || '{}';
-  localStorage['unsynced'] = localStorage['unsynced'] || '[]';
+  localStorage['unsyncedResponses'] = localStorage['unsyncedResponses'] || '[]';
+  localStorage['syncedResponses'] = localStorage['syncedResponses'] || '[]';
   localStorage['unsyncedImages'] = localStorage['unsyncedImages'] || '[]';
-  localStorage['synced'] = localStorage['synced'] || '[]';
+  localStorage['syncedImages'] = localStorage['syncedImages'] || '[]';
 
   var service = {
     surveys: JSON.parse(localStorage['surveys']),
-    unsynced: JSON.parse(localStorage['unsynced']),
-    synced: JSON.parse(localStorage['synced']),
+    unsyncedResponses: JSON.parse(localStorage['unsyncedResponses']),
+    syncedResponses: JSON.parse(localStorage['syncedResponses']),
     unsyncedImages: JSON.parse(localStorage['unsyncedImages']),
+    syncedImages: JSON.parse(localStorage['syncedImages']),
     currentResponse: {},
     syncing: false,
     findingLocation: false,
 
-    hasUnsyncedSurveys: function(){
-      return this.unsynced.length > 0;
+    hasUnsyncedResponses: function(){
+      return this.unsyncedResponses.length > 0;
     },
 
     hasUnsyncedImages: function(){
@@ -64,7 +66,7 @@ angular.module('ptApp.services', ['ptConfig', 'pascalprecht.translate'])
     },
 
     hasUnsyncedItems: function(){
-      return this.hasUnsyncedSurveys() || this.hasUnsyncedImages();
+      return this.hasUnsyncedResponses() || this.hasUnsyncedImages();
     },
 
     getCampaignId: function(surveyId){
@@ -180,27 +182,33 @@ angular.module('ptApp.services', ['ptConfig', 'pascalprecht.translate'])
     },
 
     addResponseToUnsynced: function(response){
-      var index = this.unsynced.indexOf(response);
+      var index = this.unsyncedResponses.indexOf(response);
       if(index == -1){
-        this.unsynced.push(response);
-        localStorage['unsynced'] = JSON.stringify(this.unsynced);
+        this.unsyncedResponses.push(response);
+        localStorage['unsyncedResponses'] = JSON.stringify(this.unsyncedResponses);
       }
     },
 
     removeResponseFromUnsynced: function(response){
-      var index = this.unsynced.indexOf(response);
+      var index = this.unsyncedResponses.indexOf(response);
       if(index > -1){
-        this.unsynced.splice(index, 1);
-        localStorage['unsynced'] = JSON.stringify(this.unsynced);
+        this.unsyncedResponses.splice(index, 1);
+        localStorage['unsyncedResponses'] = JSON.stringify(this.unsyncedResponses);
       }
+
+    },
+
+    addResponseToSynced: function(formattedResponse){
+      this.syncedResponses.push(formattedResponse);
+      localStorage['syncedResponses'] = JSON.stringify(this.syncedResponses)
     },
 
     refreshSyncItemCount: function(){
-      this.currentSyncItemTotal = this.unsyncedImages.length + this.unsynced.length;
+      this.currentSyncItemTotal = this.unsyncedImages.length + this.unsyncedResponses.length;
     },
 
     getSyncMessage: function(){
-      var itemsToGo = this.unsyncedImages.length + this.unsynced.length;
+      var itemsToGo = this.unsyncedImages.length + this.unsyncedResponses.length;
       var message = (this.currentSyncItemTotal-itemsToGo+1) + '/' + this.currentSyncItemTotal;
       if(this.currentSyncPercentage > 0 && this.currentSyncPercentage < 100){
         message += " " + this.currentSyncPercentage + "%";
@@ -208,25 +216,33 @@ angular.module('ptApp.services', ['ptConfig', 'pascalprecht.translate'])
       return message;
     },
 
-    addImageToUnsynced: function(response){
+    addImagesToUnsynced: function(response){
       var self = this;
       // Search for images in the survey response
-      response.inputs.forEach(function(input){
-        if(input.input_type == 'image' && input.answer.length > 0){
-          input.answer.forEach(function(image){
-            self.unsyncedImages.push({id: response.id, survey_id: response.survey_id, input_id: input.id, fileLocation: image});
-          })
+      response.answers.forEach(function(answer){
+        if(answer.input_type == 'image' && answer.value.length > 0){
+          if(Array.isArray(answer.value)){
+            answer.value.forEach(function(image){
+              self.unsyncedImages.push({id: response.id, survey_id: response.survey_id, input_id: answer.id, fileLocation: image});
+            })
+          } else {
+            self.unsyncedImages.push({id: response.id, survey_id: response.survey_id, input_id: answer.id, fileLocation: answer.value});
+          }
         }
       });
+      localStorage['unsyncedImages'] = JSON.stringify(self.unsyncedImages);
       self.syncImages();
     },
 
-    removeImageFromUnsynced: function(image){
+    addImageToSynced: function(image){
       var self = this;
-      var index = this.unsyncedImages.indexOf(image);
+      var index = self.unsyncedImages.indexOf(image);
+      self.syncedImages.push(image);
+      localStorage['syncedImages'] = JSON.stringify(self.syncedImages);
+
       if(index > -1){
-        this.unsyncedImages.splice(index, 1);
-        localStorage['unsyncedImages'] = JSON.stringify(this.unsyncedImages);
+        self.unsyncedImages.splice(index, 1);
+        localStorage['unsyncedImages'] = JSON.stringify(self.unsyncedImages);
 
         if(self.hasUnsyncedItems()){
           self.syncResponses();
@@ -234,16 +250,6 @@ angular.module('ptApp.services', ['ptConfig', 'pascalprecht.translate'])
           self.syncing = false;
           $rootScope.$broadcast('viewMap', image.survey_id);
         }
-      }
-    },
-
-    addResponseToSynced: function(response){
-      var index = this.unsynced.indexOf(response);
-      this.synced.push(response);
-      localStorage['synced'] = JSON.stringify(this.synced)
-      if(index > -1){
-        this.unsynced.splice(index, 1);
-        localStorage['unsynced'] = JSON.stringify(this.unsynced);
       }
     },
 
@@ -277,7 +283,6 @@ angular.module('ptApp.services', ['ptConfig', 'pascalprecht.translate'])
     syncResponse: function(response){
       var self = this;
       var formattedResponse = self.formatResponse(response);
-      self.addResponseToUnsynced(response);
 
       self.syncing = true;
 
@@ -287,13 +292,12 @@ angular.module('ptApp.services', ['ptConfig', 'pascalprecht.translate'])
       )
         .success(function(data){
           if(data['status'] == 'success'){
-            response.id = data.payload.id;
             self.removeResponseFromUnsynced(response);
+
+            formattedResponse.id = data.payload.id;
             self.addResponseToSynced(formattedResponse);
-            self.addImageToUnsynced(response);
+            self.addImagesToUnsynced(formattedResponse);
           } else if(data['status'] == "error"){
-            self.removeResponseFromUnsynced(response);
-            self.syncing = true;
             $rootScope.$broadcast('notifyError', data.error_code)
           }
 
@@ -308,6 +312,15 @@ angular.module('ptApp.services', ['ptConfig', 'pascalprecht.translate'])
           console.log("upload fail");
           self.syncing = false;
         });
+    },
+
+    syncResponses: function(){
+      var self = this;
+      if(self.hasUnsyncedResponses()){
+        self.syncResponse(self.unsyncedResponses[0]);
+      } else if(self.hasUnsyncedImages()){
+        self.syncImages();
+      }
     },
 
     syncImage: function(image){
@@ -327,23 +340,17 @@ angular.module('ptApp.services', ['ptConfig', 'pascalprecht.translate'])
 
         function(result){   // upload succeed
           if(typeof result.response != 'undefined'){
-            self.removeImageFromUnsynced(image);
+            self.addImageToSynced(image);
+          } else {
+            self.syncing = false;
           }
         }, 
 
         function(error){   // upload failed
           // TODO: notify user of image upload failure
           self.syncing = false;
+          $rootScope.$broadcast('updateSyncing');
         }, options);
-    },
-
-    syncResponses: function(){
-      var self = this;
-      if(self.hasUnsyncedSurveys()){
-        self.syncResponse(self.unsynced[0]);
-      } else if(self.hasUnsyncedImages()){
-        self.syncImages();
-      }
     },
 
     syncImages: function(){
