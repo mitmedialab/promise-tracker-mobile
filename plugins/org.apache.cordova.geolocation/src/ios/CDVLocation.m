@@ -73,11 +73,6 @@
 
     if (authorizationStatusClassPropertyAvailable) {
         NSUInteger authStatus = [CLLocationManager authorizationStatus];
-#ifdef __IPHONE_8_0
-        if ([self.locationManager respondsToSelector:@selector(requestWhenInUseAuthorization)]) {  //iOS 8.0+
-            return (authStatus == kCLAuthorizationStatusAuthorizedWhenInUse) || (authStatus == kCLAuthorizationStatusAuthorizedAlways) || (authStatus == kCLAuthorizationStatusNotDetermined);
-        }
-#endif
         return (authStatus == kCLAuthorizationStatusAuthorized) || (authStatus == kCLAuthorizationStatusNotDetermined);
     }
 
@@ -123,21 +118,6 @@
         return;
     }
 
-#ifdef __IPHONE_8_0
-    NSUInteger code = [CLLocationManager authorizationStatus];
-    if (code == kCLAuthorizationStatusNotDetermined && ([self.locationManager respondsToSelector:@selector(requestAlwaysAuthorization)] || [self.locationManager respondsToSelector:@selector(requestWhenInUseAuthorization)])) { //iOS8+
-        __highAccuracyEnabled = enableHighAccuracy;
-        if([[NSBundle mainBundle] objectForInfoDictionaryKey:@"NSLocationAlwaysUsageDescription"]){
-            [self.locationManager requestAlwaysAuthorization];
-        } else if([[NSBundle mainBundle] objectForInfoDictionaryKey:@"NSLocationWhenInUseUsageDescription"]) {
-            [self.locationManager  requestWhenInUseAuthorization];
-        } else {
-            NSLog(@"[Warning] No NSLocationAlwaysUsageDescription or NSLocationWhenInUseUsageDescription key is defined in the Info.plist file.");
-        }
-        return;
-    }
-#endif
-    
     // Tell the location manager to start notifying us of location updates. We
     // first stop, and then start the updating to ensure we get at least one
     // update, even if our location did not change.
@@ -199,7 +179,7 @@
 - (void)getLocation:(CDVInvokedUrlCommand*)command
 {
     NSString* callbackId = command.callbackId;
-    BOOL enableHighAccuracy = [[command argumentAtIndex:0] boolValue];
+    BOOL enableHighAccuracy = [[command.arguments objectAtIndex:0] boolValue];
 
     if ([self isLocationServicesEnabled] == NO) {
         NSMutableDictionary* posError = [NSMutableDictionary dictionaryWithCapacity:2];
@@ -232,8 +212,8 @@
 - (void)addWatch:(CDVInvokedUrlCommand*)command
 {
     NSString* callbackId = command.callbackId;
-    NSString* timerId = [command argumentAtIndex:0];
-    BOOL enableHighAccuracy = [[command argumentAtIndex:1] boolValue];
+    NSString* timerId = [command.arguments objectAtIndex:0];
+    BOOL enableHighAccuracy = [[command.arguments objectAtIndex:1] boolValue];
 
     if (!self.locationData) {
         self.locationData = [[CDVLocationData alloc] init];
@@ -263,13 +243,10 @@
 
 - (void)clearWatch:(CDVInvokedUrlCommand*)command
 {
-    NSString* timerId = [command argumentAtIndex:0];
+    NSString* timerId = [command.arguments objectAtIndex:0];
 
     if (self.locationData && self.locationData.watchCallbacks && [self.locationData.watchCallbacks objectForKey:timerId]) {
         [self.locationData.watchCallbacks removeObjectForKey:timerId];
-        if([self.locationData.watchCallbacks count] == 0) {
-            [self _stopLocation];
-        }
     }
 }
 
@@ -343,18 +320,8 @@
         [self returnLocationError:positionError withMessage:[error localizedDescription]];
     }
 
-    if (error.code != kCLErrorLocationUnknown) {
-      [self.locationManager stopUpdatingLocation];
-      __locationStarted = NO;
-    }
-}
-
-//iOS8+
--(void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status
-{
-    if(!__locationStarted){
-        [self startLocation:__highAccuracyEnabled];
-    }
+    [self.locationManager stopUpdatingLocation];
+    __locationStarted = NO;
 }
 
 - (void)dealloc

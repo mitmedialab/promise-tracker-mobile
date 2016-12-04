@@ -51,8 +51,8 @@ Diese API basiert auf der [W3C Geolocation API-Spezifikation][1], und nur auf Ge
 
 ## Objekte (schreibgeschützt)
 
-*   Position
-*   Positionsfehler
+*   Stellung
+*   PositionError
 *   Koordinaten
 
 ## navigator.geolocation.getCurrentPosition
@@ -123,7 +123,7 @@ Optionalen Parametern, um das Abrufen von der geolocation`Position`.
 
 *   **MaximumAge**: eine zwischengespeicherte Position, deren Alter nicht größer als die angegebene Zeit in Millisekunden ist, zu akzeptieren. *(Anzahl)*
 
-### Android Eigenarten
+### Android Macken
 
 Android 2.x-Emulatoren geben ein Geolocation-Ergebnis nicht zurück, es sei denn, die `enableHighAccuracy` Option auf festgelegt ist`true`.
 
@@ -148,7 +148,7 @@ Stoppen, gerade für Änderungen an das Gerät Stelle verweist die `watchID` Par
     navigator.geolocation.clearWatch(watchID);
     
 
-## Position
+## Stellung
 
 Enthält `Position` Koordinaten und Timestamp, erstellt von der Geolocation API.
 
@@ -182,11 +182,11 @@ A `Coordinates` Objekt an angeschlossen ist ein `Position` -Objekt, das Callback
 
 **AltitudeAccuracy**: von Android-Geräten, Rückgabe nicht unterstützt`null`.
 
-### Android Eigenarten
+### Android Macken
 
 **AltitudeAccuracy**: von Android-Geräten, Rückgabe nicht unterstützt`null`.
 
-## Positionsfehler
+## PositionError
 
 Das `PositionError` -Objekt übergeben, um die `geolocationError` Callback-Funktion tritt ein Fehler mit navigator.geolocation.
 

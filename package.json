@@ -21,7 +21,8 @@
     "org.apache.cordova.globalization",
     "org.apache.cordova.statusbar",
     "cordova-plugin-whitelist",
-    "org.apache.cordova.network-information"
+    "org.apache.cordova.network-information",
+    "org.apache.cordova.geolocation"
   ],
   "cordovaPlatforms": [
     "ios"
