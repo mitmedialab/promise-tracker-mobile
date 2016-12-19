@@ -50,24 +50,24 @@ angular.module('ptApp.controllers', ['ptConfig'])
     }
   );
 
+  $scope.openVizLink = function(surveyId, $event){
+    Survey.openVizLink(surveyId, $event);
+  };
+
   $scope.viewMap = function(surveyId, titleText){
-    var campaignId = Survey.getCampaignId(surveyId);
     var mapPopup = $ionicPopup.confirm({
       title: $filter('translate')(titleText),
-      template: $filter('translate')('VIEW_MAP_TEXT'),
+      template: $filter('translate')('VIEW_DATA_TEXT'),
       buttons: [
         {
           text: $filter('translate')('CLOSE')
         },
         {
-          text: $filter('translate')('VIEW_MAP'),
+          text: $filter('translate')('VIEW_DATA'),
           type: 'button-positive',
           onTap: function(){ 
-            var ref = window.open(PT_CONFIG.campaignUrl + campaignId + '/share?locale=' + $filter('translate')('LOCALE'), '_blank', 'location=yes', 'closebuttoncaption=X');
-            ref.addEventListener('exit', function(){
-              ref.close();
-              $ionicListDelegate.closeOptionButtons();
-            });
+            Survey.openVizLink(surveyId, $event);
+            $ionicListDelegate.closeOptionButtons();
           }
         }
       ]
@@ -217,7 +217,11 @@ angular.module('ptApp.controllers', ['ptConfig'])
 
   $scope.cancelResponse = function() {
     Survey.cancelResponse();
-  }
+  };
+
+  $scope.openVizLink = function(surveyId, $event){
+    Survey.openVizLink(surveyId, $event);
+  };
 })
 
 .controller('InputsCtrl', function($scope, $stateParams, $state, Survey, $ionicPopup, $filter, $timeout, Main){

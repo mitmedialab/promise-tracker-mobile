@@ -93,6 +93,15 @@ angular.module('ptApp.services', ['ptConfig', 'pascalprecht.translate'])
         });
     },
 
+    openVizLink: function(surveyId, $event){
+      $event.preventDefault();
+      var campaignId = this.getCampaignId(surveyId);
+      var ref = window.open(PT_CONFIG.campaignUrl + campaignId + '/share?locale=' + $filter('translate')('LOCALE'), '_blank', 'location=yes', 'closebuttoncaption=X');
+      ref.addEventListener('exit', function(){
+        ref.close();
+      });
+    },
+
     renderMap: function(locationObject){
       var latLong = new google.maps.LatLng(locationObject.lat, locationObject.lon);
        

@@ -20,7 +20,7 @@
           <h4 class="survey-title">{{survey.title}}</h4>
           <h6 class="test-warning" ng-show="{{survey.status === 'test'}}"><icon class="ion-wrench"></icon> {{ 'TESTING_ONLY' | translate}}</h4>
 
-          <span class="sub-line" ng-show="{{survey.status !== 'test'}}">{{ 'RESPONSES_TO_DATE' | translate : {NUM: countResponses(survey.id)} : "messageformat" }}</span>
+          <span class="sub-line pink" ng-show="{{survey.status !== 'test'}}" ng-click="openVizLink(survey.id, $event)">{{ 'VIEW_DATA' | translate }} <icon class="ion-pie-graph"></icon></span>
         </a>
 
         <!-- Swipe options -->

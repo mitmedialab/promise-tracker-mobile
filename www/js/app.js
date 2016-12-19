@@ -104,8 +104,8 @@ angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'pascal
     'CANCEL': 'Cancelar',
     'CLOSE': 'Cerrar',
     'SHARE': 'Compartir',
-    'VIEW_MAP_TEXT': 'Para ver el mapa de esta campaña da clic abajo',
-    'VIEW_MAP': 'Ver mapa',
+    'VIEW_DATA_TEXT': 'Para ver los datos esta campaña da clic abajo',
+    'VIEW_DATA': 'Ver los resultados',
 
     // User page
     'MY_PROFILE': 'Mi perfil',
@@ -181,8 +181,8 @@ angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'pascal
     'CANCEL': 'Cancel',
     'CLOSE': 'Close',
     'SHARE': 'Share',
-    'VIEW_MAP_TEXT': 'To see the map for this campaign, click below',
-    'VIEW_MAP': 'View map',
+    'VIEW_DATA_TEXT': 'To see the data for this campaign, click below',
+    'VIEW_DATA': 'View campaign results',
 
     // User page
     'MY_PROFILE': 'My profile',
@@ -257,8 +257,8 @@ angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'pascal
     'CANCEL': 'Cancelar',
     'CLOSE': 'Fechar',
     'SHARE': 'Compartilhar',
-    'VIEW_MAP_TEXT': 'Para ver o mapa para esta campanha, clique abaixo',
-    'VIEW_MAP': 'Ver mapa',
+    'VIEW_DATA_TEXT': 'Para ver os dados desta campanha, clique abaixo',
+    'VIEW_DATA': 'Ver os resultados',
 
      // User page
     'MY_PROFILE': 'Meu perfil',

@@ -15,7 +15,6 @@ a, a:visited, .action {
   color: #66c6ba;
 }
 
-
 .prompt-card ul {
   margin-top: 10px;
 }
@@ -93,6 +92,16 @@ a, a:visited, .action {
   background-color: #ea7669 !important;
   color: white;
   border: none;
+}
+
+.button-pink-outline {
+  background-color: transparent;
+  border-color: #ea7669 !important;
+  color: #ea7669;
+}
+
+.button-pink-outline:hover {
+  color: #ea7669;
 }
 
 .button-bare, .button-bare.activated {
@@ -547,4 +556,8 @@ label.select {
 
 .prompt-card .item, .prompt-card .item-content, .wrap .item-content {
   white-space: normal !important;
+}
+
+.pink {
+  color: #ea7669;
 }

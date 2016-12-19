@@ -21,6 +21,12 @@
       <a class="button button-calm button-block" ng-click="startSurvey()">
         {{ 'START_RESPONSE' | translate }}
       </a>
+      <br><br>
+      <div class="center">
+        <div class="button button-pink-outline pink" ng-show="{{survey.status !== 'test'}}" ng-click="openVizLink(survey.id, $event)">
+          {{ 'VIEW_DATA' | translate }} <icon class="ion-pie-graph"></icon>
+        </div>
+      </div>
 
     </div>
   </ion-content>
