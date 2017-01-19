@@ -1,12 +1,4 @@
 {
-    "org.apache.cordova.device": {
-        "source": {
-            "type": "registry",
-            "id": "cordova-plugin-device"
-        },
-        "is_top_level": true,
-        "variables": {}
-    },
     "org.apache.cordova.file": {
         "source": {
             "type": "registry",
@@ -34,14 +26,7 @@
     "org.apache.cordova.inappbrowser": {
         "source": {
             "type": "registry",
-            "id": "org.apache.cordova.inappbrowser"
-        }
-    },
-    "cordova-plugin-inappbrowser": {
-        "source": {
-            "type": "git",
-            "url": "https://git-wip-us.apache.org/repos/asf/cordova-plugin-inappbrowser.git",
-            "subdir": "."
+            "id": "cordova-plugin-inappbrowser@1.6.1"
         },
         "is_top_level": true,
         "variables": {}
@@ -55,7 +40,7 @@
     "cordova-plugin-whitelist": {
         "source": {
             "type": "registry",
-            "id": "cordova-plugin-whitelist"
+            "id": "cordova-plugin-whitelist@1.3.1"
         },
         "is_top_level": true,
         "variables": {}
@@ -64,14 +49,6 @@
         "source": {
             "type": "registry",
             "id": "ionic-plugin-keyboard"
-        },
-        "is_top_level": true,
-        "variables": {}
-    },
-    "cordova-plugin-statusbar": {
-        "source": {
-            "type": "registry",
-            "id": "cordova-plugin-statusbar"
         },
         "is_top_level": true,
         "variables": {}
@@ -111,5 +88,13 @@
             "url": "https://github.com/apache/cordova-plugin-file",
             "subdir": "."
         }
+    },
+    "cordova-plugin-statusbar": {
+        "source": {
+            "type": "registry",
+            "id": "cordova-plugin-statusbar@2.2.1"
+        },
+        "is_top_level": true,
+        "variables": {}
     }
 }

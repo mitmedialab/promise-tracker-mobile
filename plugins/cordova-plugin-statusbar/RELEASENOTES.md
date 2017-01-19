@@ -20,9 +20,30 @@
 -->
 # Release Notes
 
+### 2.2.1 (Dec 07, 2016)
+* [CB-10288](https://issues.apache.org/jira/browse/CB-10288) statusbar plugin interaction with iOS multitasking
+* [CB-10158](https://issues.apache.org/jira/browse/CB-10158) (ios) fix StatusBar issue when recovering from fullscreen video
+* [CB-10341](https://issues.apache.org/jira/browse/CB-10341) ios, document statusTap event
+* [CB-11191](https://issues.apache.org/jira/browse/CB-11191) Statusbar plugin causing issues with webview size
+* [CB-11917](https://issues.apache.org/jira/browse/CB-11917) - Remove pull request template checklist item: "iCLA has been submitted…"
+* [CB-11832](https://issues.apache.org/jira/browse/CB-11832) Incremented plugin version.
+
+### 2.2.0 (Sep 08, 2016)
+* [CB-11795](https://issues.apache.org/jira/browse/CB-11795) Add 'protective' entry to cordovaDependencies
+* Handle extended status bar on **iOS**
+* Plugin uses `Android Log class` and not `Cordova LOG class`
+* [CB-11287](https://issues.apache.org/jira/browse/CB-11287) (**ios**) - fix webview resize after modal on **iPhones**
+* [CB-11485](https://issues.apache.org/jira/browse/CB-11485) fix resize on rotation with popover
+* Add badges for paramedic builds on Jenkins
+* [CB-11197](https://issues.apache.org/jira/browse/CB-11197) Keep status bar hidden when keyboard pops up
+* Add pull request template.
+* [CB-10866](https://issues.apache.org/jira/browse/CB-10866) Adding engine info to `package.json`
+* patched missing `_ready` method, and changed the way the proxy is installed
+* [CB-10996](https://issues.apache.org/jira/browse/CB-10996) Adding front matter to `README.md`
+
 ### 2.1.3 (Apr 15, 2016)
-* CB-11018 Fix statusbar with `inappbrowser` causing incorrect orientation on **iOS8**
-* CB-10884 `Inappbrowser` breaks UI while Screen orientation changes from landscape to portrait on **iOS**
+* [CB-11018](https://issues.apache.org/jira/browse/CB-11018) Fix statusbar with `inappbrowser` causing incorrect orientation on **iOS8**
+* [CB-10884](https://issues.apache.org/jira/browse/CB-10884) `Inappbrowser` breaks UI while Screen orientation changes from landscape to portrait on **iOS**
 
 ### 2.1.2 (Mar 09, 2016)
 * [CB-10752](https://issues.apache.org/jira/browse/CB-10752) for for status bar overlays the webview on **iOS** 6 in some cases
@@ -34,9 +55,9 @@
 * [CB-10102](https://issues.apache.org/jira/browse/CB-10102) The removeObserver code was wrong and it might crash on plugin deallocation
 
 ### 2.1.0 (Jan 15, 2016)
-* CB-9513 Allow to show/hide status bar in fullscreen mode.
-* CB-8720 Fix status bar position when app started upside down on **iOS 7**.
-* CB-10118 Fixes plugin loading error for **Browser** platform
+* [CB-9513](https://issues.apache.org/jira/browse/CB-9513) Allow to show/hide status bar in fullscreen mode.
+* [CB-8720](https://issues.apache.org/jira/browse/CB-8720) Fix status bar position when app started upside down on **iOS 7**.
+* [CB-10118](https://issues.apache.org/jira/browse/CB-10118) Fixes plugin loading error for **Browser** platform
 
 ### 2.0.0 (Nov 18, 2015)
 * [CB-10035](https://issues.apache.org/jira/browse/CB-10035) Updated `RELEASENOTES` to be newest to oldest

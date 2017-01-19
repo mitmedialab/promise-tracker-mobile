@@ -116,12 +116,6 @@
         }
     },
     "installed_plugins": {
-        "cordova-plugin-inappbrowser": {
-            "PACKAGE_NAME": "com.ionicframework.monitorandoacidade"
-        },
-        "org.apache.cordova.device": {
-            "PACKAGE_NAME": "com.ionicframework.monitorandoacidade"
-        },
         "org.apache.cordova.geolocation": {
             "PACKAGE_NAME": "com.ionicframework.monitorandoacidade"
         },
@@ -131,9 +125,6 @@
         "org.apache.cordova.network-information": {
             "PACKAGE_NAME": "com.ionicframework.monitorandoacidade"
         },
-        "cordova-plugin-statusbar": {
-            "PACKAGE_NAME": "com.ionicframework.monitorandoacidade"
-        },
         "com.ionic.keyboard": {
             "PACKAGE_NAME": "com.ionicframework.monitorandoacidade"
         },
@@ -141,6 +132,15 @@
             "PACKAGE_NAME": "com.ionicframework.monitorandoacidade"
         },
         "cordova-plugin-file-transfer": {
+            "PACKAGE_NAME": "com.ionicframework.monitorandoacidade"
+        },
+        "cordova-plugin-whitelist": {
+            "PACKAGE_NAME": "com.ionicframework.monitorandoacidade"
+        },
+        "cordova-plugin-statusbar": {
+            "PACKAGE_NAME": "com.ionicframework.monitorandoacidade"
+        },
+        "org.apache.cordova.inappbrowser": {
             "PACKAGE_NAME": "com.ionicframework.monitorandoacidade"
         }
     },
