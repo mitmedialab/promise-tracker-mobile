@@ -66,7 +66,7 @@ angular.module('ptApp.controllers', ['ptConfig'])
           text: $filter('translate')('VIEW_DATA'),
           type: 'button-positive',
           onTap: function(){ 
-            Survey.openVizLink(surveyId, $event);
+            Survey.openVizLink(surveyId);
             $ionicListDelegate.closeOptionButtons();
           }
         }

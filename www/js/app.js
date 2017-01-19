@@ -105,7 +105,7 @@ angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'pascal
     'CLOSE': 'Cerrar',
     'SHARE': 'Compartir',
     'VIEW_DATA_TEXT': 'Para ver los datos esta campaña da clic abajo',
-    'VIEW_DATA': 'Ver los resultados',
+    'VIEW_DATA': 'Ver resultados',
 
     // User page
     'MY_PROFILE': 'Mi perfil',
@@ -182,7 +182,7 @@ angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'pascal
     'CLOSE': 'Close',
     'SHARE': 'Share',
     'VIEW_DATA_TEXT': 'To see the data for this campaign, click below',
-    'VIEW_DATA': 'View campaign results',
+    'VIEW_DATA': 'View results',
 
     // User page
     'MY_PROFILE': 'My profile',
@@ -258,7 +258,7 @@ angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'pascal
     'CLOSE': 'Fechar',
     'SHARE': 'Compartilhar',
     'VIEW_DATA_TEXT': 'Para ver os dados desta campanha, clique abaixo',
-    'VIEW_DATA': 'Ver os resultados',
+    'VIEW_DATA': 'Ver resultados',
 
      // User page
     'MY_PROFILE': 'Meu perfil',
@@ -334,6 +334,5 @@ angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'pascal
     if(window.cordova && window.cordova.plugins.Keyboard) {
       cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
     }
-
   });
 });

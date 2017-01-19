@@ -94,9 +94,9 @@ angular.module('ptApp.services', ['ptConfig', 'pascalprecht.translate'])
     },
 
     openVizLink: function(surveyId, $event){
-      $event.preventDefault();
+      if($event) {$event.preventDefault();}
       var campaignId = this.getCampaignId(surveyId);
-      var ref = window.open(PT_CONFIG.campaignUrl + campaignId + '/share?locale=' + $filter('translate')('LOCALE'), '_blank', 'location=yes', 'closebuttoncaption=X');
+      var ref = window.open(PT_CONFIG.campaignUrl + campaignId + '/share?locale=' + $filter('translate')('LOCALE'), '_system', 'location=yes');
       ref.addEventListener('exit', function(){
         ref.close();
       });
