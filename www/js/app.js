@@ -316,6 +316,83 @@ angular.module('ptApp', ['ionic', 'ptApp.controllers', 'ptApp.services', 'pascal
     'OFFLINE': 'Sem internet. Por favor, verifique sua conexão e tente novamente.'
   });
 
+  $translateProvider.translations('de', {
+    // Home page
+    'APP_NAME': 'Promise Tracker',
+    'LOCALE': 'de',
+    'MY_CAMPAIGNS': 'Meine Kampagnen',
+    'GREETING': 'Herzlich Willkommen zu Monitoring von Stadt und Land!',
+    'APP_DESCRIPTION': 'Mit dieser App können Sie an der Datensammlung für die Kampagnen teilnehmen, die im Web-Modul eingerichtet wurden.',
+    'GET_STARTED': 'Um zu beginnen, laden Sie Ihre erste Kampagne herunter!',
+    'CODE_TIP': 'Jede Kampagne hat ihren eigenen Code. Erfragen Sie den Code einer bereits laufenden Kampagne bei den Organisator/innen oder gestalten Sie Ihre eigene Kampagne auf der Seite http://monitor.promisetracker.org',
+    'RESPONSES_TO_DATE': "{NUM, plural, one{Sie haben bereits einen Datensatz erstellt.} 0{Erstellen Sie Ihren ersten Datensatz!} other{Sie haben schon {NUM} Datensa(e)tz(e) erstellt}}",
+    'TESTING_ONLY': 'Testversion',
+    'CAMPAIGN_CODE_PROMPT': 'Geben Sie den Code der Kampagne ein',
+    'CAMPAIGN_CODE_HELP': "Wenn Sie keinen Code haben, wenden Sie sich an die Organisator/innen der Kampagne",
+    'GET_CAMPAIGN': 'Neue Kampagne herunterladen',
+    'DOWNLOAD': 'Herunterladen',
+    'CANCEL': 'Abbrechen',
+    'CLOSE': 'Schliessen',
+    'SHARE': 'Teilen',
+    'VIEW_MAP_TEXT': 'Um die Karte von dieser Kampagne zu sehen, bitte unten anklicken',
+    'VIEW_MAP': 'Karte ansehen',
+
+    // User page
+    'MY_PROFILE': 'Mein Profil',
+    'USER_INFO': 'Daten der Nutzer/innen',
+    'USERNAME': 'Name der Nutzer/innen',
+    'BIO': 'Biographie',
+    'ADD_BIO': 'Biographie hinzufügen',
+    'EDIT_BIO': 'Bearbeiten',
+    'SAVE': 'Speichern',
+    'RESPONSES': '{NUM, plural, one{Datensatz vervollständigt} other{Datensätze vervollständigt}}',
+
+    //Survey
+    'CAMPAIGN_CODE': 'Code der Kampagne',
+    'GET_NEW_VERSION': 'Neue Version herunterladen',
+    'LOCATION_CONSENT': 'Erlauben, dass mein Standort aufgenommen wird',
+    'START_RESPONSE': 'Datensatz eingeben',
+    'NEXT': 'Weiter',
+    'BACK': 'Zurück',
+    'TAKE_PICTURE': 'Foto machen',
+    'DELETE_PICTURE': 'Foto löschen?',
+    'GET_LOCATION': 'Standort aufnehmen',
+    'GETTING_LOCATION': 'Standort suchen',
+    'GOT_IT': 'Fertig!',
+    'LOCATION_NOT_FOUND': 'Standort nicht ermittelt',
+    'LOCATION_TIMEOUT': 'Bitte verifizieren Sie in den Einstellungen des Handys, dass die Aufzeichnung des Standortverlaufs aktiviert ist.',
+    'RETRY': 'Erneut versuchen',
+    'SKIP_LOCATION': 'Aufzeichnung des Standorts überspringen',
+    'LOCATION_MISSING': 'Es wurde kein Standort für diesen Datensatz aufgenommen. Erneut versuchen?',
+    'LOCATION': 'Standort',
+    'CHOOSE_ONE': 'Eine/n auswählen',
+    'CHOOSE_MANY': 'Auswählen (mehr als ein/e)',
+    'YOUR_ANSWER': 'Ihre Antwort...',
+    'RESPONSE_PROGRESS': 'In Bearbeitung',
+    'ALL_SET': 'Fertig!',
+    'RESPONSE_COMPLETE': 'Sie haben einen Datensatz vervollständigt.',
+    'SUBMIT_NOW': 'Nun absenden',
+    'SUBMIT_LATER': 'Später absenden',
+    'CANCEL_AND_DELETE': 'Abbrechen und diesen Datensatz löschen',
+
+    //Errors, Alerts
+    'ENTER_CODE': 'Geben Sie bitte den Code der Kampagne ein',
+    'CODE_LENGTH': 'Der Code der Kampagne muss aus 6 Ziffern bestehen',
+    'ERROR_HEADER': 'Wie schade!',
+    'ERROR_12': 'Diese Kampagne existiert nicht. Bitte verifizieren Sie den Code und versuchen Sie es erneut.',
+    'ERROR_14': 'Die Datensammlung für diese Kampagne wurde bereits beendet. Ihr Beitrag wurde nicht gesendet.',
+    'DELETE_RESPONSE': 'Sind Sie sicher, dass Sie diesen Datensatz löschen wollen?',
+    'DELETE_CAMPAIGN': 'Sind Sie sicher, dass Sie diese Kampagne löschen wollen?',
+    'DELETE': 'Löschen',
+    'UNSYNCED_RESPONSES': "{NUM, plural, other{Datensa(e)tz(e)}} nicht abgeschickt!",
+    'SYNCING': 'Am versenden',
+    'RESPONSE_SYNCED': 'Datensatz abgeschickt!',
+    'SYNC_NOW': 'Senden',
+    'ALL_SYNCED': 'Alles abgeschickt',
+    'REQUIRED': 'Dieses Feld muss ausgefüllt werden',
+    'OFFLINE': 'Ohne Internetverbindung. Bitte überprüfen Sie Ihre Verbindung und versuchen erneut, die Daten abzuschicken.'
+  });
+
   var lang = navigator.language.split("-")[0];
   if ($translateProvider.translations().hasOwnProperty(lang)){
     $translateProvider.preferredLanguage(lang).fallbackLanguage("en");
