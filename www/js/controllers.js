@@ -11,6 +11,8 @@ angular.module('ptApp.controllers', ['ptConfig'])
     needsSync: Survey.hasUnsyncedItems(),
     surveyLoading: false
   };
+  $scope.inProgress = Survey.inProgress;
+  $scope.lastInput = Survey.lastInput;
 
   $scope.$on('connectionError', function(){
     var alertPopup = $ionicPopup.alert({
@@ -28,6 +30,10 @@ angular.module('ptApp.controllers', ['ptConfig'])
   $scope.$watch('service.syncing', function(newVal){
     $scope.data.isSyncing = newVal;
     $scope.data.needsSync = Survey.hasUnsyncedItems();
+  });
+
+  $scope.$watch('service.inProgress', function(newVal){
+    $scope.inProgress = newVal;
   });
 
   $scope.$on('updateSyncing', function(event, code){
@@ -167,7 +173,7 @@ angular.module('ptApp.controllers', ['ptConfig'])
   };
 
   $scope.location = {
-    status: Survey.currentResponse.locationstamp && Survey.currentResponse.locationstamp.lon ? "recorded" : null,
+    status: Survey.currentResponse && Survey.currentResponse.locationstamp && Survey.currentResponse.locationstamp.lon ? "recorded" : null,
     message: "",
     coordinates: Survey.currentResponse.locationstamp,
     consent: Survey.currentResponse.consent
@@ -335,6 +341,7 @@ angular.module('ptApp.controllers', ['ptConfig'])
 
   $scope.nextPrompt = function(currentInput){
     if($scope.inputValid(currentInput)){
+      Survey.saveResponse(currentInput.id);
       if(Survey.currentResponse.activeIndex < (Survey.currentResponse.inputs.length - 1)){
         Survey.currentResponse.activeIndex += 1;
         $state.transitionTo('input', {

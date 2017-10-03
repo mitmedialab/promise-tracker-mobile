@@ -46,6 +46,9 @@ angular.module('ptApp.services', ['ptConfig', 'pascalprecht.translate'])
   localStorage['syncedResponses'] = localStorage['syncedResponses'] || '[]';
   localStorage['unsyncedImages'] = localStorage['unsyncedImages'] || '[]';
   localStorage['syncedImages'] = localStorage['syncedImages'] || '[]';
+  localStorage['currentResponse'] = localStorage['currentResponse'] || 'false';
+  localStorage['lastInput'] = localStorage['lastInput'] || 'false';
+  localStorage['inProgress'] = localStorage['inProgress'] || 'false';
 
   var service = {
     surveys: JSON.parse(localStorage['surveys']),
@@ -53,7 +56,9 @@ angular.module('ptApp.services', ['ptConfig', 'pascalprecht.translate'])
     syncedResponses: JSON.parse(localStorage['syncedResponses']),
     unsyncedImages: JSON.parse(localStorage['unsyncedImages']),
     syncedImages: JSON.parse(localStorage['syncedImages']),
-    currentResponse: {},
+    currentResponse: JSON.parse(localStorage['currentResponse']),
+    lastInput: JSON.parse(localStorage['lastInput']),
+    inProgress: JSON.parse(localStorage['inProgress']),
     syncing: false,
     findingLocation: false,
 
@@ -171,6 +176,8 @@ angular.module('ptApp.services', ['ptConfig', 'pascalprecht.translate'])
 
     queueNewResponse: function(surveyId, locationConsent){
       var self = this;
+      self.inProgress = true;
+      localStorage['inProgress'] = true;
       self.currentResponse = {
         installation_id: localStorage['installationId'],
         survey_id: surveyId,
@@ -190,11 +197,21 @@ angular.module('ptApp.services', ['ptConfig', 'pascalprecht.translate'])
       }
     },
 
+    saveResponse: function(inputId = null){
+      localStorage['currentResponse'] = JSON.stringify(this.currentResponse);
+      localStorage['lastInput'] = JSON.stringify({
+        survey: this.currentResponse ? this.currentResponse.survey_id : null,
+        input: inputId
+      });
+    },
+
     addResponseToUnsynced: function(response){
       var index = this.unsyncedResponses.indexOf(response);
       if(index == -1){
         this.unsyncedResponses.push(response);
         localStorage['unsyncedResponses'] = JSON.stringify(this.unsyncedResponses);
+        this.inProgress = false;
+        localStorage['inProgress'] = 'false';
       }
     },
 
@@ -204,7 +221,6 @@ angular.module('ptApp.services', ['ptConfig', 'pascalprecht.translate'])
         this.unsyncedResponses.splice(index, 1);
         localStorage['unsyncedResponses'] = JSON.stringify(this.unsyncedResponses);
       }
-
     },
 
     addResponseToSynced: function(formattedResponse){
@@ -370,6 +386,7 @@ angular.module('ptApp.services', ['ptConfig', 'pascalprecht.translate'])
     },
 
     cancelResponse: function() {
+      var self = this;
       var confirmPopup = $ionicPopup.confirm({
         template: $filter('translate')('DELETE_RESPONSE'),
         buttons: [
@@ -385,7 +402,7 @@ angular.module('ptApp.services', ['ptConfig', 'pascalprecht.translate'])
       });
       confirmPopup.then(function(res) {
         if(res) {
-          self.currentResponse = {};
+          self.inProgress = false;
           $state.go('home');
         }
       });

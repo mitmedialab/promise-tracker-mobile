@@ -143,6 +143,19 @@ a, a:visited, .action {
   display: block;
 }
 
+#surveys-list .sub-line {
+  padding: 7px 20px 7px 0;
+  display: inline-block;
+}
+
+#surveys-list .icon {
+  padding-right: 5px;
+}
+
+.survey-link {
+  min-width: 40%;
+}
+
 .input-action {
   margin-top: -10px !important;
 }
@@ -278,11 +291,12 @@ button.icon-right.pad-left:before {
 }
 
 #surveys-list .item-content {
-  padding: 15px 32px 15px 15px;
+  padding: 15px 32px 0 15px;
 }
 
 .survey-info {
   display: block;
+  padding-bottom: 10px;
 }
 
 .survey-title {
