@@ -12,7 +12,7 @@ angular.module('ptApp.controllers', ['ptConfig'])
     surveyLoading: false
   };
   $scope.inProgress = Survey.inProgress;
-  $scope.lastInput = Survey.lastInput;
+  $scope.lastInput = Survey.lastInput || 0;
 
   $scope.$on('connectionError', function(){
     var alertPopup = $ionicPopup.alert({
