@@ -195,6 +195,7 @@ angular.module('ptApp.services', ['ptConfig', 'pascalprecht.translate'])
           self.currentResponse.locationstamp.lat = position.coords.latitude;
         });
       }
+      localStorage["currentResponse"] = JSON.stringify(self.currentResponse);
     },
 
     saveResponse: function(inputId = null){
