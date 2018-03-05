@@ -324,6 +324,9 @@ angular.module('ptApp.services', ['ptConfig', 'pascalprecht.translate'])
             self.addImagesToUnsynced(formattedResponse);
           } else if(data['status'] == "error"){
             $rootScope.$broadcast('notifyError', data.error_code)
+            if(data.error_code == "14"){
+              self.deleteResponsesForClosedCampaign(response.survey_id);
+            }
           }
 
           if(self.hasUnsyncedItems()) {
@@ -383,6 +386,13 @@ angular.module('ptApp.services', ['ptConfig', 'pascalprecht.translate'])
       if(self.unsyncedImages.length>0){
         self.syncImage(self.unsyncedImages[0]);
       }
+    },
+
+    deleteResponsesForClosedCampaign: function(survey_id){
+      this.unsyncedResponses = this.unsyncedResponses.filter(function(i){
+        i.survey_id !== survey_id;
+      });
+      localStorage['unsyncedResponses'] = JSON.stringify(this.unsyncedResponses);
     },
 
     cancelResponse: function() {
