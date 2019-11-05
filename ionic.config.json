@@ -1,6 +1,5 @@
 {
   "name": "promise-tracker-mobile",
-  "app_id": "",
   "integrations": {
     "cordova": {}
   },

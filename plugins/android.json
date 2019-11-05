@@ -1,46 +1,53 @@
 {
-    "prepare_queue": {
-        "installed": [],
-        "uninstalled": []
+  "prepare_queue": {
+    "installed": [],
+    "uninstalled": []
+  },
+  "config_munge": {
+    "files": {}
+  },
+  "installed_plugins": {
+    "cordova-plugin-globalization": {
+      "PACKAGE_NAME": "com.ionicframework.monitorandoacidade"
     },
-    "config_munge": {
-        "files": {}
+    "cordova-plugin-inappbrowser": {
+      "PACKAGE_NAME": "com.ionicframework.monitorandoacidade"
     },
-    "installed_plugins": {
-        "cordova-plugin-camera": {
-            "PACKAGE_NAME": "com.ionicframework.monitorandoacidade"
-        },
-        "cordova-plugin-geolocation": {
-            "PACKAGE_NAME": "com.ionicframework.monitorandoacidade"
-        },
-        "cordova-plugin-globalization": {
-            "PACKAGE_NAME": "com.ionicframework.monitorandoacidade"
-        },
-        "cordova-plugin-inappbrowser": {
-            "PACKAGE_NAME": "com.ionicframework.monitorandoacidade"
-        },
-        "cordova-plugin-network-information": {
-            "PACKAGE_NAME": "com.ionicframework.monitorandoacidade"
-        },
-        "cordova-plugin-statusbar": {
-            "PACKAGE_NAME": "com.ionicframework.monitorandoacidade"
-        },
-        "cordova-plugin-whitelist": {
-            "PACKAGE_NAME": "com.ionicframework.monitorandoacidade"
-        },
-        "ionic-plugin-keyboard": {
-            "PACKAGE_NAME": "com.ionicframework.monitorandoacidade"
-        }
+    "cordova-plugin-network-information": {
+      "PACKAGE_NAME": "com.ionicframework.monitorandoacidade"
     },
-    "dependent_plugins": {
-        "cordova-plugin-compat": {
-            "PACKAGE_NAME": "com.ionicframework.monitorandoacidade"
-        },
-        "cordova-plugin-file": {
-            "PACKAGE_NAME": "com.ionicframework.monitorandoacidade"
-        },
-        "cordova-plugin-file-transfer": {
-            "PACKAGE_NAME": "com.ionicframework.monitorandoacidade"
-        }
+    "cordova-plugin-statusbar": {
+      "PACKAGE_NAME": "com.ionicframework.monitorandoacidade"
+    },
+    "cordova-plugin-whitelist": {
+      "PACKAGE_NAME": "com.ionicframework.monitorandoacidade"
+    },
+    "cordova-plugin-file": {
+      "PACKAGE_NAME": "com.ionicframework.monitorandoacidade"
+    },
+    "cordova-plugin-file-transfer": {
+      "PACKAGE_NAME": "com.ionicframework.monitorandoacidade"
+    },
+    "cordova-plugin-camera": {
+      "PACKAGE_NAME": "com.ionicframework.monitorandoacidade"
+    },
+    "cordova-plugin-geolocation": {
+      "PACKAGE_NAME": "com.ionicframework.monitorandoacidade"
+    },
+    "cordova-plugin-ionic-webview": {
+      "ANDROID_SUPPORT_ANNOTATIONS_VERSION": "27.+",
+      "PACKAGE_NAME": "com.ionicframework.monitorandoacidade"
     }
+  },
+  "dependent_plugins": {
+    "cordova-plugin-device": {
+      "PACKAGE_NAME": "com.ionicframework.monitorandoacidade"
+    },
+    "cordova-plugin-ionic-keyboard": {
+      "PACKAGE_NAME": "com.ionicframework.monitorandoacidade"
+    },
+    "cordova-plugin-splashscreen": {
+      "PACKAGE_NAME": "com.ionicframework.monitorandoacidade"
+    }
+  }
 }

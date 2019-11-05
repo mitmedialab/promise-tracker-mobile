@@ -7,9 +7,9 @@
 # to you under the Apache License, Version 2.0 (the
 # "License"); you may not use this file except in compliance
 # with the License.  You may obtain a copy of the License at
-# 
+#
 # http://www.apache.org/licenses/LICENSE-2.0
-# 
+#
 # Unless required by applicable law or agreed to in writing,
 # software distributed under the License is distributed on an
 # "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -19,6 +19,37 @@
 #
 -->
 # Release Notes
+
+### 4.0.2 (Jun 27, 2019)
+
+-   chore: fix repo and issue urls and license in package.json and plugin.xml ([`4d2e901`](https://github.com/apache/cordova-plugin-geolocation/commit/4d2e901))
+-   build: add `.gitattributes` to force LF (instead of possible CRLF on Windows) ([`74417bb`](https://github.com/apache/cordova-plugin-geolocation/commit/74417bb))
+-   build: add `.npmignore` to remove unneeded files from npm package ([`d4a1ac5`](https://github.com/apache/cordova-plugin-geolocation/commit/d4a1ac5))
+-   ci(travis): Update Travis CI configuration for new paramedic ([#154](https://github.com/apache/cordova-plugin-geolocation/issues/154)) ([`1636d98`](https://github.com/apache/cordova-plugin-geolocation/commit/1636d98))
+-   chore(github): Add or update GitHub pull request and issue template ([`6fd7847`](https://github.com/apache/cordova-plugin-geolocation/commit/6fd7847))
+-   docs: remove JIRA link ([`2fc992b`](https://github.com/apache/cordova-plugin-geolocation/commit/2fc992b))
+-   docs: Remove outdated docs translations ([#117](https://github.com/apache/cordova-plugin-geolocation/issues/117)) ([`9408fdd`](https://github.com/apache/cordova-plugin-geolocation/commit/9408fdd))
+-   ci(travis): add android-27 to `android update sdk -u --filter` ([`3b1f63a`](https://github.com/apache/cordova-plugin-geolocation/commit/3b1f63a))
+-   fix(ios): CB-14020: (ios) Fix "Collection was mutated while being enumerated" crash ([#104](https://github.com/apache/cordova-plugin-geolocation/issues/104)) ([`ba45595`](https://github.com/apache/cordova-plugin-geolocation/commit/ba45595))
+-   docs: Add Apache Cordova issue tracker link to Readme ([#107](https://github.com/apache/cordova-plugin-geolocation/issues/107)) ([`91c7313`](https://github.com/apache/cordova-plugin-geolocation/commit/91c7313))
+-   ci(travis): CB-13748: Add build-tools-26.0.2 to travis ([#103](https://github.com/apache/cordova-plugin-geolocation/issues/103)) ([`a6cbe40`](https://github.com/apache/cordova-plugin-geolocation/commit/a6cbe40), [`e74c87a`](https://github.com/apache/cordova-plugin-geolocation/commit/e74c87a))
+-   docs: Fix release notes ([#102](https://github.com/apache/cordova-plugin-geolocation/issues/102)) ([`e679a5d`](https://github.com/apache/cordova-plugin-geolocation/commit/e679a5d))
+
+
+### 4.0.1 (Dec 27, 2017)
+* [CB-13705](https://issues.apache.org/jira/browse/CB-13705) Fix to allow 4.0.0 version install
+
+### 4.0.0 (Dec 15, 2017)
+* [CB-13664](https://issues.apache.org/jira/browse/CB-13664) remove deprecated platforms
+
+### 3.0.0 (Nov 06, 2017)
+* [CB-13267](https://issues.apache.org/jira/browse/CB-13267) (iOS): Remove **iOS** usage descriptions
+* [CB-13516](https://issues.apache.org/jira/browse/CB-13516) (all): Add 'protective' entry to `cordovaDependencies`
+* [CB-13472](https://issues.apache.org/jira/browse/CB-13472) (CI) Fixed Travis **Android** builds again
+* [CB-13294](https://issues.apache.org/jira/browse/CB-13294) Remove `cordova-plugin-compat`
+* [CB-13299](https://issues.apache.org/jira/browse/CB-13299) (CI) Fix **Android** builds
+* [CB-12895](https://issues.apache.org/jira/browse/CB-12895) added `eslint` and removed `jshint`
+* [CB-12847](https://issues.apache.org/jira/browse/CB-12847) added `bugs` entry to `package.json`.
 
 ### 2.4.3 (Apr 27, 2017)
 * [CB-12622](https://issues.apache.org/jira/browse/CB-12622) Added **Android 6.0** build badge to `README`

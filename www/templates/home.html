@@ -11,7 +11,7 @@
     <ion-list id="surveys-list">
       <ion-item ng-repeat="survey in surveys" item="survey" can-swipe="true">
 
-        <a href="{{inProgress ? '#/surveys/' + lastInput.survey + '/' + lastInput.input : '#/surveys/' + survey.id + '/start'}}" class="survey-info">
+        <a ui-sref="survey-start({surveyId: survey.id})" class="survey-info">
           <h4 class="survey-title">{{survey.title}}</h4>
           <span class="sub-line pink" ng-show="{{survey.status === 'test'}}"><icon class="icon ion-wrench"></icon> {{ 'TESTING_ONLY' | translate}}</span>
           <span class="sub-line pink" ng-show="{{survey.status !== 'test'}}" ng-click="openVizLink(survey.id, $event)"><icon class="icon ion-pie-graph"></icon> {{ 'VIEW_DATA' | translate }}</span>
@@ -53,10 +53,10 @@
       </div>
     </div>
     <div class="bar bar-menu nav-menu">
-      <a href="#/user">
+      <a ui-sref="user">
         <button class="button button-icon ion-person"></button>
       </a>
-      <a href="#/home" class="selected">
+      <a ui-sref="home" class="selected">
         <button class="button button-icon ion-clipboard"></button>
       </a>
     </div>

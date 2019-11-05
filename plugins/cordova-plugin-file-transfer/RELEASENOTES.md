@@ -20,6 +20,40 @@
 -->
 # Release Notes
                                               
+### 1.7.1 (Jan 24, 2018)
+* [CB-13749](https://issues.apache.org/jira/browse/CB-13749) Add build-tools-26.0.2 to travis
+
+### 1.7.0 (Nov 06, 2017)
+* Updated `README` with Deprecated Status
+* [CB-13472](https://issues.apache.org/jira/browse/CB-13472) (CI) Fixed Travis **Android** builds again
+* [CB-12809](https://issues.apache.org/jira/browse/CB-12809) Google Play Blocker: Unsafe SSL TrustManager Defined
+* [CB-7995](https://issues.apache.org/jira/browse/CB-7995) document that `FileTransferError.exception` on **iOS** is never defined.
+* [CB-13000](https://issues.apache.org/jira/browse/CB-13000) (CI) Speed up **Android** builds
+* [CB-12847](https://issues.apache.org/jira/browse/CB-12847) added `bugs` entry to `package.json`.
+
+### 1.6.3 (Apr 27, 2017)
+* [CB-12685](https://issues.apache.org/jira/browse/CB-12685) added `package.json` to tests folder
+* [CB-10696](https://issues.apache.org/jira/browse/CB-10696) **iOS**: Encode target path with spaces
+
+### 1.6.2 (Feb 28, 2017)
+* [CB-12353](https://issues.apache.org/jira/browse/CB-12353) Corrected merges usage in `plugin.xml`
+* [CB-12369](https://issues.apache.org/jira/browse/CB-12369) Add plugin typings from `DefinitelyTyped`
+* [CB-12363](https://issues.apache.org/jira/browse/CB-12363) Added build badges for **iOS 9.3** and **iOS 10.0**
+* [CB-12230](https://issues.apache.org/jira/browse/CB-12230) Removed **Windows 8.1** build badges
+
+### 1.6.1 (Dec 07, 2016)
+* [CB-12224](https://issues.apache.org/jira/browse/CB-12224) Updated version and RELEASENOTES.md for release 1.6.1
+* [CB-12154](https://issues.apache.org/jira/browse/CB-12154) file-transfer progressEvent.total = -1 on iOS
+* [CB-10974](https://issues.apache.org/jira/browse/CB-10974) Cordova file transfer Content-Length header problem
+* Don't crash on low memory devices
+* [CB-12100](https://issues.apache.org/jira/browse/CB-12100) (ios) Fixed test plugin install at platform add on cordova@6.3.1
+* [CB-11959](https://issues.apache.org/jira/browse/CB-11959) Fixed the jshint issues
+* [CB-11959](https://issues.apache.org/jira/browse/CB-11959) Increased the array length for ios and winstore even more
+* [CB-11959](https://issues.apache.org/jira/browse/CB-11959) Fixed filetransfer.spec.21 test failure on iOS and Windows Store when using local server
+* [CB-11917](https://issues.apache.org/jira/browse/CB-11917) - Remove pull request template checklist item: "iCLA has been submitted…"
+* [CB-11926](https://issues.apache.org/jira/browse/CB-11926) Tests can use local server
+* [CB-11832](https://issues.apache.org/jira/browse/CB-11832) Incremented plugin version.
+
 ### 1.6.0 (Sep 08, 2016)
 * [CB-11795](https://issues.apache.org/jira/browse/CB-11795) Add 'protective' entry to cordovaDependencies
 * [CB-9022](https://issues.apache.org/jira/browse/CB-9022) Fix exception thrown by call to `remapApi` on main thread
