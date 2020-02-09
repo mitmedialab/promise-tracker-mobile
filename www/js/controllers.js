@@ -157,8 +157,7 @@ angular.module('ptApp.controllers', ['ptConfig'])
 
   $scope.syncSurveys = function(){
     Main.confirmInternetConnection(function(){
-      Survey.syncResponses();
-      Survey.syncImages();
+      Survey.syncRemainingItems();
     }, null, true); 
   };
 })
@@ -275,10 +274,21 @@ angular.module('ptApp.controllers', ['ptConfig'])
     });
   });
 
+  $scope.makeImageArray = function(){
+    if($scope.input.input_type == 'image'){
+      var urls;
+      Array.isArray($scope.input.answer) ? urls = $scope.input.answer : urls = [$scope.input.answer];
+      $scope.images = urls.map(imageURI => window.Ionic.WebView.convertFileSrc(imageURI));
+    };
+  };
+
+  $scope.makeImageArray();
+
   $scope.getImage = function(){
     var onSuccess = function(imageURI){
       $timeout(function(){
         $scope.input.answer.push(imageURI);
+        $scope.makeImageArray();
       });
     };
     var onError = function(){};

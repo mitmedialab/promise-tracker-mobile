@@ -27,7 +27,7 @@
           </span>  
         </button>
         <div class="image-gallery" ng-if="input.answer.length > 0">
-          <div class="image-container" ng-repeat="image in input.answer"> 
+          <div class="image-container" ng-repeat="image in images">
             <img class="image-preview" ng-src="{{image}}"/>
             <div class="delete-image" ng-click="removeImage(image)">
               <icon class="ion-close"></icon>
@@ -80,7 +80,7 @@
       <div ng-if="input.input_type === 'select1'" class="list">
         <label class="select">{{ 'CHOOSE_ONE' | translate}}:</label>
         <ul class="wrap">
-          <li ng-repeat="option in input.options">
+          <li ng-repeat="option in input.options" class="item-text-wrap">
             <ion-radio ng-model="input.answer" ng-value="option">{{option}}</ion-radio>
           </li>
         </ul>
@@ -90,8 +90,8 @@
       <div ng-if="input.input_type === 'select'" class="list">
         <label class="select">{{ 'CHOOSE_MANY' | translate}}:</label>
         <ul class="wrap">
-          <li ng-repeat="option in input.options">
-            <ion-checkbox ng-model="input.answer[$index]" ng-value="option">{{option}}</ion-radio>
+          <li ng-repeat="option in input.options" class="item-text-wrap">
+            <ion-checkbox ng-model="input.answer[$index]" ng-value="option">{{option}}</ion-checkbox>
           </li>
         </ul>    
       </div>
