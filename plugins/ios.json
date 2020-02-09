@@ -41,9 +41,6 @@
     },
     "cordova-plugin-whitelist": {
       "PACKAGE_NAME": "com.ionicframework.monitorandoacidade"
-    },
-    "ionic-plugin-keyboard": {
-      "PACKAGE_NAME": "com.ionicframework.monitorandoacidade"
     }
   },
   "dependent_plugins": {
