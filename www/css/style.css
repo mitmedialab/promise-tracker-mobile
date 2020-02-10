@@ -575,3 +575,8 @@ label.select {
 .pink {
   color: #ea7669;
 }
+
+scroll-content {
+  padding-bottom:0!important;
+}
+

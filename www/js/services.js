@@ -224,9 +224,12 @@ angular.module('ptApp.services', ['ptConfig', 'pascalprecht.translate'])
       }
     },
 
-    addResponseToSynced: function(formattedResponse){
+    addResponseToSynced: function(response, formattedResponse){
       this.syncedResponses.push(formattedResponse);
       localStorage['syncedResponses'] = JSON.stringify(this.syncedResponses)
+
+      this.removeResponseFromUnsynced(response);
+      this.addImagesToUnsynced(formattedResponse);
     },
 
     refreshSyncItemCount: function(){
@@ -257,21 +260,21 @@ angular.module('ptApp.services', ['ptConfig', 'pascalprecht.translate'])
         }
       });
       localStorage['unsyncedImages'] = JSON.stringify(self.unsyncedImages);
-      self.syncImages();
+      self.syncRemainingItems();
     },
 
     addImageToSynced: function(image){
       var self = this;
-      var index = self.unsyncedImages.indexOf(image);
       self.syncedImages.push(image);
       localStorage['syncedImages'] = JSON.stringify(self.syncedImages);
 
+      var index = self.unsyncedImages.indexOf(image);
       if(index > -1){
         self.unsyncedImages.splice(index, 1);
         localStorage['unsyncedImages'] = JSON.stringify(self.unsyncedImages);
 
         if(self.hasUnsyncedItems()){
-          self.syncResponses();
+          self.syncRemainingItems();
         } else {
           self.syncing = false;
           $rootScope.$broadcast('viewMap', image.survey_id);
@@ -311,29 +314,20 @@ angular.module('ptApp.services', ['ptConfig', 'pascalprecht.translate'])
       var formattedResponse = self.formatResponse(response);
 
       self.syncing = true;
-
+      console.log("initiating json post");
       $http.post(
         PT_CONFIG.aggregatorUrl + 'responses', 
         { response: JSON.stringify(formattedResponse) }
       )
         .success(function(data){
           if(data['status'] == 'success'){
-            self.removeResponseFromUnsynced(response);
-
             formattedResponse.id = data.payload.id;
-            self.addResponseToSynced(formattedResponse);
-            self.addImagesToUnsynced(formattedResponse);
+            self.addResponseToSynced(response, formattedResponse);
           } else if(data['status'] == "error"){
             $rootScope.$broadcast('notifyError', data.error_code)
             if(data.error_code == "14"){
               self.deleteResponsesForClosedCampaign(response.survey_id);
             }
-          }
-
-          if(self.hasUnsyncedItems()) {
-            self.syncResponses();
-          } else {
-            self.syncing = false;
           }
         })
 
@@ -343,12 +337,14 @@ angular.module('ptApp.services', ['ptConfig', 'pascalprecht.translate'])
         });
     },
 
-    syncResponses: function(){
+    syncRemainingItems: function(){
       var self = this;
       if(self.hasUnsyncedResponses()){
         self.syncResponse(self.unsyncedResponses[0]);
       } else if(self.hasUnsyncedImages()){
-        self.syncImages();
+        self.syncImage(self.unsyncedImages[0]);
+      } else {
+        self.syncing = false;
       }
     },
 
@@ -364,29 +360,26 @@ angular.module('ptApp.services', ['ptConfig', 'pascalprecht.translate'])
       options.params = image;
       options.headers = { 'Authorization': PT_CONFIG.accessKey };
 
-      var fileTransfer = new FileTransfer();
-      fileTransfer.upload(image.fileLocation, encodeURI(PT_CONFIG.aggregatorUrl + 'upload_image'),
+      console.log("initiating image post");
 
-        function(result){   // upload succeed
-          if(typeof result.response != 'undefined'){
-            self.addImageToSynced(image);
-          } else {
-            self.syncing = false;
-          }
-        }, 
-
-        function(error){   // upload failed
-          // TODO: notify user of image upload failure
+      var success = function(result){
+        var response = JSON.parse(result.response);   // upload succeed
+        if(response && response.status == "success"){
+          self.addImageToSynced(image);
+        } else {
           self.syncing = false;
-          $rootScope.$broadcast('updateSyncing');
-        }, options);
-    },
+          $rootScope.$broadcast('notifyError', response.error_code)
+        }
+      };
 
-    syncImages: function(){
-      var self = this;
-      if(self.unsyncedImages.length>0){
-        self.syncImage(self.unsyncedImages[0]);
-      }
+      var failure = function(error){   // upload failed
+        // TODO: notify user of image upload failure
+        self.syncing = false;
+        $rootScope.$broadcast('updateSyncing');
+      }; 
+
+      var fileTransfer = new FileTransfer();
+      fileTransfer.upload(image.fileLocation, encodeURI(PT_CONFIG.aggregatorUrl + 'upload_image'), success, failure, options);
     },
 
     deleteResponsesForClosedCampaign: function(survey_id){
@@ -394,6 +387,8 @@ angular.module('ptApp.services', ['ptConfig', 'pascalprecht.translate'])
         i.survey_id !== survey_id;
       });
       localStorage['unsyncedResponses'] = JSON.stringify(this.unsyncedResponses);
+
+      self.syncRemainingItems();
     },
 
     cancelResponse: function() {
