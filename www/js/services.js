@@ -95,6 +95,9 @@ angular.module('ptApp.services', ['ptConfig', 'pascalprecht.translate'])
 
         .error(function(data, status){
           Main.interceptResponse(data, status);
+          if(errorCallback){
+            errorCallback('ERROR_00');
+          }
         });
     },
 
